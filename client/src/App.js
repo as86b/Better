@@ -1,4 +1,7 @@
-/* frontend */
+/* frontend 
+  link to color pallette: http://paletton.com/#uid=53a0u0kgtOf5uZcbsUxkJGooIxF
+*/
+
 
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';

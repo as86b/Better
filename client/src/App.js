@@ -8,6 +8,7 @@ import axios from 'axios';
 
 // component imports
 import Example from './components/Example';
+import Header from './components/Header';
 
 // declare endpoint for server
 const endpoint = 'http://localhost:4000';
@@ -18,7 +19,9 @@ const socket = socketIOClient(endpoint);
 class App extends Component {
   render() {
     return (
+      
       <div>
+        <Header></Header>
         <h1>Hello World</h1>
       </div>
     );

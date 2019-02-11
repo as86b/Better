@@ -12,7 +12,7 @@ const Tag = require('./Tag');
 const PostSchema = mongoose.Schema({
     post_id: mongoose.Schema.Types.ObjectId,                            // primary key
     user_id: { _id: mongoose.Schema.Types.ObjectId, ref: 'User' },  
-    title: String,                                                      // NOTE do we want posts to have titles?                                              
+    title: String,                                                                                               
     body: String,
     replies: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Reply' }],
     supports: Number,

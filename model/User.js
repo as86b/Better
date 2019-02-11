@@ -10,15 +10,13 @@ const DirectMessage = require('./DirectMessage');
 
 const UserSchema = mongoose.Schema({
     user_id: mongoose.Schema.Types.ObjectId,                    // primary key
-    username: String,
+    username: {type: String, unique: true},                                           
     salt: String,
-    email: String,
+    email: {type: String, unique: true}, 
     profilePicture: String,
     bio: String,
     isVerified: Boolean,
-    // NOTE do we want to store only id's here then lookup when needed?
-    // could make for difficult lookups based on usernames 
-    // look into populate 
+    // NOTE look into populate filling these arrays
     posts: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Post' }],            
     anonPosts: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Post' }],       
     replies: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Reply' }],          

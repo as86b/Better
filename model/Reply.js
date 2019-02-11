@@ -6,14 +6,13 @@
 
 const mongoose = require('mongoose');
 const User = require('./User');
+const Post = require('./Post');
 
 const ReplySchema = mongoose.Schema({
-    reply_id: mongoose.Schema.Types.ObjectId,                            // primary key
-    // NOTE posts have titles, replies do not ..?                                               
+    reply_id: mongoose.Schema.Types.ObjectId,                       // primary key    
+    post_id: { _id: mongoose.Schema.Types.ObjectId, ref: 'Post' },                                       
     body: String,
-    replies: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Reply' }],   // NOTE support replies to replies? 
     supports: Number,
-    tags: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],        // NOTE support tags on replies?
     timestamp: String,
     isAnonymous: Boolean,
     salt: String

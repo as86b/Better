@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const Post = require('./Post');
 
 const TagSchema = mongoose.Schema({
-    tag_name: String,                                               // primary key
+    tag_name: {type: String, unique: true},                        // primary key
     posts: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Post' }]    
 });
 

@@ -22,15 +22,9 @@ const socket = socketIOClient(endpoint);
 class App extends Component {
   render() {
     return (
-<<<<<<< HEAD
-      
       <div>
         <Header></Header>
-=======
-      <div className="center">
->>>>>>> 32a139c843064c7539234f3f005c3bf83168b6c2
         <h1>Hello World</h1>
-        <Example></Example>
       </div>
     );
   }

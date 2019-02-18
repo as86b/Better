@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 var config = require("config.json");
 
 mongoose.connect(
-	'mongodb://ipaddr/database',
+	'mongodb://' + config.ipaddr + ':' + config.port,
 	{ user: config.user, pass: config.pass}
 );
 

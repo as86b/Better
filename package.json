@@ -17,7 +17,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "fs": "0.0.1-security",
-    "mongoose": "^5.4.9",
+    "mongoose": "^5.4.13",
     "socket.io": "^2.2.0"
   }
 }

@@ -1,1 +1,5 @@
 /* custom styles should go in here. this is a global sheet */ 
+
+.form-btn {
+    width: 100%;
+}

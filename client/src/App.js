@@ -21,10 +21,13 @@ import { Route, Switch, Link } from 'react-router-dom';
 
 
 // view imports 
+import LoginView from './views/LoginView';
+import RegisterView from './views/RegisterView';
+// example view imports
 import ExampleView from './views/ExampleView';
 import ExampleView2 from './views/ExampleView2';
 
-// component imports 
+// example component imports 
 import Example from './components/Example';
 
 // declare endpoint for server
@@ -36,11 +39,12 @@ const socket = socketIOClient(endpoint);
 class App extends Component {
   render() {
     return (
-      <div className="container-fluid center">
+      <div className="container-fluid">
         <Switch>
           <Route exact path="/" component={ExampleView}></Route>
-          <Route path="/example2" component={ExampleView2}></Route>
-          {/* default case */}
+          <Route path="/login" component={LoginView}></Route>
+          <Route path="/register" component={RegisterView}></Route>
+          {/* default case - TODO possibly make a 404 error for here */}
           <Route component={ExampleView}></Route>
         </Switch>
       </div>

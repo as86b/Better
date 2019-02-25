@@ -13,6 +13,7 @@ client/node_modules
 /build
 
 # misc
+.react-playground
 .DS_Store
 .env.local
 .env.development.local

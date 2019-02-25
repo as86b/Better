@@ -1,1 +1,58 @@
 /* custom styles should go in here. this is a global sheet */ 
+
+.headerBar {
+    background-color: #5184c7;
+}
+
+.footerBar{
+    background-color: black;
+}
+
+#betterLogo {
+    margin-left: 200%;
+    font-size: 200%;
+}
+
+.classNames {
+    display: flex;
+    min-height: 100px;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
+@media screen and (min-width: 1200px) {
+    #betterMountainLogo {
+        margin: 10px;
+        height: 50px;
+        width: 50px;
+    }
+
+    #betterLogo{
+        color: black;
+        height: 90px;
+    }
+
+   
+    .profilePic {
+        margin: 5px;
+        height: 50px;
+        width: 50px;
+    }
+}
+
+@media screen and (min-width: 2000px) {
+    #betterMountainLogo {
+        margin: 10px;
+        height: 50px;
+        width: 50px;
+    }
+
+     /* Make sure to hide when screen is smaller */
+    #betterLogo{
+        color: red;
+    }
+
+}

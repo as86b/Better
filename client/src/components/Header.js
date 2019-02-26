@@ -13,9 +13,17 @@ import '../App.css';
 
 class Header extends React.Component {
 
-    /*{ Checking for dark theme?}
 
-    {/* if (Page == profilepage || visiting profile page) {
+    /*{ Checking for dark theme?}*/
+
+    
+    constructor(props){
+        super(props);
+
+        //Use this keyword for onclick functions
+    }
+    
+    /*{ if (Page == profilepage || visiting profile page) {
         {/* <a href="#" className="right profilePic">
            <img src = {profile} alt="Profile Picture"></img>
             </a>
@@ -31,17 +39,18 @@ class Header extends React.Component {
     render() {
         return(
             <div>
-                <nav className="headerBar">
-                    <div>
-                        <a href="#" className="brand-logo left">
-                            <img id="betterMountainLogo" src={logo} alt="Better"></img>
-                        </a>
-                    </div>
-                    <div>
-                        <a href="#" className="left">
-                            <p id="betterLogo">Better</p>
-                        </a>
-                    </div>
+                <nav className="headerBar nav-wrapper">
+                    <a href="#" className="brand-logo left">
+                        <img id="betterMountainLogo" src={logo} alt="Better"></img>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="#" className="left" id="betterLogo">
+                                Better
+                            </a>
+                        </li>
+                       
+                    </ul>
                 </nav>
             </div>
         );

@@ -24,8 +24,6 @@ class Header extends React.Component {
 
     {/* if (page == feed) { }
 
-
-
     {/* if (Page == post creatione ) { }
 
     {/* Some mobile design }*/

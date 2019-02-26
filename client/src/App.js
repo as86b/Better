@@ -25,15 +25,13 @@ class App extends Component {
     return (
       <div className = "contentArea">
         <Header></Header>
-        <main>
-        <h1>Hello World</h1>
-        <h1>Hello World</h1>
-        <h1>Hello World</h1>
-        <h1>Hello World</h1>
-        <h1>Hello World</h1>
-        <h1>Hello World</h1>
+        <p>Hello World</p>
+        <p>Hello World</p>
+        <p>Hello World</p>
+        <p>Hello World</p>
+        <p>Hello World</p>
+        <p>Hello World</p>
    
-        </main>
         <Footer></Footer>
       </div>
     );

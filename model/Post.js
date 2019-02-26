@@ -11,12 +11,12 @@ const Tag = require('./Tag');
 
 const PostSchema = mongoose.Schema({
     post_id: mongoose.Schema.Types.ObjectId,                            // primary key
-    user_id: { _id: mongoose.Schema.Types.ObjectId, ref: 'User' },  
+    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },  
     title: String,                                                                                               
     body: String,
-    replies: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Reply' }],
+    replies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Reply' }],
     supports: Number,
-    tags: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
+    tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
     timestamp: String,
     isAnonymous: Boolean,
     salt: String

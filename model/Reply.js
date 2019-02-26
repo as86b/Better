@@ -10,7 +10,7 @@ const Post = require('./Post');
 
 const ReplySchema = mongoose.Schema({
     reply_id: mongoose.Schema.Types.ObjectId,                       // primary key    
-    post_id: { _id: mongoose.Schema.Types.ObjectId, ref: 'Post' },                                       
+    post_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },                                       
     body: String,
     supports: Number,
     timestamp: String,
@@ -18,4 +18,4 @@ const ReplySchema = mongoose.Schema({
     salt: String
 });
 
-const Post = module.exports = mongoose.model('Post', PostSchema);
+const Reply = module.exports = mongoose.model('Reply', ReplySchema);

@@ -8,10 +8,10 @@ const User = require('./User');
 
 const DirectMessageSchema = mongoose.Schema({
     direct_message_id: mongoose.Schema.Types.ObjectId,                    // primary key
-    user_id1: { _id: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
-    user_id2: { _id: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
+    user_id1: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
+    user_id2: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
     messages: [{
-        user_id: { _id: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
+        user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
         timestamp: String,
         text: String
     }]

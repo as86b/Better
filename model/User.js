@@ -17,15 +17,15 @@ const UserSchema = mongoose.Schema({
     bio: String,
     isVerified: Boolean,
     // NOTE look into populate filling these arrays
-    posts: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Post' }],            
-    anonPosts: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Post' }],       
-    replies: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Reply' }],          
-    anonReplies: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'Reply' }],     
-    following: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'User' }],       
-    followers: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'User' }],      
-    connections: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'User' }],      
-    blocked: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'User' }],          
-    direct_messages: [{ _id: mongoose.Schema.Types.ObjectId, ref: 'DirectMessage' }], 
+    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],            
+    anonPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],       
+    replies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Reply' }],          
+    anonReplies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Reply' }],     
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],       
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],      
+    connections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],      
+    blocked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],          
+    direct_messages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'DirectMessage' }], 
     authToken: String
 });
 

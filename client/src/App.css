@@ -52,10 +52,22 @@
     border-radius: 50%;
 }
 
-/* custom alterations to materialize framework */
+/* custom media queries */
 
-/* TODO change size of icons on smaller displays */
-.material-icons {
-    font-size: 4rem;
-    display: inline; 
+/* sm screens */
+@media only screen and (max-width: 600px) {
+    .material-icons {
+        font-size: 3rem;
+        display: inline; 
+    }
 }
+
+/* sceens larger than sm */
+@media only screen and (min-width: 601px) {
+    .material-icons {
+        font-size: 4rem;
+        display: inline; 
+    }
+}
+
+/* custom alterations to materialize framework */

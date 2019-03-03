@@ -21,6 +21,9 @@ app.use('/api/users', usersAPI);
 app.use('/api/feed', feedAPI);
 app.use('/api/messages', messagesAPI);
 
+// database
+const db = require('./model/database')
+
 // set port and launch server
 const port = 4000;
 server.listen(port, () => console.log('Server started on port ' + port));

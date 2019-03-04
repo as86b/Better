@@ -5,8 +5,15 @@ import 'materialize-css/dist/css/materialize.min.css';
 
 class Footer extends React.Component  {
     
+    // componentDidMount() {
+
+    //     let path = this.props.location.pathname;
+
+    //     this.pageBodyLoader(path);
+    // };
+
     openModal() {
-        this.setState({modalIsOpen: true});
+        
     };
 
     render() {
@@ -32,24 +39,7 @@ class Footer extends React.Component  {
                 </footer>
             </div>
         );
-
-        //mobile design
-        //else {
-        //Code is currently unreachable
-             return(
-                <div>
-                <footer className="page-footer footerBar">
-                  <div className="footer-copyright">
-                    <div className="container">
-                        <a className="grey-text text-lighten-4" href="#">Get Help</a>
-                        
-                    </div>
-                  </div>
-                </footer>
-            </div>
-            );
-        //}
-    }
+    };
 }
 
 export default Footer;

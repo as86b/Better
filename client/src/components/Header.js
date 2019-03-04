@@ -15,9 +15,7 @@ import { withRouter } from 'react-router-dom';
 
 class Header extends React.Component {
 
-
     /*{ Checking for dark theme?}*/
-
 
     componentDidMount() {
 
@@ -26,65 +24,87 @@ class Header extends React.Component {
         this.pageBodyLoader(path);
     }
     
-    pageBodyLoader(path) {
+    //The top right of the navbar will change based off of what page is currently loaded into the body
+    pageBodyLoader (path) {
 
-        let body;
+        let headPart;
 
         switch(path) {
             
             //Landing page
             case '/':
-                body = (
-                    <div className="row">
-                        <div className="">
-                            <p>{this.state.errorText}</p>
-                        </div>
-                    </div>
+
+            //Only time top right is different is on landing page
+            case '/login':
+                headPart = (
+                    <ul class="right hide-on-med-and-down">
+                        <li>
+                            <a href="#">Login</a>
+                        </li>
+                        <li>
+                            <a href="#">Registration</a>
+                        </li>
+                    </ul>
                 );
-            break;
-
-            case'/login':
 
             break;
 
-            case '/register':
+            //Everything else should share this?
+            case '/registration':
+                headPart = (
+                    <ul class="right hide-on-med-and-down">
+                        <li>
+                            <a href="#">
+                                <i class="material-icons">mail</i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="material-icons">search</i>
+                            </a>
+                        </li>
+                        {/*There are different versions of notificaitons icon maybe to use?*/}
+                        {/*Or try to use some CSS to just overlay a little red dot*/}
+                        <li>
+                            <a href="#">
+                                <i class="material-icons">notifications</i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class = "circle" src={profile}></img>
+                            </a>
+                        </li>
+                    </ul>
+                );
 
             break;
+
+             //If mobile is detected do something
 
             default:
 
-            return; 
+            break;
         }
+
+        return headPart;
     }
-    /*{ if (Page == profilepage || visiting profile page) {
-        {/* <a href="#" className="right profilePic">
-           <img src = {profile} alt="Profile Picture"></img>
-            </a>
-
-            <i className="material-icons">mail_outline</i> }
-
-    {/* if (page == feed) { }
-
-    {/* if (Page == post creatione ) { }
-
-    {/* Some mobile design }*/
-    
 
     render() {
         return(
-            <div>
-                <nav className="headerBar nav-wrapper">
-                    <a href="#" className="brand-logo left">
-                        <img id="betterMountainLogo" src={logo} alt="Better"></img>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="#" className="left" id="betterLogo">
-                                Better
-                            </a>
-                        </li>
-                       
-                    </ul>
+            <div class="navbar-fixed">
+                <nav>
+                    <div class="nav-wrapper">
+                        <ul id="nav-mobile" class="left hide-on-med-and-down">
+                            <li>
+                                <a href="#" >
+                                    <img id = "betterMountainLogo" src = {logo}></img>
+                                </a>
+                            </li>
+                            <li><a href="#" id="betterLogo">Better</a></li>
+                        </ul>
+                    </div>
+                    {this.pageBodyLoader}
                 </nav>
             </div>
         );

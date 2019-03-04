@@ -12,10 +12,6 @@ class Footer extends React.Component  {
     //     this.pageBodyLoader(path);
     // };
 
-    openModal() {
-        
-    };
-
     render() {
         
         // if(not mobile design)
@@ -26,10 +22,8 @@ class Footer extends React.Component  {
                     <div className="container">
                         <a className="grey-text text-lighten-4 left" href="#">About</a>
 
-                        {/*  */}
-                        <a className="grey-text text-lighten-4 right" 
-                            href="https://suicidepreventionlifeline.org" 
-                            onClick="onClick={this.openModal}">
+                        <a className="grey-text text-lighten-4" 
+                            href="https://suicidepreventionlifeline.org">
                             
                             Get Help
                         </a>

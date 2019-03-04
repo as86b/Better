@@ -1,9 +1,8 @@
 # Better
 An app to make you feel Better
 
-### Using MongoDB locally
-- Follow the instructions on [this site](https://docs.mongodb.com/manual/installation/#mongodb-community-edition)
-=======
+## Usage
+
 - Setup Node
   1. Install node
   2. `cd` into project folder and run `npm i`

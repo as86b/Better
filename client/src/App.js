@@ -1,4 +1,11 @@
-/* frontend 
+/* 
+  frontend entry point
+
+  NOTE on routing structure
+  - views are full pages that should be rendered between the header and footer
+  - components are pieces of views that should be composed and reused
+  - DO NOT route to a single component, routing should only be done to a view 
+
   link to color pallette: http://paletton.com/#uid=53a0u0kgtOf5uZcbsUxkJGooIxF
 */
 
@@ -6,10 +13,21 @@
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import './App.css';
+
+// packages 
 import socketIOClient from 'socket.io-client';
 import axios from 'axios';
+import { Route, Switch, Link } from 'react-router-dom';
 
-// component imports
+
+// view imports 
+import LoginView from './views/LoginView';
+import RegisterView from './views/RegisterView';
+// example view imports
+import ExampleView from './views/ExampleView';
+import ExampleView2 from './views/ExampleView2';
+
+// example component imports 
 import Example from './components/Example';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -23,16 +41,20 @@ const socket = socketIOClient(endpoint);
 class App extends Component {
   render() {
     return (
-      <div className = "contentArea">
+      <div className="container-fluid">
+
         <Header></Header>
-        <p>Hello World</p>
-        <p>Hello World</p>
-        <p>Hello World</p>
-        <p>Hello World</p>
-        <p>Hello World</p>
-        <p>Hello World</p>
-   
+
+        <Switch>
+          <Route exact path="/" component={ExampleView}></Route>
+          <Route path="/login" component={LoginView}></Route>
+          <Route path="/register" component={RegisterView}></Route>
+          {/* default case - TODO possibly make a 404 error for here */}
+          <Route component={ExampleView}></Route>
+        </Switch>
+
         <Footer></Footer>
+
       </div>
     );
   }

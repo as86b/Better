@@ -59,5 +59,8 @@ nav a {
     #betterLogo{
         color: red;
     }
+}
 
+.form-btn {
+    width: 100%;
 }

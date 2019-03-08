@@ -3,3 +3,29 @@
 .form-btn {
     width: 100%;
 }
+
+/********  Landing Page CSS **********/
+#landingImg {
+    display: flex;
+    height: 100vh;
+    padding: 0%;
+    margin: 0%;
+}
+
+#landingText {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 5% 2%;
+}
+
+#landingTitle, #landingLink{
+    color: #46c6a5;
+}
+
+/* mobile screen size  <600px */
+@media screen and (max-width: 600px) {
+    #landingImg{
+        display: none;
+    }
+}

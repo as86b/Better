@@ -31,11 +31,10 @@ import ExampleView2 from './views/ExampleView2';
 // example component imports 
 import Example from './components/Example';
 
-// declare endpoint for server
-const endpoint = 'http://localhost:4000';
-
 // setup socket connection with backend
-const socket = socketIOClient(endpoint);
+// TODO setup socket. 
+//    commenting this out for now to prevent ongoing error messages in console
+// const socket = socketIOClient(endpoint);
 
 class App extends Component {
   render() {
@@ -54,3 +53,5 @@ class App extends Component {
 }
 
 export default App;
+// manage the endpoint of the server for api requests
+export const endpoint = 'http://localhost:4000'

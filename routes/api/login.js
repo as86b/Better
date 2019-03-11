@@ -10,9 +10,9 @@ function checkLoginFormat(l, p) {
     if (p === undefined)
         return false;
 
-    if (l.indexOf("@") > 0) {  // login is an email
+    var atIndex = l.indexOf("@");
+    if (atIndex > 0) {  // login is an email
         // check email format
-        var atIndex = e.indexOf("@");
         if (atIndex < 1)  // @ must have at least one preceding character
             return false;
         var dotIndex = e.indexOf(".");
@@ -44,7 +44,6 @@ function validateUser(l, p) {
 router.post('/', function(req, res) {
     login = req.body['login'];
     pass = req.body['password'];
-    email = req.body['email'];
 
     if (validateUser(login, pass) == false) {
         res.json({

@@ -1,10 +1,10 @@
 
 const mongoose = require('mongoose');
-var config = require("config.json");
+var config = require("./config.json");
 
 mongoose.connect(
 	'mongodb://' + config.ipaddr + ':' + config.port,
-	{ user: config.user, pass: config.pass}
+	{ user: config.user, pass: config.pass }
 );
 
 var db = mongoose.connection;

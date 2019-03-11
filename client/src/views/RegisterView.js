@@ -46,16 +46,16 @@ class RegisterView extends Component {
             this.setState({ errorText: 'Please provide a valid email address' });
             return; 
         }
-        if (registerAttempt.password !== registerAttempt.confirmPassword) {
-            this.setState({ errorText: 'Passwords do not match' });
-            return; 
-        }
         if (registerAttempt.username.length < 6) {
             this.setState({ errorText: 'Please provide a valid username (minimum 6 characters)' });
             return; 
         }
         if (registerAttempt.password.length < 6) {
             this.setState({ errorText: 'Please provide a valid password (minimum 6 characters)' });
+            return; 
+        }
+        if (registerAttempt.password !== registerAttempt.confirmPassword) {
+            this.setState({ errorText: 'Passwords do not match' });
             return; 
         }
         // reset any lingering errors

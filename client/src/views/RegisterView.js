@@ -7,6 +7,8 @@
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { endpoint } from '../App';
 
 class RegisterView extends Component {
     constructor(props) {
@@ -76,6 +78,18 @@ class RegisterView extends Component {
         if (this.state.errorText === '') {
             // registerAttempt has been validated
             // send the registration attempt somewhere
+            axios.post(`${endpoint}/api/register/`, registerAttempt)
+            .then((res) => {
+                if (res.data.status === "success") {
+                    console.log(res.data.status);
+                }
+                else {
+                    this.setState({ errorText: res.data.details });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         }
         // reset registration form
         this.setState({ emailVal: '', usernameVal: '', passwordVal: '', confirmPasswordVal: '' });

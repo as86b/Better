@@ -7,18 +7,20 @@
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Link } from 'react-router-dom';
+import { endpoint } from '../App';
+import axios from 'axios';
 
 class LoginView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            emailVal: '',
+            loginVal: '',
             passwordVal: '',
             errorText: ''
         };
 
         this.handleLoginClick = this.handleLoginClick.bind(this);
-        this.handleEmailValChange = this.handleEmailValChange.bind(this);
+        this.handleLoginValChange = this.handleLoginValChange.bind(this);
         this.handlePasswordValChange = this.handlePasswordValChange.bind(this);
     }
 
@@ -53,20 +55,33 @@ class LoginView extends Component {
     // send login attempt (if valid) to be authenticated
     handleLoginClick(e) {
         e.preventDefault();
-        let loginAttempt = { email: this.state.emailVal, password: this.state.passwordVal };
-        // validate the login attempt 
-        this.validateLoginAttempt(loginAttempt);
+        let loginAttempt = { login: this.state.loginVal, password: this.state.passwordVal };
+        // TODO validate the login attempt 
+        // this.validateLoginAttempt(loginAttempt);
         if (this.state.errorText === '') {
             // loginAttempt has been validated
             // send the login attempt somewhere
+            axios.post(`${endpoint}/api/login/`, loginAttempt)
+            .then((res) => {
+                // TODO check if this is successful 
+                if (res.data.status === "success") {
+                    console.log(res.data);
+                }
+                else {
+                    this.setState({ errorText: res.data.details });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         }
         // reset login form
-        this.setState({ emailVal: '', passwordVal: '' });
+        this.setState({ loginVal: '', passwordVal: '' });
     }
 
     // update the state of the email based on what is being typed
-    handleEmailValChange(e) {
-        this.setState({ emailVal: e.target.value });
+    handleLoginValChange(e) {
+        this.setState({ loginVal: e.target.value });
     }
 
     // update the state of the password based on what is being typed
@@ -75,6 +90,7 @@ class LoginView extends Component {
     }
 
     render() {
+        console.log('endpoint: ' + endpoint);
         // display an error if one is set  
         let errorMessage;
         if (this.state.errorText === '') {
@@ -102,8 +118,8 @@ class LoginView extends Component {
                 <form onSubmit={this.handleLoginClick}>
                     <div className="row">
                         <div className="col s12 m6 push-m3">
-                            <input type="email" id="email" value={this.state.emailVal} onChange={this.handleEmailValChange} className="validate"></input>
-                            <label htmlFor="email" className="active">Email Address</label>
+                            <input type="email" id="email" value={this.state.loginVal} onChange={this.handleLoginValChange} className="validate"></input>
+                            <label htmlFor="email" className="active">Username/Email Address</label>
                         </div>
                     </div>
                     <div className="row">

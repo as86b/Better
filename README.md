@@ -11,4 +11,5 @@ An app to make you feel Better
   5. Done. Type `npm run dev` from root folder to launch a dev server and react instance. 
 - Setup MongoDB
   1. Install mongoDB by following [these instructions](https://docs.mongodb.com/manual/administration/install-community/)
+  2. Run `sudo mongod` to start a mongo server on localhost
 

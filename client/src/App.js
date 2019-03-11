@@ -23,6 +23,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 // view imports 
 import LoginView from './views/LoginView';
 import RegisterView from './views/RegisterView';
+import LandingView from './views/LandingView';
 // example view imports
 import ExampleView from './views/ExampleView';
 import ExampleView2 from './views/ExampleView2';
@@ -30,18 +31,17 @@ import ExampleView2 from './views/ExampleView2';
 // example component imports 
 import Example from './components/Example';
 
-// declare endpoint for server
-const endpoint = 'http://localhost:4000';
-
 // setup socket connection with backend
-const socket = socketIOClient(endpoint);
+// TODO setup socket. 
+//    commenting this out for now to prevent ongoing error messages in console
+// const socket = socketIOClient(endpoint);
 
 class App extends Component {
   render() {
     return (
       <div className="container-fluid">
         <Switch>
-          <Route exact path="/" component={ExampleView}></Route>
+          <Route exact path="/" component={LandingView}></Route>
           <Route path="/login" component={LoginView}></Route>
           <Route path="/register" component={RegisterView}></Route>
           {/* default case - TODO possibly make a 404 error for here */}
@@ -53,3 +53,5 @@ class App extends Component {
 }
 
 export default App;
+// manage the endpoint of the server for api requests
+export const endpoint = 'http://localhost:4000'

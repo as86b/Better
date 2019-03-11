@@ -16,24 +16,24 @@ import Example from '../components/Example';
 class LandingView extends Component {
     render() {
         return(
-            <div className="row">
+            <div className="row" id="landingRow">
                 <div>
-                    <img src={landingLeft} id="landingImg" className="col m4 l4"></img>
+                    <img src={landingLeft} id="landingImgLeft" className="col m4 "></img>
                 </div>
 
-                <div id="landingText" className="col s12 m4 l4">
+                <div id="landingText" className="col s12 m4">
                         <h1 id="landingTitle">Feel Better</h1>
                         <p>Better is a community focused on helping others and getting help for yourself.</p>
                         <p>Post anonymously about anything you have on your mind. Express yourself openly. Participate in provoking conversations with people across the world.</p>
                         <br></br>
                     <div className="row">
-                        <Link to="/" id="landingLink" className="col s6 m6 l6">Learn More</Link>
-                        <Link to="/" id="landingLink" className="col s6 m6 l6">Join the Conversation</Link>
+                        <Link to="/about" className="col s6 m6 landingLink">Learn More</Link>
+                        <Link to="/" className="col s6 m6 landingLink">Join the Conversation</Link>
                     </div>
                 </div>
 
-                <div >
-                    <img src={landingRight} id="landingImg" className="col m4 l4"></img>
+                <div>
+                    <img src={landingRight} id="landingImgRight" className="col m4 "></img>
                 </div>
             </div>
         );

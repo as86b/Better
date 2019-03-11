@@ -5,7 +5,7 @@
 }
 
 /********  Landing Page CSS **********/
-#landingImg {
+#landingImgLeft, #landingImgRight {
     display: flex;
     height: 100vh;
     padding: 0%;
@@ -19,13 +19,17 @@
     padding: 5% 2%;
 }
 
-#landingTitle, #landingLink{
+#landingTitle, .landingLink{
     color: #46c6a5;
+}
+
+#landingRow{
+    margin: 0%;
 }
 
 /* mobile screen size  <600px */
 @media screen and (max-width: 600px) {
-    #landingImg{
+    #landingImgLeft, #landingImgRight{
         display: none;
     }
 }

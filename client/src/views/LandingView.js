@@ -10,15 +10,12 @@ import { Link } from 'react-router-dom';
 import landingLeft from '../assets/img/landingLeft.svg';
 import landingRight from '../assets/img/landingRight.svg';
 
-// demonstrate component imports
-import Example from '../components/Example';
-
 class LandingView extends Component {
     render() {
         return(
             <div className="row" id="landingRow">
                 <div>
-                    <img src={landingLeft} id="landingImgLeft" className="col m4 "></img>
+                    <img src={landingLeft} alt="" id="landingImgLeft" className="col m4 "></img>
                 </div>
 
                 <div id="landingText" className="col s12 m4">
@@ -33,7 +30,7 @@ class LandingView extends Component {
                 </div>
 
                 <div>
-                    <img src={landingRight} id="landingImgRight" className="col m4 "></img>
+                    <img src={landingRight} alt="" id="landingImgRight" className="col m4 "></img>
                 </div>
             </div>
         );

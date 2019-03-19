@@ -7,6 +7,8 @@
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { endpoint } from '../App';
 
 class RegisterView extends Component {
     constructor(props) {
@@ -38,29 +40,28 @@ class RegisterView extends Component {
         var atIndex = registerAttempt.email.indexOf("@");
         if (atIndex > 1) {
             var dotIndex = registerAttempt.email.indexOf(".");
-            if (dotIndex < atIndex+2) { flag = 1; }
+            if ((dotIndex < atIndex+2) || (dotIndex+1 === registerAttempt.email.length)) { flag = 1; }
         }
         else { flag = 1; }
         if (flag) {
-            // invalid email format has been sent
             this.setState({ errorText: 'Please provide a valid email address' });
-            return; 
-        }
-        if (registerAttempt.password !== registerAttempt.confirmPassword) {
-            this.setState({ errorText: 'Passwords do not match' });
-            return; 
+            return false; 
         }
         if (registerAttempt.username.length < 6) {
             this.setState({ errorText: 'Please provide a valid username (minimum 6 characters)' });
-            return; 
+            return false; 
         }
         if (registerAttempt.password.length < 6) {
             this.setState({ errorText: 'Please provide a valid password (minimum 6 characters)' });
-            return; 
+            return false; 
+        }
+        if (registerAttempt.password !== registerAttempt.confirmPassword) {
+            this.setState({ errorText: 'Passwords do not match' });
+            return false; 
         }
         // reset any lingering errors
         this.setState({ errorText: '' });
-        return; 
+        return true; 
     } 
 
     handleRegisterClick(e) {
@@ -72,10 +73,21 @@ class RegisterView extends Component {
             confirmPassword: this.state.confirmPasswordVal
         }
         // validate the registration information
-        this.validateRegisterAttempt(registerAttempt);
-        if (this.state.errorText === '') {
+        if (this.validateRegisterAttempt(registerAttempt) && this.state.errorText === '') {
             // registerAttempt has been validated
             // send the registration attempt somewhere
+            axios.post(`${endpoint}/api/register/`, registerAttempt)
+            .then((res) => {
+                if (res.data.status === "success") {
+                    console.log(res.data.status);
+                }
+                else {
+                    this.setState({ errorText: res.data.details });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         }
         // reset registration form
         this.setState({ emailVal: '', usernameVal: '', passwordVal: '', confirmPasswordVal: '' });

@@ -7,18 +7,20 @@
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Link } from 'react-router-dom';
+import { endpoint } from '../App';
+import axios from 'axios';
 
 class LoginView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            emailVal: '',
+            loginVal: '',
             passwordVal: '',
             errorText: ''
         };
 
         this.handleLoginClick = this.handleLoginClick.bind(this);
-        this.handleEmailValChange = this.handleEmailValChange.bind(this);
+        this.handleLoginValChange = this.handleLoginValChange.bind(this);
         this.handlePasswordValChange = this.handlePasswordValChange.bind(this);
     }
 
@@ -28,45 +30,64 @@ class LoginView extends Component {
         //  email is of an invalid format
         //  password is less than 6 characters 
         // NOTE: should password constraint be 6 +/- ? 
-        var flag = 0;
-        var atIndex = loginAttempt.email.indexOf("@");
-        if (atIndex > 1) {
-            var dotIndex = loginAttempt.email.indexOf(".");
-            if (dotIndex < atIndex+2) { flag = 1; }
+        var atIndex = loginAttempt.login.indexOf("@");
+        if (atIndex > 0) {
+            // looking at email address 
+            if (atIndex === 0) {
+                this.setState({ errorText: 'Please provide a valid email address' });
+                return false; 
+            }
+            var dotIndex = loginAttempt.login.indexOf(".");
+            if ((dotIndex < atIndex+2) || (dotIndex + 1 === loginAttempt.login.length)) { 
+                this.setState({ errorText: 'Please provide a valid email address' });
+                return false;  
+            }
         }
-        else { flag = 1; }
-        if (flag) {
-            // invalid email format has been sent
-            this.setState({ errorText: 'Please provide a valid email address' });
+        else { 
+            // looking at username 
+            if (loginAttempt.login.length < 6) {
+                this.setState({ errorText: 'Please provide a valid username (minimum 6 characters)' });
+                return false;
+            }
         }
-        else if (loginAttempt.password.length >= 6) {
-            // valid login attempt, remove any lingering errors
-            this.setState({ errorText: '' });
-        } 
-        else {
-            // invalid password format has been sent 
+        // check password 
+        if (loginAttempt.password.length < 6) {
             this.setState({ errorText: 'Please provide a valid password (minimum 6 characters)' });
+            return false;
         }
-        return; 
+        // valid login attempt, remove any lingering errors
+        this.setState({ errorText: '' });
+        return true; 
     }
 
     // send login attempt (if valid) to be authenticated
     handleLoginClick(e) {
         e.preventDefault();
-        let loginAttempt = { email: this.state.emailVal, password: this.state.passwordVal };
-        // validate the login attempt 
-        this.validateLoginAttempt(loginAttempt);
-        if (this.state.errorText === '') {
+        let loginAttempt = { login: this.state.loginVal, password: this.state.passwordVal };
+        if (this.validateLoginAttempt(loginAttempt) && this.state.errorText === '') {
             // loginAttempt has been validated
             // send the login attempt somewhere
+            axios.post(`${endpoint}/api/login/`, loginAttempt)
+            .then((res) => {
+                // TODO check if this is successful 
+                if (res.data.status === "success") {
+                    console.log(res.data);
+                }
+                else {
+                    this.setState({ errorText: res.data.details });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         }
         // reset login form
-        this.setState({ emailVal: '', passwordVal: '' });
+        this.setState({ loginVal: '', passwordVal: '' });
     }
 
     // update the state of the email based on what is being typed
-    handleEmailValChange(e) {
-        this.setState({ emailVal: e.target.value });
+    handleLoginValChange(e) {
+        this.setState({ loginVal: e.target.value });
     }
 
     // update the state of the password based on what is being typed
@@ -75,6 +96,7 @@ class LoginView extends Component {
     }
 
     render() {
+        console.log('endpoint: ' + endpoint);
         // display an error if one is set  
         let errorMessage;
         if (this.state.errorText === '') {
@@ -102,8 +124,8 @@ class LoginView extends Component {
                 <form onSubmit={this.handleLoginClick}>
                     <div className="row">
                         <div className="col s12 m6 push-m3">
-                            <input type="email" id="email" value={this.state.emailVal} onChange={this.handleEmailValChange} className="validate"></input>
-                            <label htmlFor="email" className="active">Email Address</label>
+                            <input type="email" id="email" value={this.state.loginVal} onChange={this.handleLoginValChange} className="validate"></input>
+                            <label htmlFor="email" className="active">Username/Email Address</label>
                         </div>
                     </div>
                     <div className="row">

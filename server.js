@@ -17,9 +17,16 @@ app.io = io;
 const usersAPI = require('./routes/api/users');
 const feedAPI = require('./routes/api/feed');
 const messagesAPI = require('./routes/api/messages');
+const loginAPI = require('./routes/api/login');
+const registerAPI = require('./routes/api/register');
 app.use('/api/users', usersAPI);
 app.use('/api/feed', feedAPI);
 app.use('/api/messages', messagesAPI);
+app.use('/api/login', loginAPI);
+app.use('/api/register', registerAPI);
+
+// database
+const db = require('./model/database');
 
 // set port and launch server
 const port = 4000;

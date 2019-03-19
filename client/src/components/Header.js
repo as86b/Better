@@ -18,6 +18,8 @@ import { withRouter } from 'react-router-dom';
 class Header extends React.Component {
     constructor(props) {
         super(props);
+
+        //Intialize state to landing page
         this.state = {
             path: '/'
         }
@@ -25,7 +27,6 @@ class Header extends React.Component {
         this.pageBodyLoader = this.pageBodyLoader.bind(this);
     }
 
-    /*{ Checking for dark theme? }*/
     componentDidMount() {
         let newPath = this.props.location.pathname;
         console.log(newPath);
@@ -33,6 +34,7 @@ class Header extends React.Component {
         console.log(this.state.path);
     }
     
+    /*{ Checking for dark theme? }*/
     //The top right of the navbar will change based off of what page is currently loaded into the body
     pageBodyLoader() {
         
@@ -54,7 +56,7 @@ class Header extends React.Component {
                         <Link to="/login">Login</Link>
                     </li>
                     <li>
-                        <a href="#">Registration</a>
+                        <Link to="/registration">Registration</Link>
                     </li>
                 </ul>
             );
@@ -64,34 +66,32 @@ class Header extends React.Component {
             case '/login':
             //If logged in and looking at feed for instance
             headPart = (
-                <ul class="right hide-on-med-and-down">
+                <ul className="right">
                     <li>
-                        <a href="#">
-                            <i class="material-icons">mail</i>
-                        </a>
+                        <i className="material-icons">search</i>
                     </li>
                     <li>
-                        <a href="#">
-                            <i class="material-icons">search</i>
-                        </a>
+                        <Link to="/">
+                            <i className="material-icons hide-on-med-and-down">mail</i>
+                        </Link>
                     </li>
                     {/*There are different versions of notificaitons icon maybe to use?*/}
                     {/*Or try to use some CSS to just overlay a little red dot*/}
                     <li>
-                        <a href="#">
-                            <i class="material-icons">notifications</i>
-                        </a>
+                        <Link to="/">
+                            <i className="material-icons hide-on-med-and-down">notifications</i>
+                        </Link>
                     </li>
                     <li>
-                        <a href="#">
-                            <img className = "circle responsive-img brand-logo" src={profile}></img>
-                        </a>
+                        <Link to="/">
+                            <img className = "circle responsive-img profilePic" src={profile}></img>
+                        </Link>
                     </li>
                 </ul>
             );
             break;
 
-             //If mobile is detected do something
+             //If mobile is detected do something if materialize isnt taking care of it
 
             default:
 
@@ -102,23 +102,37 @@ class Header extends React.Component {
     }
 
     render() {
+
         let part = this.pageBodyLoader();
+
         return(
-            <div className="navbar-fixed">
-                <nav>
-                    <div className="nav-wrapper">
-                        <ul id="nav-mobile" className="left hide-on-med-and-down">
-                            <li>
-                                <a href="#" >
-                                    <img id ="betterMountainLogo" src={logo}></img>
-                                </a>
-                            </li>
-                            <li><a href="#" id="betterLogo">Better</a></li>
-                        </ul>
-                        {part}
-                    </div>
-                </nav>
-            </div>
+            //Materialize utilizes header, main, footer
+            <header>
+                <div className="navbar-fixed">
+                    <nav>
+                        <div className="nav-wrapper">
+                            <ul id="nav-mobile" className="left">
+                                {/* Element is bleeding over slightly from navbar */}
+                                <li>
+                                    <Link to="/" >
+                                        <div>
+                                        <img className = "betterMountainLogo" src={logo}></img>
+                                        </div>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/" className="betterLogo" className="hide-on-med-and-down">Better</Link>
+                                </li>
+                            </ul>
+                            {part}
+                        </div>
+                    </nav>   
+
+                    {/* sidenav code here */}
+                </div>
+
+                {/* or here?*/}
+            </header>
         );
     }
 }

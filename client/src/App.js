@@ -31,6 +31,9 @@ import ExampleView2 from './views/ExampleView2';
 import Example from './components/Example';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
+
+// import '../App.css';
 
 // declare endpoint for server
 const endpoint = 'http://localhost:4000';
@@ -39,22 +42,29 @@ const endpoint = 'http://localhost:4000';
 const socket = socketIOClient(endpoint);
 
 class App extends Component {
+
+  componentDidMount() {
+    window.scrollTo(0, 0)
+  }
+
   render() {
     return (
       <div className="container-fluid">
-
         <Header></Header>
 
-        <Switch>
-          <Route exact path="/" component={ExampleView}></Route>
-          <Route path="/login" component={LoginView}></Route>
-          <Route path="/register" component={RegisterView}></Route>
-          {/* default case - TODO possibly make a 404 error for here */}
-          <Route component={ExampleView}></Route>
-        </Switch>
+        <ScrollToTop>
+          <div className="switchStyle">
+            <Switch>
+                <Route exact path="/" component={ExampleView}></Route>
+                <Route path="/login" component={LoginView}></Route>
+                <Route path="/register" component={RegisterView}></Route>
+                {/* default case - TODO possibly make a 404 error for here */}
+                <Route component={ExampleView}></Route>
+            </Switch>
+          </div>  
+        </ScrollToTop>
 
         <Footer></Footer>
-
       </div>
     );
   }

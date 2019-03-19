@@ -9,6 +9,8 @@ import 'materialize-css/dist/css/materialize.min.css';
 import aboutLeft from '../assets/img/aboutLeft.svg';
 import aboutRight from '../assets/img/aboutRight.svg';
 
+import { Link } from 'react-router-dom';
+
 
 class AboutView extends Component {
     render() {
@@ -24,6 +26,7 @@ class AboutView extends Component {
                         <p>You can make posts to rant about things that have been on your mind or tell a story you have wanted to tell the world but don't feel comfortable saying it face to face with someone. Participate in conversations with people that understand and support you.</p>
                         <p>Use Better to seek help and support when you need it. Help others with their problems. Find more resources in the Get Help tab below.</p>
                         <p>Make the world Better!</p>
+                        <Link to="/register" className="landingLink">Sign up now</Link>
                 </div>
 
                 <div>

@@ -51,17 +51,18 @@ class App extends Component {
   render() {
     return (
       <div className="container-fluid">
-        <Header></Header>
+         <Header></Header>
 
-        <ScrollToTop>
-          <div className="switchStyle">
-            <Switch>
-                <Route exact path="/" component={LandingView}></Route>
-                <Route path="/login" component={LoginView}></Route>
-                <Route path="/register" component={RegisterView}></Route>
-                {/* default case - TODO possibly make a 404 error for here */}
-                <Route component={ExampleView}></Route>
-            </Switch>
+          <ScrollToTop>
+            <div className="switchStyle">
+              <Switch>
+                  <Route exact path="/" component={LandingView}></Route>
+                  <Route path="/login" component={LoginView}></Route>
+                  <Route path="/register" component={RegisterView}></Route>
+                  <Route path="/about" component={AboutView}></Route>
+                  {/* default case - TODO possibly make a 404 error for here */}
+                  <Route component={ExampleView}></Route>
+              </Switch>
           </div>  
         </ScrollToTop>
 

@@ -9,25 +9,25 @@
 }
 
 /********  Landing Page CSS **********/
-#landingImgLeft, #landingImgRight {
+#landingImgLeft, #landingImgRight, #aboutImgLeft, #aboutImgRight{
     display: flex;
     height: 100vh;
     padding: 0%;
     margin: 0%;
 }
 
-#landingText {
+#landingText, #aboutText {
     display: flex;
     flex-direction: column;
     height: 100vh;
     padding: 5% 2%;
 }
 
-#landingTitle, .landingLink{
+#landingTitle, .landingLink, #aboutTitle {
     color: #46c6a5;
 }
 
-#landingRow{
+#landingRow, #aboutRow{
     margin: 0%;
 }
 
@@ -79,7 +79,7 @@
 
 /* sm screens */
 @media only screen and (max-width: 600px) {
-    #landingImgLeft, #landingImgRight{
+    #landingImgLeft, #landingImgRight, #aboutImgLeft, #aboutImgRight{
         display: none;
     }
 

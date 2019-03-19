@@ -1,5 +1,9 @@
 /* custom styles should go in here. this is a global sheet */ 
 
+/* 
+    buttons used on login and registration forms 
+    used: LoginView, RegisterView    
+*/
 .form-btn {
     width: 100%;
 }
@@ -27,9 +31,70 @@
     margin: 0%;
 }
 
-/* mobile screen size  <600px */
-@media screen and (max-width: 600px) {
+/*
+    post contains the actual content a user is sharing 
+    used: Post
+*/
+.post {
+    border-radius: 1rem;
+    background-color: #5185C7;
+    color: white;
+    margin-top: 5px;
+    height: 18vh;
+}
+
+.post-profile-pic {
+    margin-top: 1%;
+}
+
+.post-profile-pic p {
+    margin-top: 0;
+}
+
+/* TODO fix post text overflowing */
+.post-text p {
+    margin-top: 1px; 
+}
+
+.post-text h5 {
+    margin-bottom: 1px;
+    margin-top: 5px; 
+}
+
+.post-support-icon {
+    margin-top: 5%;
+    color: white;
+}
+
+/* 
+    profile picture contains the user's avatar 
+    used: Post
+*/
+.profile-picture {
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+/* custom media queries */
+
+/* sm screens */
+@media only screen and (max-width: 600px) {
     #landingImgLeft, #landingImgRight{
         display: none;
     }
+
+    .material-icons {
+        font-size: 3rem;
+        display: inline; 
+    }
 }
+
+/* sceens larger than sm */
+@media only screen and (min-width: 601px) {
+    .material-icons {
+        font-size: 4rem;
+        display: inline; 
+    }
+}
+
+/* custom alterations to materialize framework */

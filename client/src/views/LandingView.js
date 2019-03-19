@@ -25,7 +25,7 @@ class LandingView extends Component {
                         <br></br>
                     <div className="row">
                         <Link to="/about" className="col s6 m6 landingLink">Learn More</Link>
-                        <Link to="/" className="col s6 m6 landingLink">Join the Conversation</Link>
+                        <Link to="/dashboard" className="col s6 m6 landingLink">Join the Conversation</Link>
                     </div>
                 </div>
 

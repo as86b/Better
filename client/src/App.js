@@ -25,6 +25,7 @@ import LoginView from './views/LoginView';
 import RegisterView from './views/RegisterView';
 import LandingView from './views/LandingView';
 import AboutView from './views/AboutView';
+import DashboardView from './views/DashboardView';
 // example view imports
 import ExampleView from './views/ExampleView';
 import ExampleView2 from './views/ExampleView2';
@@ -43,6 +44,7 @@ class App extends Component {
       <div className="container-fluid">
         <Switch>
           <Route exact path="/" component={LandingView}></Route>
+          <Route path="/dashboard" component={DashboardView}></Route>
           <Route path="/login" component={LoginView}></Route>
           <Route path="/register" component={RegisterView}></Route>
           <Route exact path="/about" component={AboutView}></Route>

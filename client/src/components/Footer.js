@@ -9,21 +9,18 @@ import { Link } from 'react-router-dom';
 class Footer extends React.Component  {
 
     render() {
-        
-        //wont appear on mobile
-
         return(
-            <footer className="page-footer footBar">
+            <footer className="page-footer footBar z-index-3">
                 <div className="container">
                     <div className="row">
-                        <div className="col m1 valign-wrapper">
-                            <Link to="/" className="footLinks hide-on-small-and-down">About</Link>
+                        <div className="col m2 hide-on-small-and-down">
+                            <Link to="/" className="footLinks">About</Link>
                         </div>
-                        <div className="col m2 push-m7 s12">
-                            <Link to="https://suicidepreventionlifeline.org" className="footLinks">Get Help</Link>
+                        <div className="col m2 push-m6 s12">
+                            <a href="https://www.suicidepreventionlifeline.org" className="footLinks">Get Help</a>
                         </div>
-                        <div className="col m2 push-m8 hide-on-small-and-down">
-                            1-800-273-8255
+                        <div className="col m4 push-m6 hide-on-small-and-down left">
+                            <a href="#" className="footLinks">1-800-273-8255</a>
                         </div>
                     </div>
                 </div>

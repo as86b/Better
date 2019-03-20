@@ -14,8 +14,8 @@ class LandingView extends Component {
     render() {
         return(
             <div className="row" id="landingRow">
-                <div>
-                    <img src={landingLeft} alt="" id="landingImgLeft" className="col m4 "></img>
+                <div className="sideImageWrapper">
+                    <img src={landingLeft} alt="landingLeft" id="landingImgLeft" className="col m4"></img>
                 </div>
 
                 <div id="landingText" className="col s12 m4">
@@ -29,8 +29,8 @@ class LandingView extends Component {
                     </div>
                 </div>
 
-                <div>
-                    <img src={landingRight} alt="" id="landingImgRight" className="col m4 "></img>
+                <div className="sideImageWrapper">
+                    <img src={landingRight} alt="landingRight" id="landingImgRight" className="col m4"></img>
                 </div>
             </div>
         );

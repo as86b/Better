@@ -44,58 +44,54 @@ class Header extends React.Component {
             
             //Landing page
             case '/':
-
-            // case '/login':
-
-            case '/register':
-
-            //Above 3 pages share this layout in the top right
-            headPart = (
-                <ul className="right hide-on-med-and-down">
-                    <li>
-                        <Link to="/login">Login</Link>
-                    </li>
-                    <li>
-                        <Link to="/registration">Registration</Link>
-                    </li>
-                </ul>
-            );
-
-            break;
-
             case '/login':
-            //If logged in and looking at feed for instance
-            headPart = (
-                <ul className="right">
-                    <li>
-                        <i className="material-icons">search</i>
-                    </li>
-                    <li>
-                        <Link to="/">
-                            <i className="material-icons hide-on-med-and-down">mail</i>
-                        </Link>
-                    </li>
-                    {/*There are different versions of notificaitons icon maybe to use?*/}
-                    {/*Or try to use some CSS to just overlay a little red dot*/}
-                    <li>
-                        <Link to="/">
-                            <i className="material-icons hide-on-med-and-down">notifications</i>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/">
-                            <img className = "circle responsive-img profilePic" src={profile}></img>
-                        </Link>
-                    </li>
-                </ul>
-            );
-            break;
+            case '/register':
+                //Above 3 pages share this layout in the top right
+                headPart = (
+                    <ul className="right hide-on-med-and-down">
+                        <li>
+                            <Link to="/login">Login</Link>
+                        </li>
+                        <li>
+                            <Link to="/register">Register</Link>
+                        </li>
+                    </ul>
+                );
+                break;
+
+            case '/dashboard':
+                //If logged in and looking at feed for instance
+                headPart = (
+                    <ul className="right">
+                        <li>
+                            <a href="#">
+                                <i className="material-icons">search</i>
+                            </a>
+                        </li>
+                        <li>
+                            <Link to="/">
+                                <i className="material-icons hide-on-med-and-down">mail</i>
+                            </Link>
+                        </li>
+                        {/*There are different versions of notifications icon maybe to use?*/}
+                        {/*Or try to use some CSS to just overlay a little red dot*/}
+                        <li>
+                            <Link to="/">
+                                <i className="material-icons hide-on-med-and-down">notifications</i>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/">
+                                <img className="headerProfilePic z-depth-2" src={profile}></img>
+                            </Link>
+                        </li>
+                    </ul>
+                );
+                break;
 
              //If mobile is detected do something if materialize isnt taking care of it
-
             default:
-
-            break;
+                break;
         }
 
         return headPart;
@@ -108,7 +104,7 @@ class Header extends React.Component {
         return(
             //Materialize utilizes header, main, footer
             <header>
-                <div className="navbar-fixed">
+                <div className="navbar-fixed z-index-3">
                     <nav>
                         <div className="nav-wrapper">
                             <ul id="nav-mobile" className="left">
@@ -116,7 +112,7 @@ class Header extends React.Component {
                                 <li>
                                     <Link to="/" >
                                         <div>
-                                        <img className = "betterMountainLogo" src={logo}></img>
+                                            <img className="betterMountainLogo" src={logo}></img>
                                         </div>
                                     </Link>
                                 </li>

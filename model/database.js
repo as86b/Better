@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 var config = require("./config.json");
 
 mongoose.connect(
-    'mongodb://' + config.ipaddr + ':' + config.port,
+    'mongodb://' + config.ipaddr + ':' + config.port + '/better',
     { user: config.user, pass: config.pass }
 );
 /*
@@ -18,7 +18,7 @@ db.once('open', function() {
 });
 
 process.on('SIGINT', function() {
-    console.log('Severing MongoDB connection...');
+  console.log('Severing MongoDB connection...');
   mongoose.connection.close(function () {
     console.log('Disconnected from MongoDB');
     process.exit(0);

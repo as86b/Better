@@ -19,6 +19,7 @@ class RegisterView extends Component {
             usernameVal: '',
             passwordVal: '',
             confirmPasswordVal: '',
+            file: null, 
             errorText: ''
         };
         
@@ -27,6 +28,7 @@ class RegisterView extends Component {
         this.handleUsernameValChange = this.handleUsernameValChange.bind(this);
         this.handlePasswordValChange = this.handlePasswordValChange.bind(this);
         this.handleConfirmPasswordValChange = this.handleConfirmPasswordValChange.bind(this);
+        this.handleFileUpload = this.handleFileUpload.bind(this);
     }
 
     validateRegisterAttempt(registerAttempt) {
@@ -72,6 +74,11 @@ class RegisterView extends Component {
             password: this.state.passwordVal,
             confirmPassword: this.state.confirmPasswordVal
         }
+        console.log('file: ' + this.state.file.name);
+        // FIXME testing file upload 
+        let fd = new FormData();
+        fd.append('file', this.state.file, this.state.file.name);
+        axios.post(`${endpoint}/api/upload/`, )
         // validate the registration information
         if (this.validateRegisterAttempt(registerAttempt) && this.state.errorText === '') {
             // registerAttempt has been validated
@@ -111,6 +118,11 @@ class RegisterView extends Component {
     // update the state of the confirm password based on what is being typed
     handleConfirmPasswordValChange(e) {
         this.setState({ confirmPasswordVal: e.target.value });
+    }
+
+    // update the file that is being uploaded
+    handleFileUpload() {
+        this.setState({ file: document.getElementById('file-input').files[0] });
     }
 
     render() {
@@ -161,6 +173,17 @@ class RegisterView extends Component {
                         <div className="col s12 m6 push-m3">
                             <input type="password" value={this.state.confirmPasswordVal} onChange={this.handleConfirmPasswordValChange} className="validate"></input>
                             <label htmlFor="password" className="active">Confirm Password</label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col s12 m6 push-m3 file-field">
+                            <div className="btn waves-effect white-text z-depth-2">
+                                <i className="small material-icons">insert_photo</i>
+                                <input type="file" id="file-input" onChange={this.handleFileUpload} />
+                            </div>
+                            <div className="file-path-wrapper">
+                                <input className="file-path validate" type="text" placeholder="file..."  />
+                            </div>
                         </div>
                     </div>
                     <div className="row">

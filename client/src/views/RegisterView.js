@@ -19,6 +19,7 @@ class RegisterView extends Component {
             usernameVal: '',
             passwordVal: '',
             confirmPasswordVal: '',
+            file: null, 
             errorText: ''
         };
         
@@ -192,12 +193,13 @@ class RegisterView extends Component {
                     </div>
                     <div className="row">
                         <div className="col s12 m6 push-m3 file-field">
-                            <div className="btn waves-effect white-text z-depth-2">
+                            <label className="file-field-label" htmlFor="file-input">Optionally specify a profile picture for your account</label>
+                            <div className="btn-floating waves-effect white-text z-depth-2">
                                 <i className="small material-icons">insert_photo</i>
                                 <input type="file" id="file-input" onChange={this.handleFileUpload} />
                             </div>
                             <div className="file-path-wrapper">
-                                <input className="file-path validate" type="text" placeholder="file..."  />
+                                <input className="file-path validate" type="text" value={this.state.file ? this.state.file.name : 'Optional profile picture...'} readOnly />
                             </div>
                         </div>
                     </div>

@@ -5,6 +5,8 @@ const config = require('../../model/config.json');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
+const crypto = require('crypto');
+const path = require('path');
 
 const db = mongoose.connection; 
 let gfs; 
@@ -19,7 +21,7 @@ db.once('open', () => {
 const storage = new GridFsStorage({
     url: 'mongodb://' + config.ipaddr + ':' + config.port + '/better', 
     file: (req, file) => {
-      console.log('attempting to upload file ' + file); 
+      console.log('attempting to upload file ' + file.originalname); 
       return new Promise((resolve, reject) => {
         crypto.randomBytes(16, (err, buf) => {
           if (err) {

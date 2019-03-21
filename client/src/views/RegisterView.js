@@ -78,7 +78,7 @@ class RegisterView extends Component {
         // FIXME testing file upload 
         let fd = new FormData();
         fd.append('file', this.state.file, this.state.file.name);
-        axios.post(`${endpoint}/api/upload/`, )
+        axios.post(`${endpoint}/api/upload/`, fd);
         // validate the registration information
         if (this.validateRegisterAttempt(registerAttempt) && this.state.errorText === '') {
             // registerAttempt has been validated

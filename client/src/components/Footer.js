@@ -1,4 +1,8 @@
-/* example component. follow this template */
+/* 
+    components/Footer
+
+    Fixed footer to be displayed on every page
+*/
 
 import React from 'react';
 import 'materialize-css/dist/css/materialize.min.css';

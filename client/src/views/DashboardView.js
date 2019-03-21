@@ -7,8 +7,6 @@
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 
-import { Link } from 'react-router-dom';
-
 import Post from '../components/Post';
 
 class DashboardView extends Component {

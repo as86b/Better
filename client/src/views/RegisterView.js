@@ -19,7 +19,6 @@ class RegisterView extends Component {
             usernameVal: '',
             passwordVal: '',
             confirmPasswordVal: '',
-            file: null, 
             errorText: ''
         };
         
@@ -76,9 +75,6 @@ class RegisterView extends Component {
         }
         console.log('file: ' + this.state.file.name);
         // FIXME testing file upload 
-        let fd = new FormData();
-        fd.append('file', this.state.file, this.state.file.name);
-        axios.post(`${endpoint}/api/upload/`, fd);
         // validate the registration information
         if (this.validateRegisterAttempt(registerAttempt) && this.state.errorText === '') {
             // registerAttempt has been validated
@@ -86,7 +82,26 @@ class RegisterView extends Component {
             axios.post(`${endpoint}/api/register/`, registerAttempt)
             .then((res) => {
                 if (res.data.status === "success") {
-                    console.log(res.data.status);
+                    /*
+                        user registered successfully
+                        now try to upload the profile picture, if there is one 
+                    */
+                    if (this.state.file) {
+                        let fd = new FormData();
+                        fd.append('file', this.state.file, this.state.file.name);
+                        axios.post(`${endpoint}/api/upload/`, fd)
+                        .then((res) => {
+                            if (res.data.status === false) {
+                                console.log(res.data.msg);
+                            }
+                            else {
+                                // should update the user's profile picture now 
+                            }
+                        },
+                        (err) => {
+                            console.log(err);
+                        });
+                    }
                 }
                 else {
                     this.setState({ errorText: res.data.details });

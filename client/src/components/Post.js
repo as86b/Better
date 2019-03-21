@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 
 // TODO probably use withRouter to distinguish between views 
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 // import profile picture
 // TODO make this dynamic based on user 
@@ -21,7 +21,7 @@ class Post extends Component {
                 <div className="col s12 m8 push-m2 post z-depth-3">
                     <div className="col s3 m2 post-profile-pic center">
                         {/*profile pic*/}
-                        <img className="responsive-img circle z-depth-2 profile-picture" src={profilePicture} alt="Profile Picture" />
+                        <img className="responsive-img circle z-depth-2 profile-picture" src={profilePicture} alt="Profile" />
                         <p>Username</p>
                     </div>
                     <div className="col s9 m10">

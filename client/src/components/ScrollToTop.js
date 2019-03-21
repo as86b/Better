@@ -1,9 +1,12 @@
-/* eslint-disable no-fallthrough */
-/* example component. follow this template */
+/* 
+    components/ScrollToTop
+
+    Helper component that will automatically scroll the user
+    to the top of a view whenever a new view is rendered
+*/
 
 import React from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
-import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
 class ScrollToTop extends React.Component {

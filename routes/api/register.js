@@ -45,6 +45,7 @@ function isEmailTaken(email) {
 }
 
 router.post('/', function(req, res) {
+    // TODO assign a user a default profile picture 
     user = req.body['username'];
     pass = req.body['password'];
     email = req.body['email'];

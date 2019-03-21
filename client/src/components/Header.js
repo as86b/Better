@@ -1,5 +1,8 @@
-/* eslint-disable no-fallthrough */
-/* example component. follow this template */
+/* 
+    components/Header
+
+    Fixed header to be displayed on every page
+*/
 
 import React from 'react';
 
@@ -82,7 +85,7 @@ class Header extends React.Component {
                         </li>
                         <li>
                             <Link to="/">
-                                <img className="headerProfilePic z-depth-2" src={profile}></img>
+                                <img className="headerProfilePic z-depth-2" src={profile} alt="Profile"></img>
                             </Link>
                         </li>
                     </ul>
@@ -112,12 +115,12 @@ class Header extends React.Component {
                                 <li>
                                     <Link to="/" >
                                         <div>
-                                            <img className="betterMountainLogo" src={logo}></img>
+                                            <img className="betterMountainLogo" src={logo} alt="Logo"></img>
                                         </div>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/" className="betterLogo" className="hide-on-med-and-down">Better</Link>
+                                    <Link to="/" className="betterLogo hide-on-med-and-down">Better</Link>
                                 </li>
                             </ul>
                             {part}

@@ -17,7 +17,7 @@ import './App.css';
 // packages 
 import socketIOClient from 'socket.io-client';
 import axios from 'axios';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 
 // view imports 
@@ -26,12 +26,8 @@ import RegisterView from './views/RegisterView';
 import LandingView from './views/LandingView';
 import AboutView from './views/AboutView';
 import DashboardView from './views/DashboardView';
-// example view imports
-import ExampleView from './views/ExampleView';
-import ExampleView2 from './views/ExampleView2';
 
-// example component imports 
-import Example from './components/Example';
+// component imports 
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -63,7 +59,7 @@ class App extends Component {
                   <Route path="/register" component={RegisterView}></Route>
                   <Route path="/about" component={AboutView}></Route>
                   {/* default case - TODO possibly make a 404 error for here */}
-                  <Route component={ExampleView}></Route>
+                  <Route component={LandingView}></Route>
               </Switch>
           </div>  
         </ScrollToTop>

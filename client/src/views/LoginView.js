@@ -30,35 +30,41 @@ class LoginView extends Component {
         //  email is of an invalid format
         //  password is less than 6 characters 
         // NOTE: should password constraint be 6 +/- ? 
-        var flag = 0;
-        var atIndex = loginAttempt.email.indexOf("@");
-        if (atIndex > 1) {
-            var dotIndex = loginAttempt.email.indexOf(".");
-            if (dotIndex < atIndex+2) { flag = 1; }
+        var atIndex = loginAttempt.login.indexOf("@");
+        if (atIndex > 0) {
+            // looking at email address 
+            if (atIndex === 0) {
+                this.setState({ errorText: 'Please provide a valid email address' });
+                return false; 
+            }
+            var dotIndex = loginAttempt.login.indexOf(".");
+            if ((dotIndex < atIndex+2) || (dotIndex + 1 === loginAttempt.login.length)) { 
+                this.setState({ errorText: 'Please provide a valid email address' });
+                return false;  
+            }
         }
-        else { flag = 1; }
-        if (flag) {
-            // invalid email format has been sent
-            this.setState({ errorText: 'Please provide a valid email address' });
+        else { 
+            // looking at username 
+            if (loginAttempt.login.length < 6) {
+                this.setState({ errorText: 'Please provide a valid username (minimum 6 characters)' });
+                return false;
+            }
         }
-        else if (loginAttempt.password.length >= 6) {
-            // valid login attempt, remove any lingering errors
-            this.setState({ errorText: '' });
-        } 
-        else {
-            // invalid password format has been sent 
+        // check password 
+        if (loginAttempt.password.length < 6) {
             this.setState({ errorText: 'Please provide a valid password (minimum 6 characters)' });
+            return false;
         }
-        return; 
+        // valid login attempt, remove any lingering errors
+        this.setState({ errorText: '' });
+        return true; 
     }
 
     // send login attempt (if valid) to be authenticated
     handleLoginClick(e) {
         e.preventDefault();
         let loginAttempt = { login: this.state.loginVal, password: this.state.passwordVal };
-        // TODO validate the login attempt 
-        // this.validateLoginAttempt(loginAttempt);
-        if (this.state.errorText === '') {
+        if (this.validateLoginAttempt(loginAttempt) && this.state.errorText === '') {
             // loginAttempt has been validated
             // send the login attempt somewhere
             axios.post(`${endpoint}/api/login/`, loginAttempt)

@@ -22,8 +22,8 @@ function checkLoginFormat(l, p) {
             return false;
     } else {  // login is a username
         // check username format
-        regex = u.match(/[a-zA-Z0-9!#$%^&*_-]*/)[0]
-        if (regex.length != u.length)
+        regex = l.match(/[a-zA-Z0-9!#$%^&*_-]*/)[0]
+        if (regex.length != l.length)
             return false;
     }
     

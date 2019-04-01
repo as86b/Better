@@ -2,10 +2,10 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
-const crypto = require('crypto');
 const router = express.Router();
 
 const User = require('../../model/User.js');
+const Utils = require('../../utilityFunctions.js');
 
 
 function checkLoginFormat(u, p, e) {
@@ -48,17 +48,6 @@ function isEmailTaken(email) {
     return false;
 }
 
-function hashPassword(pass, salt) {
-    var hash = crypto.createHmac('sha512', salt);
-    hash.update(pass);
-    var value = hash.digest('hex');
-    return value;
-}
-
-function generateSalt() {
-    return crypto.randomBytes(128).toString('base64');
-}
-
 router.post('/', function(req, res) {
     uname = req.body['username'];
     pass = req.body['password'];
@@ -97,8 +86,7 @@ router.post('/', function(req, res) {
     })
     user.save().then(item => {
 		res.json({"status": "success"});
-	})
-	.catch(err => {
+	}).catch(err => {
 		console.log('\nDatabase ERROR - ' + new Date(Date.now()).toLocaleString())
 		console.log(err)
 		res.json({

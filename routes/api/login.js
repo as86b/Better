@@ -8,6 +8,7 @@ const User = require('../../model/User.js');
 const Utils = require('../../utilityFunctions.js');
 const auth = require("../../auth.json");
 
+var validTokens = {};
 
 async function validateUser(l, p) {
     if (l === undefined)
@@ -31,11 +32,15 @@ async function validateUser(l, p) {
     if (Utils.hashPassword(p, doc.salt) != doc.passHash)
         return false;
 
-    return jwt.sign(
-        { username: doc.username },
-        auth.jwt_key,
-        { expiresIn: '24h' }
-    );
+    if (!validTokens[doc.username]) {
+        validTokens[doc.username] = jwt.sign(
+            { username: doc.username },
+            auth.jwt_key,
+            { expiresIn: '24h' }
+        );
+    }
+
+    return validTokens[doc.username];
 }
 
 router.post('/', function(req, res) {
@@ -54,6 +59,8 @@ router.post('/', function(req, res) {
                 "token": v
             });
         }
+    }).catch(err => {
+        console.log(err)
     })
 });
 

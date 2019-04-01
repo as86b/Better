@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-var config = require("./config.json");
+const auth = require("../auth.json");
 
 mongoose.connect(
-    'mongodb://' + config.ipaddr + ':' + config.port + '/better',
-    { user: config.user, pass: config.pass }
+    'mongodb://' + auth.db.ipaddr + ':' + auth.db.port + '/better',
+    { user: auth.db.user, pass: auth.db.pass }
 );
 /*
 this connection should be available to all other

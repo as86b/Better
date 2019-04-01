@@ -10,9 +10,10 @@ const DirectMessage = require('./DirectMessage');
 
 const UserSchema = mongoose.Schema({
     user_id: mongoose.Schema.Types.ObjectId,                    // primary key
-    username: {type: String, unique: true},                                           
+    username: {type: String, unique: true},
     salt: String,
-    email: {type: String, unique: true}, 
+    passHash: String,
+    email: {type: String, unique: true},
     profilePicture: String,
     bio: String,
     isVerified: Boolean,

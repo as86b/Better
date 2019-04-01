@@ -9,33 +9,11 @@ const Utils = require('../../utilityFunctions.js');
 
 
 function checkLoginFormat(u, p, e) {
-    if (u === undefined)
-        return false;
-    if (p === undefined)
-        return false;
-    if (e === undefined)
-        return false;
-
-    // check email format
-    var atIndex = e.indexOf("@");
-    if (atIndex < 1)  // @ must have at least one preceding character
-        return false;
-    var dotIndex = e.indexOf(".");
-    if (dotIndex < atIndex+2)  // . must follow @ with at least one character inbetween
-        return false;
-    if (dotIndex + 1 == e.length)  // . must not be the last character
-        return false;
-
-    // check password length
-    if (p.length < 6)
-        return false;
-
-    // check username format
-    regex = u.match(/[a-zA-Z0-9!@#$%^&*_-]*/)[0]
-    if (regex.length != u.length)
-        return false;
-    
-    return true;
+    return (
+    	Utils.checkEmailFormat(e) &&
+    	Utils.checkUsernameFormat(u) &&
+    	Utils.checkPasswordLength(p)
+    );
 }
 
 function isUsernameTaken(user) {
@@ -76,12 +54,12 @@ router.post('/', function(req, res) {
         return;
     }
 
-    s = generateSalt()
+    s = Utils.generateSalt()
 
     var user = new User({
         username: uname,
         email: email,
-        passHash: hashPassword(pass, s),
+        passHash: Utils.hashPassword(pass, s),
         salt: s
     })
     user.save().then(item => {

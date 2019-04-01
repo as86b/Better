@@ -63,6 +63,7 @@ class Header extends React.Component {
                 break;
 
             case '/dashboard':
+            case '/profile':
                 //If logged in and looking at feed for instance
                 headPart = (
                     <ul className="right">
@@ -84,7 +85,7 @@ class Header extends React.Component {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/">
+                            <Link to="/profile">
                                 <img className="headerProfilePic z-depth-2" src={profile} alt="Profile"></img>
                             </Link>
                         </li>

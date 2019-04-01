@@ -26,6 +26,7 @@ import RegisterView from './views/RegisterView';
 import LandingView from './views/LandingView';
 import AboutView from './views/AboutView';
 import DashboardView from './views/DashboardView';
+import ProfileView from './views/ProfileView';
 
 // component imports 
 import Header from './components/Header';
@@ -55,6 +56,7 @@ class App extends Component {
               <Switch>
                   <Route exact path="/" component={LandingView}></Route>
                   <Route path="/dashboard" component={DashboardView}></Route>
+                  <Route path="/profile" component={ProfileView}></Route>
                   <Route path="/login" component={LoginView}></Route>
                   <Route path="/register" component={RegisterView}></Route>
                   <Route path="/about" component={AboutView}></Route>

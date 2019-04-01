@@ -6,8 +6,8 @@ client/node_modules
 /.pnp
 .pnp.js
 
-# database config
-model/config.json
+# auth config
+auth.json
 
 # testing
 /coverage

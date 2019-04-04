@@ -41,3 +41,10 @@ module.exports.updateProfilePicture = (username, filename, callback) => {
       callback
     );
 };
+
+module.exports.getProfilePicture = (username, callback) => {
+    User.findOne(
+        {username: username},
+        callback
+    ).select('profilePicture');
+}

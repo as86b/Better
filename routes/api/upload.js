@@ -56,7 +56,7 @@ router.post('/', upload.single('file'), (req, res) => {
 // handle single file requests by username 
 router.get('/image/:filename', (req, res) => {
   console.log('fetching filename: ' + req.params['filename']);
-  gfs.files.findOne({ filename : req.params['filename'] }, (err, file) => {
+  gfs.files.findOne({ filename : filename }, (err, file) => {
     if (file) {
       // checking specifically for image here
       if (file.contentType == 'image/png' || file.contentType == 'image/jpeg') {
@@ -66,12 +66,12 @@ router.get('/image/:filename', (req, res) => {
       }
       else {
         const err = { "status": "error", "details": "File is not an image" };
-        res.json(err);
+        json.res(err);
       }
     }
     else {
       const err = { "status": "error", "details": "Failed to find specified file" };
-      res.json(err);
+      json.res(err);
     }
   });
 });

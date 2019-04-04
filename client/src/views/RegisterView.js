@@ -20,7 +20,9 @@ class RegisterView extends Component {
             passwordVal: '',
             confirmPasswordVal: '',
             file: null, 
-            errorText: ''
+            errorText: '',
+            // testing with this 
+            loggedIn: false 
         };
         
         this.handleRegisterClick = this.handleRegisterClick.bind(this);
@@ -29,6 +31,28 @@ class RegisterView extends Component {
         this.handlePasswordValChange = this.handlePasswordValChange.bind(this);
         this.handleConfirmPasswordValChange = this.handleConfirmPasswordValChange.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
+
+        // testing with this
+        this.getProfilePicture = this.getProfilePicture.bind(this); 
+    }
+
+    // testing with this 
+    getProfilePicture() {
+        if (this.state.loggedIn === true) {
+            console.log('getting profile picture'); 
+            axios.get(`${endpoint}/api/users/getProfilePicture`, { params: { username: this.state.usernameVal } })
+            .then((res) => {
+                if (res.status && res.status === "error") {
+                    console.log(res.details); 
+                }
+                else {
+                    return res; 
+                }
+            });
+        }
+        else {
+            return ''; 
+        }
     }
 
     validateRegisterAttempt(registerAttempt) {
@@ -108,6 +132,8 @@ class RegisterView extends Component {
                                 .then((res) => {
                                     if (res.data.status === "success") {
                                         console.log(res.data.user);
+                                        this.setState({ loggedIn: true });
+                                        this.getProfilePicture();
                                     }
                                     else {
                                         console.log(res.data.details); 
@@ -121,6 +147,7 @@ class RegisterView extends Component {
                     }
                 }
                 else {
+                    console.log('failed to register');
                     this.setState({ errorText: res.data.details });
                 }
             })
@@ -129,7 +156,8 @@ class RegisterView extends Component {
             });
         }
         // reset registration form
-        this.setState({ emailVal: '', usernameVal: '', passwordVal: '', confirmPasswordVal: '' });
+        // TODO reset usernameVal, removed for testing 
+        this.setState({ emailVal: '', passwordVal: '', confirmPasswordVal: '' });
     }
 
     // update the state of the email based on what is being typed
@@ -225,6 +253,8 @@ class RegisterView extends Component {
                         </div>
                     </div>
                 </form>
+                {/* testing with this */}
+                <img src={this.getProfilePicture()} alt="Profile pic" /> 
             </div>
         );
     }

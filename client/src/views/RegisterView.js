@@ -92,11 +92,27 @@ class RegisterView extends Component {
                         fd.append('file', this.state.file, this.state.file.name);
                         axios.post(`${endpoint}/api/upload/`, fd)
                         .then((res) => {
-                            if (res.data.status === false) {
-                                console.log(res.data.msg);
+                            if (res.data.status === "error") {
+                                console.log(res.data.details);
                             }
                             else {
-                                // should update the user's profile picture now 
+                                console.log(res.data);
+                                // add the profile picture to the user's account 
+                                let userData = {
+                                    "username": registerAttempt.username, 
+                                    "filename": res.data.file.filename
+                                }
+                                console.log('userdata');
+                                console.log(userData);
+                                axios.post(`${endpoint}/api/users/changeProfilePicture`, userData)
+                                .then((res) => {
+                                    if (res.data.status === "success") {
+                                        console.log(res.data.user);
+                                    }
+                                    else {
+                                        console.log(res.data.details); 
+                                    }
+                                });
                             }
                         },
                         (err) => {

@@ -13,13 +13,14 @@ let gfs;
 
 db.once('open', () => {
   // gfs will handle image and file uploads 
+  console.log('Upload service connection established');
   gfs = Grid(db.db, mongoose.mongo); 
   gfs.collection('uploads'); 
 });
 
 // function to handle image uploads using gridfs 
 const storage = new GridFsStorage({
-  url: 'mongodb://' + config.ipaddr + ':' + config.port + '/better', 
+  url: 'mongodb://' + config.db.ipaddr + ':' + config.db.port + '/better', 
   file: (req, file) => {
     console.log('Attempting to upload file: ' + file.originalname); 
     return new Promise((resolve, reject) => {
@@ -45,7 +46,11 @@ const upload = multer({ storage: storage });
 
 // handle single file uploads
 router.post('/', upload.single('file'), (req, res) => {
-  res.json({succ: true, file: req.file}); 
+  console.log('file: ' + req.file);
+  res.json({
+    "status": "success", 
+    "file": req.file
+  }); 
 });
 
 // handle single file requests by username 
@@ -60,12 +65,12 @@ router.get('/image/:filename', (req, res) => {
         readstream.pipe(res);
       }
       else {
-        const err = { status: false, msg: "file is not an image" };
+        const err = { "status": "error", "details": "File is not an image" };
         res.json(err);
       }
     }
     else {
-      const err = { status: false, msg: "failed to find file" };
+      const err = { "status": "error", "details": "Failed to find specified file" };
       res.json(err);
     }
   });

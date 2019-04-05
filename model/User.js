@@ -14,7 +14,8 @@ const UserSchema = mongoose.Schema({
     salt: String,
     passHash: String,
     email: {type: String, unique: true},
-    profilePicture: String,
+    // NOTE this default string may need to be updated whenever we migrate databases
+    profilePicture: {type: String, default: '01b3da157b7723542ae495876e70b95c.png'},
     bio: String,
     isVerified: Boolean,
     // NOTE look into populate filling these arrays

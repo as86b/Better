@@ -17,12 +17,12 @@ function checkLoginFormat(u, p, e) {
 }
 
 function isUsernameTaken(user) {
-    // check database for username
+    // TODO check database for username
     return false;
 }
 
 function isEmailTaken(email) {
-    // check database for email
+    // TODO check database for email
     return false;
 }
 

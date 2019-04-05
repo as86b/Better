@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { endpoint } from '../App';
 
@@ -21,8 +21,7 @@ class RegisterView extends Component {
             confirmPasswordVal: '',
             file: null, 
             errorText: '',
-            // testing with this 
-            loggedIn: false 
+            redirect: false
         };
         
         this.handleRegisterClick = this.handleRegisterClick.bind(this);
@@ -31,28 +30,6 @@ class RegisterView extends Component {
         this.handlePasswordValChange = this.handlePasswordValChange.bind(this);
         this.handleConfirmPasswordValChange = this.handleConfirmPasswordValChange.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
-
-        // testing with this
-        this.getProfilePicture = this.getProfilePicture.bind(this); 
-    }
-
-    // testing with this 
-    getProfilePicture() {
-        if (this.state.loggedIn === true) {
-            console.log('getting profile picture'); 
-            axios.get(`${endpoint}/api/users/getProfilePicture`, { params: { username: this.state.usernameVal } })
-            .then((res) => {
-                if (res.status && res.status === "error") {
-                    console.log(res.details); 
-                }
-                else {
-                    return res; 
-                }
-            });
-        }
-        else {
-            return ''; 
-        }
     }
 
     validateRegisterAttempt(registerAttempt) {
@@ -98,8 +75,6 @@ class RegisterView extends Component {
             password: this.state.passwordVal,
             confirmPassword: this.state.confirmPasswordVal
         }
-        console.log('file: ' + this.state.file.name);
-        // FIXME testing file upload 
         // validate the registration information
         if (this.validateRegisterAttempt(registerAttempt) && this.state.errorText === '') {
             // registerAttempt has been validated
@@ -120,20 +95,15 @@ class RegisterView extends Component {
                                 console.log(res.data.details);
                             }
                             else {
-                                console.log(res.data);
                                 // add the profile picture to the user's account 
                                 let userData = {
                                     "username": registerAttempt.username, 
                                     "filename": res.data.file.filename
                                 }
-                                console.log('userdata');
-                                console.log(userData);
                                 axios.post(`${endpoint}/api/users/changeProfilePicture`, userData)
                                 .then((res) => {
                                     if (res.data.status === "success") {
                                         console.log(res.data.user);
-                                        this.setState({ loggedIn: true });
-                                        this.getProfilePicture();
                                     }
                                     else {
                                         console.log(res.data.details); 
@@ -145,9 +115,24 @@ class RegisterView extends Component {
                             console.log(err);
                         });
                     }
+                    // sign the user in and redirect 
+                    let loginAttempt = { login: registerAttempt.username, password: registerAttempt.password };
+                    console.log(loginAttempt);
+                    axios.post(`${endpoint}/api/login/`, loginAttempt)
+                    .then((res) => {
+                        if (res.data.status === "success") {
+                            this.props.loginUser(res.data.username, res.data.token);
+                            this.setState({ redirect: true });
+                        }
+                        else {
+                            this.setState({ errorText: res.data.details });
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
                 }
                 else {
-                    console.log('failed to register');
                     this.setState({ errorText: res.data.details });
                 }
             })
@@ -157,7 +142,7 @@ class RegisterView extends Component {
         }
         // reset registration form
         // TODO reset usernameVal, removed for testing 
-        this.setState({ emailVal: '', passwordVal: '', confirmPasswordVal: '' });
+        this.setState({ emailVal: '', usernameVal: '', passwordVal: '', confirmPasswordVal: '' });
     }
 
     // update the state of the email based on what is being typed
@@ -186,6 +171,10 @@ class RegisterView extends Component {
     }
 
     render() {
+        // FIXME better way to prevent access than checking localstorage?
+        if (this.state.redirect) {
+            return(<Redirect to="/dashboard"></Redirect>);
+        }
         // display an error if one is set  
         let errorMessage;
         if (this.state.errorText === '') {
@@ -253,8 +242,6 @@ class RegisterView extends Component {
                         </div>
                     </div>
                 </form>
-                {/* testing with this */}
-                <img src={this.getProfilePicture()} alt="Profile pic" /> 
             </div>
         );
     }

@@ -56,6 +56,7 @@ router.post('/', function(req, res) {
         } else {
             res.json({
                 "status": "success",
+                "username": login,
                 "token": v
             });
         }

@@ -5,7 +5,7 @@ const router = express.Router();
 
 const User = require('../../model/User.js');
 const Utils = require('../../utilityFunctions.js');
-const Tokens = require("../../tokens.js");
+const Tokens = require('../../tokens.js');
 
 async function validateUser(l, p) {
     if (l === undefined)

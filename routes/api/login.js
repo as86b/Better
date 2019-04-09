@@ -2,58 +2,67 @@
 
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 
+const User = require('../../model/User.js');
+const Utils = require('../../utilityFunctions.js');
+const auth = require("../../auth.json");
 
-function checkLoginFormat(l, p) {
+var validTokens = {};
+
+async function validateUser(l, p) {
     if (l === undefined)
         return false;
     if (p === undefined)
         return false;
 
-    var atIndex = l.indexOf("@");
-    if (atIndex > 0) {  // login is an email
-        // check email format
-        if (atIndex < 1)  // @ must have at least one preceding character
+    var doc;
+    if (l.indexOf("@") > 0) {
+        if (!Utils.checkEmailFormat(l))
             return false;
-        var dotIndex = e.indexOf(".");
-        if (dotIndex < atIndex+2)  // . must follow @ with at least one character inbetween
-            return false;
-        if (dotIndex + 1 == e.length)  // . must not be the last character
-            return false;
-    } else {  // login is a username
-        // check username format
-        regex = l.match(/[a-zA-Z0-9!#$%^&*_-]*/)[0]
-        if (regex.length != l.length)
-            return false;
-    }
-    
-    return true;
-}
-
-function validateUser(l, p) {
-    if (checkLoginFormat(l, p) == false)
-        return false
-
-    if (l.indexOf("@")) {
-        // lookup user via email
+        doc = await User.findOne({ email: l }).exec();
     } else {
-        // lookup user via username
+        if (!Utils.checkUsernameFormat(l))
+            return false;
+        doc = await User.findOne({ username: l }).exec();
     }
+    if (!doc)
+        return false;
+
+    if (Utils.hashPassword(p, doc.salt) != doc.passHash)
+        return false;
+
+    if (!validTokens[doc.username]) {
+        validTokens[doc.username] = jwt.sign(
+            { username: doc.username },
+            auth.jwt_key,
+            { expiresIn: '24h' }
+        );
+    }
+
+    return validTokens[doc.username];
 }
 
 router.post('/', function(req, res) {
-    login = req.body['login'];
-    pass = req.body['password'];
+    const login = req.body['login'];
+    const pass = req.body['password'];
 
-    if (validateUser(login, pass) == false) {
-        res.json({
-            "status": "error",
-            "details": "incorrect login."
-        });
-        return;
-    }
-
-    res.send({"status": "success"});
+    validateUser(login, pass).then(v => {
+        if (v == false) {
+            res.json({
+                "status": "error",
+                "details": "incorrect login."
+            });
+        } else {
+            res.json({
+                "status": "success",
+                "username": login,
+                "token": v
+            });
+        }
+    }).catch(err => {
+        console.log(err)
+    })
 });
 
 module.exports = router;

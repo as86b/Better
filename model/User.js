@@ -10,10 +10,12 @@ const DirectMessage = require('./DirectMessage');
 
 const UserSchema = mongoose.Schema({
     user_id: mongoose.Schema.Types.ObjectId,                    // primary key
-    username: {type: String, unique: true},                                           
+    username: {type: String, unique: true},
     salt: String,
-    email: {type: String, unique: true}, 
-    profilePicture: String,
+    passHash: String,
+    email: {type: String, unique: true},
+    // NOTE this default string may need to be updated whenever we migrate databases
+    profilePicture: {type: String, default: '01b3da157b7723542ae495876e70b95c.png'},
     bio: String,
     isVerified: Boolean,
     // NOTE look into populate filling these arrays
@@ -30,3 +32,20 @@ const UserSchema = mongoose.Schema({
 });
 
 const User = module.exports = mongoose.model('User', UserSchema);
+
+module.exports.updateProfilePicture = (username, filename, callback) => {
+    console.log(username + ' changing profile pic: ' + filename);
+    User.updateOne(
+      {username: username},
+      {$set: {profilePicture: filename}},
+      {multi: false},
+      callback
+    );
+};
+
+module.exports.getProfilePicture = (username, callback) => {
+    User.findOne(
+        {username: username},
+        callback
+    ).select('profilePicture');
+}

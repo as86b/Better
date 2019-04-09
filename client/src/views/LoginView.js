@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { endpoint } from '../App';
 import axios from 'axios';
 
@@ -16,7 +16,8 @@ class LoginView extends Component {
         this.state = {
             loginVal: '',
             passwordVal: '',
-            errorText: ''
+            errorText: '',
+            redirect: false 
         };
 
         this.handleLoginClick = this.handleLoginClick.bind(this);
@@ -69,9 +70,9 @@ class LoginView extends Component {
             // send the login attempt somewhere
             axios.post(`${endpoint}/api/login/`, loginAttempt)
             .then((res) => {
-                // TODO check if this is successful 
                 if (res.data.status === "success") {
-                    console.log(res.data);
+                    this.props.loginUser(res.data.username, res.data.token);
+                    this.setState({ redirect: true });
                 }
                 else {
                     this.setState({ errorText: res.data.details });
@@ -96,7 +97,9 @@ class LoginView extends Component {
     }
 
     render() {
-        console.log('endpoint: ' + endpoint);
+        if (this.state.redirect) {
+            return(<Redirect to="/dashboard"></Redirect>);
+        }
         // display an error if one is set  
         let errorMessage;
         if (this.state.errorText === '') {

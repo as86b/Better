@@ -5,10 +5,9 @@ client/node_modules
 /node_modules
 /.pnp
 .pnp.js
-package-lock.json
 
-# database config
-model/config.json
+# auth config
+auth.json
 
 # testing
 /coverage

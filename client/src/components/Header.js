@@ -17,6 +17,7 @@ import '../App.css';
 
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
+import { endpoint } from '../App';
 
 class Header extends React.Component {
     constructor(props) {
@@ -24,7 +25,8 @@ class Header extends React.Component {
 
         //Intialize state to landing page
         this.state = {
-            path: '/'
+            path: '/',
+            username: 'default'
         }
         
         this.pageBodyLoader = this.pageBodyLoader.bind(this);
@@ -32,9 +34,8 @@ class Header extends React.Component {
 
     componentDidMount() {
         let newPath = this.props.location.pathname;
-        console.log(newPath);
+        // FIXME need to retrieve the user's username somehow 
         this.setState({ path: newPath });
-        console.log(this.state.path);
     }
     
     /*{ Checking for dark theme? }*/
@@ -63,6 +64,7 @@ class Header extends React.Component {
                 break;
 
             case '/dashboard':
+            case '/createPost':
                 //If logged in and looking at feed for instance
                 headPart = (
                     <ul className="right">
@@ -85,7 +87,7 @@ class Header extends React.Component {
                         </li>
                         <li>
                             <Link to="/">
-                                <img className="headerProfilePic z-depth-2" src={profile} alt="Profile"></img>
+                                <img className="headerProfilePic z-depth-2" src={`${endpoint}/api/users/getProfilePicture/${this.state.username}`} alt="Profile"></img>
                             </Link>
                         </li>
                     </ul>

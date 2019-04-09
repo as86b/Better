@@ -26,6 +26,7 @@ import RegisterView from './views/RegisterView';
 import LandingView from './views/LandingView';
 import AboutView from './views/AboutView';
 import DashboardView from './views/DashboardView';
+import CreatePostView from './views/CreatePostView';
 
 // component imports 
 import Header from './components/Header';
@@ -40,9 +41,23 @@ import ScrollToTop from './components/ScrollToTop';
 // const socket = socketIOClient(endpoint);
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.loginUser = this.loginUser.bind(this);
+  }
 
   componentDidMount() {
     window.scrollTo(0, 0)
+  }
+
+  /*
+    FIXME FIXME FIXME
+    This needs to be stored in localstorage instead of just the state 
+    when it is stored in state the data gets lost on a refresh 
+  */
+  loginUser(username, token) {
+    console.log('logging in ' + username);
   }
 
   render() {
@@ -55,9 +70,11 @@ class App extends Component {
               <Switch>
                   <Route exact path="/" component={LandingView}></Route>
                   <Route path="/dashboard" component={DashboardView}></Route>
-                  <Route path="/login" component={LoginView}></Route>
-                  <Route path="/register" component={RegisterView}></Route>
+                  {/* have to use this long obscene method to pass props in router */}
+                  <Route path="/login" render={(props) => <LoginView {...props} loginUser={this.loginUser}/>}></Route>
+                  <Route path="/register" render={(props) => <RegisterView {...props} loginUser={this.loginUser}/>}></Route>
                   <Route path="/about" component={AboutView}></Route>
+                  <Route path="/createpost" component={CreatePostView}></Route>
                   {/* default case - TODO possibly make a 404 error for here */}
                   <Route component={LandingView}></Route>
               </Switch>

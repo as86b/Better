@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { endpoint } from '../App';
 
@@ -20,7 +20,8 @@ class RegisterView extends Component {
             passwordVal: '',
             confirmPasswordVal: '',
             file: null, 
-            errorText: ''
+            errorText: '',
+            redirect: false
         };
         
         this.handleRegisterClick = this.handleRegisterClick.bind(this);
@@ -74,8 +75,6 @@ class RegisterView extends Component {
             password: this.state.passwordVal,
             confirmPassword: this.state.confirmPasswordVal
         }
-        console.log('file: ' + this.state.file.name);
-        // FIXME testing file upload 
         // validate the registration information
         if (this.validateRegisterAttempt(registerAttempt) && this.state.errorText === '') {
             // registerAttempt has been validated
@@ -92,17 +91,46 @@ class RegisterView extends Component {
                         fd.append('file', this.state.file, this.state.file.name);
                         axios.post(`${endpoint}/api/upload/`, fd)
                         .then((res) => {
-                            if (res.data.status === false) {
-                                console.log(res.data.msg);
+                            if (res.data.status === "error") {
+                                console.log(res.data.details);
                             }
                             else {
-                                // should update the user's profile picture now 
+                                // add the profile picture to the user's account 
+                                let userData = {
+                                    "username": registerAttempt.username, 
+                                    "filename": res.data.file.filename
+                                }
+                                axios.post(`${endpoint}/api/users/changeProfilePicture`, userData)
+                                .then((res) => {
+                                    if (res.data.status === "success") {
+                                        console.log(res.data.user);
+                                    }
+                                    else {
+                                        console.log(res.data.details); 
+                                    }
+                                });
                             }
                         },
                         (err) => {
                             console.log(err);
                         });
                     }
+                    // sign the user in and redirect 
+                    let loginAttempt = { login: registerAttempt.username, password: registerAttempt.password };
+                    console.log(loginAttempt);
+                    axios.post(`${endpoint}/api/login/`, loginAttempt)
+                    .then((res) => {
+                        if (res.data.status === "success") {
+                            this.props.loginUser(res.data.username, res.data.token);
+                            this.setState({ redirect: true });
+                        }
+                        else {
+                            this.setState({ errorText: res.data.details });
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
                 }
                 else {
                     this.setState({ errorText: res.data.details });
@@ -113,6 +141,7 @@ class RegisterView extends Component {
             });
         }
         // reset registration form
+        // TODO reset usernameVal, removed for testing 
         this.setState({ emailVal: '', usernameVal: '', passwordVal: '', confirmPasswordVal: '' });
     }
 
@@ -142,6 +171,10 @@ class RegisterView extends Component {
     }
 
     render() {
+        // FIXME better way to prevent access than checking localstorage?
+        if (this.state.redirect) {
+            return(<Redirect to="/dashboard"></Redirect>);
+        }
         // display an error if one is set  
         let errorMessage;
         if (this.state.errorText === '') {

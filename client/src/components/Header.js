@@ -63,6 +63,7 @@ class Header extends React.Component {
                 break;
 
             case '/dashboard':
+            case '/createPost':
                 //If logged in and looking at feed for instance
                 headPart = (
                     <ul className="right">

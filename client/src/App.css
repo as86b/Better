@@ -137,6 +137,10 @@ nav ul a {
     height: 18vh;
 }
 
+.createpost-profile-pic {
+    margin-top: 3%;
+}
+
 .post-profile-pic {
     margin-top: 1%;
 }
@@ -260,3 +264,71 @@ nav ul a {
 
 }
 
+/* Edit for @media */
+/* Find color palette */
+.postButton {
+    background-color: #6BDBBF;
+    width: 6em;
+    height: 3em;
+    border-radius: 20%;
+    margin-top: 15%;
+    font-size: 1rem;
+    color: white;
+}
+
+.postButton:hover {
+    background-color: #27AA89;
+    transition: .7s;
+}
+
+.postCheckBox {
+    color: #27AA89;
+    float: right;
+    margin-right: 2rem;
+}
+
+#postPhrase {
+    color: #27AA89;
+}
+
+::placeholder {
+    color: white;
+}
+
+#createPostBox {
+    background-color: #5184C7;
+    height: 45vh;
+    width: 100%;
+    color: white;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding: 2%;
+}
+
+/* Make it a class so an ID can overwrite it as needed? */
+.fileUpload {
+    display: inline-block;
+}
+
+.filterBarButtons {
+    margin-top: 6%;
+}
+
+.betterButton {
+    background-color: #46C6A5;
+}
+
+.betterButton:hover {
+    background-color: #27AA89;
+}
+
+.fileInputField {
+    display: none;
+}
+
+.tagField {
+    padding-bottom: 5%;
+    color: black;
+}
+
+/* custom alterations to materialize framework */

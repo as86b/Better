@@ -12,4 +12,18 @@ An app to make you feel Better
 - Setup MongoDB
   1. Install mongoDB by following [these instructions](https://docs.mongodb.com/manual/administration/install-community/)
   2. Run `sudo mongod` to start a mongo server on localhost
+- Create `auth.json`
+  1. Create a file in the root folder named `auth.json`
+  2. Put the following text into the json file and replace the all caps placeholders with the correct information
 
+```
+{
+  "db": {
+    "ipaddr": "DATABASE_IP_HERE",
+    "port": DATABASE_PORT_HERE,
+    "user": "DATABASE_USERNAME_HERE",
+    "pass": "DATABASE_PASSWORD_HERE"
+  },
+  "jwt_key": "JWT_SECRET_KEY_HERE"
+}
+```

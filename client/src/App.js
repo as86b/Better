@@ -43,27 +43,16 @@ import ScrollToTop from './components/ScrollToTop';
 class App extends Component {
   constructor(props) {
     super(props);
-
-    this.loginUser = this.loginUser.bind(this);
   }
 
   componentDidMount() {
     window.scrollTo(0, 0)
   }
 
-  /*
-    FIXME FIXME FIXME
-    This needs to be stored in localstorage instead of just the state 
-    when it is stored in state the data gets lost on a refresh 
-  */
-  loginUser(username, token) {
-    console.log('logging in ' + username);
-  }
-
   render() {
     return (
       <div className="container-fluid">
-         <Header></Header>
+         <Header user={loadUser()}></Header>
 
           <ScrollToTop>
             <div className="switchStyle">
@@ -90,3 +79,24 @@ class App extends Component {
 export default App;
 // manage the endpoint of the server for api requests
 export const endpoint = 'http://localhost:4000'
+
+export const loginUser = (user, token) => {
+  console.log('logging in ' + user.username);
+  localStorage.setItem('user', JSON.stringify(user));
+  localStorage.setItem('token', JSON.stringify(token));
+}
+
+export const logoutUser = () => {
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
+}
+
+export const loadUser = () => {
+  let user = JSON.parse(localStorage.getItem('user'));
+  return user;
+}
+
+export const loadToken = () => {
+  let token = JSON.parse(localStorage.getItem('token'));
+  return token;
+}

@@ -9,7 +9,7 @@ const Post = require('../../model/Post.js');
 router.post('/', (req,res) => {
     uid = req.body['user_id'];
     token = req.body['token'];
-    if (!checkToken(uid, token)) {
+    if (!Tokens.checkToken(uid, token)) {
     	res.json({
             "status": "error",
             "details": "You are not authorized to make that request."
@@ -24,7 +24,6 @@ router.post('/', (req,res) => {
     	anon = true;
 
     var post = new Post({
-        user_id: uid,
         title: title,
         body: body,
         supports: 0,

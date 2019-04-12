@@ -8,9 +8,30 @@ import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 
 import Post from '../components/Post';
+import ProfileBioPopup from '../components/ProfileBioPopup';
 const profilePicture = require('../assets/img/blank-profile-picture.png');
 
 class ProfileView extends Component {
+        
+    constructor() {
+        super();
+        this.state = {
+            showPopup: false
+        }   
+    };
+
+    togglePopup() {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
+    }
+
+    handleUpdateBio(e) {
+        e.preventDefault();
+        
+    }
+
+
     render() {
         return(
             <div className="row">
@@ -21,11 +42,13 @@ class ProfileView extends Component {
 
                     <div className="card center profileBioCard"> 
                         <div className="cardTop">
-                            <a className="bio-button btn-floating waves-effect waves-light right"><i className="material-icons">group</i></a>
-                            <a className="bio-button btn-floating waves-effect waves-light right"><i className="material-icons">edit</i></a>
+                            <a href="#" className="bio-button btn-floating waves-effect waves-light right" ><i className="material-icons">group</i></a>
+                            <a className="bio-button btn-floating waves-effect waves-light right" onClick={this.togglePopup.bind(this)}><i className="material-icons">edit</i></a>
+                            {this.state.showPopup ? 
+                                <ProfileBioPopup closePopup={this.togglePopup.bind(this)} /> : null
+                            }
                             
-                                <p class="card-title center" id="profileUsername">UserName</p>
-                            
+                            <p class="card-title center" id="profileUsername">UserName</p>
                         </div>
 
                         <div class="card-content" id="bioContent">
@@ -41,3 +64,4 @@ class ProfileView extends Component {
 }
 
 export default ProfileView;
+

@@ -37,7 +37,7 @@ class ProfileView extends Component {
             <div className="row">
                 <div className="col s12 m8 push-m2">
                     <div className="center" id="profile-picture">
-                        <img className="responsive-img circle z-depth-2" src={profilePicture} alt="Profile" />
+                        <img className="responsive-img circle z-depth-2 profile-picture" src={profilePicture} alt="Profile" />
                     </div>
 
                     <div className="card center profileBioCard"> 

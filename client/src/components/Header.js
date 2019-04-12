@@ -87,7 +87,7 @@ class Header extends React.Component {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/">
+                            <Link to="/profile">
                                 <img className="headerProfilePic z-depth-2" src={`${endpoint}/api/users/getProfilePicture/${this.state.username}`} alt="Profile"></img>
                             </Link>
                         </li>

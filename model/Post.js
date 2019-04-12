@@ -10,7 +10,6 @@ const Reply = require('./Reply');
 const Tag = require('./Tag');
 
 const PostSchema = mongoose.Schema({
-    post_id: mongoose.Schema.Types.ObjectId,                            // primary key
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },  
     title: String,                                                                                               
     body: String,

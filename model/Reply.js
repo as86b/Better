@@ -9,7 +9,6 @@ const User = require('./User');
 const Post = require('./Post');
 
 const ReplySchema = mongoose.Schema({
-    reply_id: mongoose.Schema.Types.ObjectId,                       // primary key    
     post_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },                                       
     body: String,
     supports: Number,

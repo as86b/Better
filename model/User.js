@@ -9,7 +9,6 @@ const Reply = require('./Reply');
 const DirectMessage = require('./DirectMessage');
 
 const UserSchema = mongoose.Schema({
-    user_id: mongoose.Schema.Types.ObjectId,                    // primary key
     username: {type: String, unique: true},
     salt: String,
     passHash: String,

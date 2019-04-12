@@ -241,12 +241,22 @@ nav ul a {
     margin-top: 6%;
 }
 
+.betterButtonSelected {
+    background-color: #5185C7;
+}
+
+.betterButtonSelected:hover {
+    background-color: #3267AC;
+}
+
 .betterButton {
     background-color: #46C6A5;
+    color: white; 
 }
 
 .betterButton:hover {
     background-color: #27AA89;
+    color: white;
 }
 
 .fileInputField {

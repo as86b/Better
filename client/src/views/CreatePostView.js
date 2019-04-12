@@ -34,7 +34,7 @@ class CreatePostView extends Component {
         super(props);
         // TODO add support for profile pictures (and bio?)
         this.state = {
-            scope: 'global', 
+            scopeVal: 'global', 
             anon: false,
             text: '',
             tags: [],
@@ -50,7 +50,8 @@ class CreatePostView extends Component {
             this.setState({ redirect: true });
         }
         
-        this.handleSubmit = this.handleSubmit.bind(this); 
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this); 
         this.handleScopeChange = this.handleScopeChange.bind(this); 
         this.handleAnonChange = this.handleAnonChange.bind(this); 
         this.handleTextChange = this.handleTextChange.bind(this); 
@@ -63,7 +64,7 @@ class CreatePostView extends Component {
         let postValues = {
             token: this.state.token,
             user_id: this.state.user._id,
-            scope: this.state.scope,
+            scope: this.state.scopeVal,
             anon: this.state.anon,
             // TODO add a title form and rename 'text' to 'body'
             title: 'Title',
@@ -79,8 +80,12 @@ class CreatePostView extends Component {
         });
     }
 
-    handleScopeChange(e) {
-        this.setState({ scope: e.target.value });
+    handleFormSubmit(e) {
+        e.preventDefault();
+    }
+
+    handleScopeChange(scope) {
+        this.setState({ scopeVal: scope });
     }
 
     handleAnonChange(e) {
@@ -100,10 +105,6 @@ class CreatePostView extends Component {
         this.setState({ file: document.getElementById('file-input').files[0] });
     }
 
-    onComponentDidMount() {
-
-    }
-
     render() {
         if (this.state.redirect || !loadUser()) {
             return(<Redirect to="/dashboard"></Redirect>);
@@ -111,7 +112,7 @@ class CreatePostView extends Component {
         return(
             <div className="container">
                 {/* Profile name and level of post publicity?? */}
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleFormSubmit}>
 
                     <div className="row">
                         <div className="col s3 m2 push-m1 createpost-profile-pic">
@@ -120,7 +121,7 @@ class CreatePostView extends Component {
                                     <img className="responsive-img circle profile-picture" src={`${endpoint}/api/users/getProfilePicture/${this.state.user.username}`} alt="Profile" />
                                 </a>
                         </div>
-                        <FilterBar></FilterBar>
+                        <FilterBar handleScopeChange={this.handleScopeChange}></FilterBar>
                     </div>
 
                     {/* attaching image and to post anonymously or not */}

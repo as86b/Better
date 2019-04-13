@@ -27,7 +27,6 @@ router.post('/', (req,res) => {
     //get uid by username
 
     var post = new Post({
-        user_id: uid,
         title: title,
         body: body,
         supports: 0,

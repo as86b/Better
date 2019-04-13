@@ -7,7 +7,7 @@
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Link, Redirect } from 'react-router-dom';
-import { endpoint } from '../App';
+import { endpoint, loginUser, loadUser } from '../App';
 import axios from 'axios';
 
 class LoginView extends Component {
@@ -71,7 +71,8 @@ class LoginView extends Component {
             axios.post(`${endpoint}/api/login/`, loginAttempt)
             .then((res) => {
                 if (res.data.status === "success") {
-                    this.props.loginUser(res.data.username, res.data.token);
+                    let user = { _id: res.data.user.user_id, username: loginAttempt.login };
+                    loginUser(user, res.data.user.token);
                     this.setState({ redirect: true });
                 }
                 else {
@@ -97,7 +98,8 @@ class LoginView extends Component {
     }
 
     render() {
-        if (this.state.redirect) {
+        if (this.state.redirect || loadUser()) {
+            console.log('User already logged in');
             return(<Redirect to="/dashboard"></Redirect>);
         }
         // display an error if one is set  

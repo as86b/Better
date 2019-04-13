@@ -5,6 +5,32 @@ const router = express.Router();
 
 const Tokens = require('../../tokens.js');
 const Post = require('../../model/Post.js');
+const User = require('../../model/User.js');
+
+async function addPost(username, title, body, anon, res) {
+
+	//get uid from username
+    doc = await User.findOne({ username: username }).exec();
+
+	var post = new Post({
+		user_id: doc._id,
+        title: title,
+        body: body,
+        supports: 0,
+        timestamp: Date.now(),
+        isAnonymous: anon
+    })
+    post.save().then(item => {
+		res.json({"status": "success"});
+	}).catch(err => {
+		console.log('\nDatabase ERROR - ' + new Date(Date.now()).toLocaleString())
+		console.log(err)
+		res.json({
+			"status": "error",
+			"details": "There was an error saving to the database."
+		});
+	});
+}
 
 router.post('/', (req,res) => {
     token = req.body['token'];
@@ -24,25 +50,7 @@ router.post('/', (req,res) => {
     if (req.body['anon'])
     	anon = true;
 
-    //get uid by username
-
-    var post = new Post({
-        title: title,
-        body: body,
-        supports: 0,
-        timestamp: Date.now(),
-        isAnonymous: anon
-    })
-    post.save().then(item => {
-		res.json({"status": "success"});
-	}).catch(err => {
-		console.log('\nDatabase ERROR - ' + new Date(Date.now()).toLocaleString())
-		console.log(err)
-		res.json({
-			"status": "error",
-			"details": "There was an error saving to the database."
-		});
-	});
+    addPost(username, title, body, anon, res);
 });
 
 module.exports = router;

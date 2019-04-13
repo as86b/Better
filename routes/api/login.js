@@ -43,7 +43,6 @@ router.post('/', function(req, res) {
                 "details": "incorrect login."
             });
         } else {
-            console.log(v.token);
             res.json({
                 "status": "success",
                 "token": v

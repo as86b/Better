@@ -7,21 +7,24 @@ const Tokens = require('../../tokens.js');
 const Post = require('../../model/Post.js');
 
 router.post('/', (req,res) => {
-    uid = req.body['user_id'];
     token = req.body['token'];
-    if (!checkToken(uid, token)) {
+    t = Tokens.checkToken(token);
+    if (!t) {
     	res.json({
             "status": "error",
             "details": "You are not authorized to make that request."
         });
         return;
     }
+    username = t.username;
 
     title = req.body['title'];
     body = req.body['body'];
     anon = false;
     if (req.body['anon'])
     	anon = true;
+
+    //get uid by username
 
     var post = new Post({
         user_id: uid,

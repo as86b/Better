@@ -15,37 +15,18 @@ function checkLoginFormat(u, p, e) {
     );
 }
 
-function isUsernameTaken(user) {
-    // TODO check database for username
-    return false;
-}
+async function registerUser(uname, pass, email, res) {
+    u = await User.findOne({ username: uname }).exec();
+    e = await User.findOne({ email: email }).exec();
 
-function isEmailTaken(email) {
-    // TODO check database for email
-    return false;
-}
-
-router.post('/', function(req, res) {
-    uname = req.body['username'];
-    pass = req.body['password'];
-    email = req.body['email'];
-
-    if (checkLoginFormat(uname, pass, email) == false) {
-        res.json({
-            "status": "error",
-            "details": "There was a problem with your format."
-        });
-        return;
-    }
-
-    if ( isUsernameTaken(uname) ) {
+    if (u) {
         res.json({
             "status": "error",
             "details": "That username is already taken."
         });
         return;
     }
-    if ( isEmailTaken(email) ) {
+    if (e) {
         res.json({
             "status": "error",
             "details": "That email is already taken."
@@ -62,16 +43,31 @@ router.post('/', function(req, res) {
         salt: s
     })
     user.save().then(item => {
-		res.json({"status": "success"});
-	}).catch(err => {
-		console.log('\nDatabase ERROR - ' + new Date(Date.now()).toLocaleString())
-		console.log(err)
-		res.json({
-			"status": "error",
-			"details": "There was an error saving to the database."
-		});
-	});
+        res.json({"status": "success"});
+    }).catch(err => {
+        console.log('\nDatabase ERROR - ' + new Date(Date.now()).toLocaleString())
+        console.log(err)
+        res.json({
+            "status": "error",
+            "details": "There was an error saving to the database."
+        });
+    });
+}
 
+router.post('/', function(req, res) {
+    uname = req.body['username'];
+    pass = req.body['password'];
+    email = req.body['email'];
+
+    if (checkLoginFormat(uname, pass, email) == false) {
+        res.json({
+            "status": "error",
+            "details": "There was a problem with your format."
+        });
+        return;
+    }
+
+    registerUser(uname, pass, email, res);
 });
 
 module.exports = router;

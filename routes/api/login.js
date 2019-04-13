@@ -46,7 +46,7 @@ router.post('/', function(req, res) {
             console.log(v.token);
             res.json({
                 "status": "success",
-                "user": v
+                "token": v
             });
         }
     }).catch(err => {

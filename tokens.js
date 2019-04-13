@@ -41,6 +41,8 @@ function checkToken(token) {
 		return false;
 	}
 
+	if (!tokenDict[data.username])
+		return false;
 	if (tokenDict[data.username][data.key])
 		return data;
 

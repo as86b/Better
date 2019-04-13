@@ -57,4 +57,10 @@ router.post('/', (req,res) => {
     addPost(username, title, body, scope, anon, res);
 });
 
+router.get('/', (req,res) => {
+	res.json({
+		"status": "WIP"
+	});
+});
+
 module.exports = router;

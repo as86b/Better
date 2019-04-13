@@ -13,6 +13,7 @@ const PostSchema = mongoose.Schema({
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },  
     title: String,                                                                                               
     body: String,
+    scope: String,
     replies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Reply' }],
     supports: Number,
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],

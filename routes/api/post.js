@@ -7,7 +7,7 @@ const Tokens = require('../../tokens.js');
 const Post = require('../../model/Post.js');
 const User = require('../../model/User.js');
 
-async function addPost(username, title, body, anon, res) {
+async function addPost(username, title, body, scope, anon, res) {
 
 	//get uid from username
     doc = await User.findOne({ username: username }).exec();
@@ -16,6 +16,7 @@ async function addPost(username, title, body, anon, res) {
 		user_id: doc._id,
         title: title,
         body: body,
+        scope: scope,
         supports: 0,
         timestamp: Date.now(),
         isAnonymous: anon
@@ -33,6 +34,8 @@ async function addPost(username, title, body, anon, res) {
 }
 
 router.post('/', (req,res) => {
+	// !! NEED TO CHECK FOR XSS, SQLi, & GENERAL VERIFICATION !!
+
     token = req.body['token'];
     t = Tokens.checkToken(token);
     if (!t) {
@@ -46,11 +49,12 @@ router.post('/', (req,res) => {
 
     title = req.body['title'];
     body = req.body['body'];
+    scope = req.body['scope'];
     anon = false;
     if (req.body['anon'])
     	anon = true;
 
-    addPost(username, title, body, anon, res);
+    addPost(username, title, body, scope, anon, res);
 });
 
 module.exports = router;

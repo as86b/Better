@@ -9,7 +9,8 @@ const User = require('./User');
 const Post = require('./Post');
 
 const ReplySchema = mongoose.Schema({
-    post_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },                                       
+    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    post_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
     body: String,
     supports: Number,
     timestamp: String,

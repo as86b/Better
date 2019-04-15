@@ -33,6 +33,28 @@ async function addPost(username, title, body, scope, anon, res) {
 	});
 }
 
+async function retrievePost(postID, res) {
+
+    Post.findOne({ _id: postID }).exec().then( item => {
+        if (item.isAnonymous) {
+            u = "Anonymous"
+        } else {
+            doc = await User.findOne({ _id: item.user_id }).exec();
+            u = doc.username
+        }
+
+        res.json({
+            "status": "success",
+            "postID": item._id,
+            "username": u,
+            "title": item.title,
+            "body": item.body,
+            "timestamp": item.timestamp
+        });
+        // Need to return reply data
+    });
+}
+
 router.post('/', (req,res) => {
 	// !! NEED TO CHECK FOR XSS, SQLi, & GENERAL VERIFICATION !!
 
@@ -58,9 +80,9 @@ router.post('/', (req,res) => {
 });
 
 router.get('/', (req,res) => {
-	res.json({
-		"status": "WIP"
-	});
+	postID = req.body['postID'];
+
+    retrievePost(postID, res);
 });
 
 module.exports = router;

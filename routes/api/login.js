@@ -2,13 +2,10 @@
 
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 
 const User = require('../../model/User.js');
 const Utils = require('../../utilityFunctions.js');
-const auth = require("../../auth.json");
-
-var validTokens = {};
+const Tokens = require('../../tokens.js');
 
 async function validateUser(l, p) {
     if (l === undefined)
@@ -32,15 +29,7 @@ async function validateUser(l, p) {
     if (Utils.hashPassword(p, doc.salt) != doc.passHash)
         return false;
 
-    if (!validTokens[doc.username]) {
-        validTokens[doc.username] = jwt.sign(
-            { username: doc.username },
-            auth.jwt_key,
-            { expiresIn: '24h' }
-        );
-    }
-
-    return validTokens[doc.username];
+    return ({ user_id: doc._id, token: Tokens.addToken(doc._id) });
 }
 
 router.post('/', function(req, res) {
@@ -54,10 +43,10 @@ router.post('/', function(req, res) {
                 "details": "incorrect login."
             });
         } else {
+            console.log(v.token);
             res.json({
                 "status": "success",
-                "username": login,
-                "token": v
+                "user": v
             });
         }
     }).catch(err => {

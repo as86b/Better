@@ -1,4 +1,3 @@
-/* routes for login functions */
 
 const express = require('express');
 const mongoose = require('mongoose');

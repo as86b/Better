@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { endpoint } from '../App';
+import { endpoint, loginUser, loadUser } from '../App';
 
 class RegisterView extends Component {
     constructor(props) {
@@ -121,7 +121,8 @@ class RegisterView extends Component {
                     axios.post(`${endpoint}/api/login/`, loginAttempt)
                     .then((res) => {
                         if (res.data.status === "success") {
-                            this.props.loginUser(res.data.username, res.data.token);
+                            let user = { _id: res.data.user.user_id, username: registerAttempt.username };
+                            loginUser(user, res.data.user.token);
                             this.setState({ redirect: true });
                         }
                         else {
@@ -171,8 +172,7 @@ class RegisterView extends Component {
     }
 
     render() {
-        // FIXME better way to prevent access than checking localstorage?
-        if (this.state.redirect) {
+        if (this.state.redirect || loadUser()) {
             return(<Redirect to="/dashboard"></Redirect>);
         }
         // display an error if one is set  

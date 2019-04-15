@@ -13,12 +13,13 @@ const PostSchema = mongoose.Schema({
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },  
     title: String,                                                                                               
     body: String,
+    file: String,
     replies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Reply' }],
-    supports: Number,
+    supports: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    flags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
     timestamp: String,
-    isAnonymous: Boolean,
-    salt: String
+    isAnonymous: Boolean
 });
 
 const Post = module.exports = mongoose.model('Post', PostSchema);

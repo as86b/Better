@@ -18,6 +18,7 @@ import './App.css';
 import socketIOClient from 'socket.io-client';
 import axios from 'axios';
 import { Route, Switch } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 
 // view imports 
@@ -80,23 +81,22 @@ export default App;
 // manage the endpoint of the server for api requests
 export const endpoint = 'http://localhost:4000'
 
-export const loginUser = (user, token) => {
-  console.log('logging in ' + user.username);
-  localStorage.setItem('user', JSON.stringify(user));
-  localStorage.setItem('token', JSON.stringify(token));
+export const loginUser = (username, token) => {
+  Cookies.set('user', username, { expires: 1 });
+  localStorage.setItem('token', token);
 }
 
 export const logoutUser = () => {
-  localStorage.removeItem('user');
+  Cookies.remove('user');
   localStorage.removeItem('token');
 }
 
 export const loadUser = () => {
-  let user = JSON.parse(localStorage.getItem('user'));
+  let user = Cookies.get('user');
   return user;
 }
 
 export const loadToken = () => {
-  let token = JSON.parse(localStorage.getItem('token'));
+  let token = localStorage.getItem('token');
   return token;
 }

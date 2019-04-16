@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { endpoint, loginUser, loadUser } from '../App';
+import { endpoint, loginUser, loadToken } from '../App';
 
 class RegisterView extends Component {
     constructor(props) {
@@ -82,6 +82,7 @@ class RegisterView extends Component {
             axios.post(`${endpoint}/api/register/`, registerAttempt)
             .then((res) => {
                 if (res.data.status === "success") {
+                    loginUser(registerAttempt.username, res.data.token);
                     /*
                         user registered successfully
                         now try to upload the profile picture, if there is one 
@@ -121,8 +122,6 @@ class RegisterView extends Component {
                     axios.post(`${endpoint}/api/login/`, loginAttempt)
                     .then((res) => {
                         if (res.data.status === "success") {
-                            let user = { _id: res.data.user.user_id, username: registerAttempt.username };
-                            loginUser(user, res.data.user.token);
                             this.setState({ redirect: true });
                         }
                         else {
@@ -172,7 +171,7 @@ class RegisterView extends Component {
     }
 
     render() {
-        if (this.state.redirect || loadUser()) {
+        if (this.state.redirect || loadToken()) {
             return(<Redirect to="/dashboard"></Redirect>);
         }
         // display an error if one is set  

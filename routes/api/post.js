@@ -38,11 +38,34 @@ async function addPost(username, title, body, scope, anon, res) {
 	});
 }
 
+async function retrievePost(postID, res) {
+
+    Post.findOne({ _id: postID }).exec().then( item => {
+        if (item.isAnonymous) {
+            u = "Anonymous"
+        } else {
+            // TODO u = item.username
+            // TODO declare all variables......
+            u = "Username"
+        }
+
+        res.json({
+            "status": "success",
+            "postID": item._id,
+            "username": u,
+            "title": item.title,
+            "body": item.body,
+            "timestamp": item.timestamp
+        });
+        // Need to return reply data
+    });
+}
+
 router.post('/', (req,res) => {
 	// !! NEED TO CHECK FOR XSS, SQLi, & GENERAL VERIFICATION !!
-
-    token = req.body['token'];
+    token = JSON.parse(req.body['token']);
     t = Tokens.checkToken(token);
+
     if (!t) {
     	res.json({
             "status": "error",
@@ -60,6 +83,12 @@ router.post('/', (req,res) => {
     	anon = true;
 
     addPost(username, title, body, scope, anon, res);
+});
+
+router.get('/', (req,res) => {
+	postID = req.body['postID'];
+
+    retrievePost(postID, res);
 });
 
 module.exports = router;

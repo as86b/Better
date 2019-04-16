@@ -55,7 +55,6 @@ class App extends Component {
          <Header user={loadUser()}></Header>
 
           <ScrollToTop>
-            <img src={`${endpoint}/api/upload/image/01b3da157b7723542ae495876e70b95c.png`} alt="image test" ></img>
             <div className="switchStyle">
               <Switch>
                   <Route exact path="/" component={LandingView}></Route>

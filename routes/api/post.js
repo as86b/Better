@@ -17,6 +17,7 @@ router.post('/', (req,res) => {
         return;
     }
 
+    username = req.body['username'];
     title = req.body['title'];
     body = req.body['body'];
     scope = req.body['scope'];
@@ -25,11 +26,16 @@ router.post('/', (req,res) => {
     	anon = true;
 
     var post = new Post({
+        user_id: uid, 
+        username: username, 
         scope: scope,
         title: title,
         body: body,
+        file: '',
+        replies: [],
         supports: [],
         flags: [],
+        tags: [],
         timestamp: Date.now(),
         isAnonymous: anon
     })

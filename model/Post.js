@@ -12,6 +12,7 @@ const Tag = require('./Tag');
 
 const PostSchema = mongoose.Schema({
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },  
+    username: String, 
     title: String,                                                                                               
     body: String,
     scope: String,

@@ -41,7 +41,7 @@ class CreatePostView extends Component {
             file: null, 
             errorText: '',
             redirect: false,
-            user: loadUser(),
+            username: loadUser(),
             token: loadToken(),
         };
 
@@ -63,7 +63,7 @@ class CreatePostView extends Component {
         e.preventDefault(); 
         let postValues = {
             token: this.state.token,
-            user_id: this.state.user._id,
+            username: this.state.username,
             scope: this.state.scopeVal,
             anon: this.state.anon,
             // TODO add a title form and rename 'text' to 'body'
@@ -89,7 +89,6 @@ class CreatePostView extends Component {
     }
 
     handleAnonChange(e) {
-        console.log(e.target.value);
         this.setState({ anon: e.target.checked });
     }
 
@@ -106,7 +105,7 @@ class CreatePostView extends Component {
     }
 
     render() {
-        if (this.state.redirect || !loadUser()) {
+        if (this.state.redirect || !loadToken()) {
             return(<Redirect to="/dashboard"></Redirect>);
         }
         return(
@@ -118,7 +117,7 @@ class CreatePostView extends Component {
                         <div className="col s3 m2 push-m1 createpost-profile-pic">
                                 {/*profile pic*/}
                                 <a href="#"> {/* profile page link */ }
-                                    <img className="responsive-img circle profile-picture" src={`${endpoint}/api/users/getProfilePicture/${this.state.user.username}`} alt="Profile" />
+                                    <img className="responsive-img circle profile-picture" src={`${endpoint}/api/users/getProfilePicture/${this.state.username}`} alt="Profile" />
                                 </a>
                         </div>
                         <FilterBar handleScopeChange={this.handleScopeChange}></FilterBar>

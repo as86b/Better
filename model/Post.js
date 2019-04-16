@@ -16,6 +16,7 @@ const PostSchema = mongoose.Schema({
     body: String,
     scope: String,
     file: String,
+    scope: String,
     replies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Reply' }],
     supports: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     flags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

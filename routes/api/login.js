@@ -29,7 +29,7 @@ async function validateUser(l, p) {
     if (Utils.hashPassword(p, doc.salt) != doc.passHash)
         return false;
 
-    return ({ user_id: doc._id, token: Tokens.addToken(doc._id) });
+    return Tokens.addToken(doc.username);
 }
 
 router.post('/', function(req, res) {
@@ -43,10 +43,9 @@ router.post('/', function(req, res) {
                 "details": "incorrect login."
             });
         } else {
-            console.log(v.token);
             res.json({
                 "status": "success",
-                "user": v
+                "token": v
             });
         }
     }).catch(err => {

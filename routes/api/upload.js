@@ -14,6 +14,7 @@ db.once('open', () => {
 });
 
 // handle single file uploads
+// TODO handle authentication with middleware...
 router.post('/', database.upload.single('file'), (req, res) => {
   console.log('file: ' + req.file);
   res.json({

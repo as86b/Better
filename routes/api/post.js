@@ -19,14 +19,17 @@ router.post('/', (req,res) => {
 
     title = req.body['title'];
     body = req.body['body'];
+    scope = req.body['scope'];
     anon = false;
     if (req.body['anon'])
     	anon = true;
 
     var post = new Post({
+        scope: scope,
         title: title,
         body: body,
-        supports: 0,
+        supports: [],
+        flags: [],
         timestamp: Date.now(),
         isAnonymous: anon
     })

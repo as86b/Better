@@ -18,6 +18,7 @@ import './App.css';
 import socketIOClient from 'socket.io-client';
 import axios from 'axios';
 import { Route, Switch } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 
 // view imports 
@@ -82,17 +83,17 @@ export const endpoint = 'http://localhost:4000'
 
 export const loginUser = (user, token) => {
   console.log('logging in ' + user.username);
-  localStorage.setItem('user', JSON.stringify(user));
+  Cookies.set('user', JSON.stringify(user), { expires: 1 });
   localStorage.setItem('token', JSON.stringify(token));
 }
 
 export const logoutUser = () => {
-  localStorage.removeItem('user');
+  Cookies.remove('user');
   localStorage.removeItem('token');
 }
 
 export const loadUser = () => {
-  let user = JSON.parse(localStorage.getItem('user'));
+  let user = JSON.parse(Cookies.get('user'));
   return user;
 }
 

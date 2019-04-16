@@ -17,6 +17,7 @@ const profilePicture = require('../assets/img/blank-profile-picture.png');
 
 class Post extends Component {
     render() {
+        console.log(this.props.post);
         return(
             <div className="row">
                 <div className="col s12 m8 push-m2 post z-depth-3">

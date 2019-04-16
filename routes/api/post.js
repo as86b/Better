@@ -63,7 +63,7 @@ async function retrievePost(postID, res) {
 
 router.post('/', (req,res) => {
 	// !! NEED TO CHECK FOR XSS, SQLi, & GENERAL VERIFICATION !!
-    token = JSON.parse(req.body['token']);
+    token = req.body['token'];
     t = Tokens.checkToken(token);
 
     if (!t) {

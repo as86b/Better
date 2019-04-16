@@ -17,10 +17,12 @@ db.once('open', () => {
 
 // handle single file uploads
 router.post('/changeProfilePicture', (req, res) => {
-    token = JSON.parse(req.body['token']);
+    token = req.body['token'];
+    console.log('checking token: ' + token);
     t = Tokens.checkToken(token);
     
     if (!t) {
+        console.log("Can't update profile picture");
     	res.json({
             "status": "error",
             "details": "You are not authorized to make that request."

@@ -36,14 +36,14 @@ class DashboardView extends Component {
     }
 
     render() {
-        let posts;
+        let posts = [];
         if (this.state.feed) {
              for (var i = 0; i < this.state.feed.length; i++) {
                 posts.push(<Post key={(i+1)*this.state.page} post={this.state.feed[i]}></Post>);
              }
         }
         else {
-            posts = (<h3>No posts to display!</h3>);
+            posts = (<h3 className="center">No posts to display!</h3>);
         }
         return(
             <div className="row">

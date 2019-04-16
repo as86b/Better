@@ -77,6 +77,9 @@ class CreatePostView extends Component {
             // FIXME getting invalid unauthorized 
             console.log(res);
             // upload any images after post is created
+            if (res.data.status == "success") {
+                this.setState({ redirect: true });
+            }
         });
     }
 

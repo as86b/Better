@@ -1,37 +1,54 @@
 
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 const auth = require("./auth.json");
 
-var validTokens = {};
+var tokenDict = {};
 
-function addToken(userID) {
-	if (!validTokens[userID]) {
-        validTokens[userID] = jwt.sign(
-            { user_id: userID },
-            auth.jwt_key,
-            { expiresIn: '24h' }
-        );
-    }
+function addToken(username) {
+	key = crypto.randomBytes(128).toString('base64');
+	// Index keys by usernames, so we can easily delete all
+	// login tokens for a user, if they want to log out
+	// from all connected devices
+	if (!tokenDict[username])
+		tokenDict[username] = {};
+	tokenDict[username][key] = true;
 
-    return validTokens[userID];
+	return jwt.sign(
+        {
+        	key: key,
+        	username: username
+        },
+        auth.jwt_key,
+        { expiresIn: '24h' }
+    );
 }
 
-function revokeToken(userID) {
-	validTokens[userID] = null;
+function revokeToken(username, key) {
+	if (key == null)
+		validTokens[username] = {};
+	else
+		validTokens[username][key] = false;
 
 	return true;
 }
 
-function checkToken(userID, token) {
-	if (token == null)
-		return false
+function checkToken(token) {
+	try {
+		data = jwt.verify(token, auth.jwt_key);
+	} catch(err) {
+		return false;
+	}
 
-	if (validTokens[userID] == token)
-		return true;
+	if (!tokenDict[data.username])
+		return false;
+	if (tokenDict[data.username][data.key])
+		return data;
 
 	return false;
 }
+
 
 module.exports = {
 	addToken,

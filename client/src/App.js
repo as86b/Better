@@ -83,7 +83,7 @@ export const endpoint = 'http://localhost:4000'
 
 export const loginUser = (username, token) => {
   Cookies.set('user', username, { expires: 1 });
-  localStorage.setItem('token', JSON.stringify(token));
+  localStorage.setItem('token', token);
 }
 
 export const logoutUser = () => {

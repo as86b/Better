@@ -68,11 +68,9 @@ class FilterBar extends React.Component  {
                                     className={this.state.buttons.global === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
                                     onClick={() => this.handleScopeClick('global')}>Global</button>
                             <button id="followers" 
-                                    className="waves-effect waves-light btn betterButton" 
                                     className={this.state.buttons.followers === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
                                     onClick={() => this.handleScopeClick('followers')}>Followers</button>
                             <button id="private" 
-                                    className="waves-effect waves-light btn betterButton" 
                                     className={this.state.buttons.private === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
                                     onClick={() => this.handleScopeClick('private')}>Just Me</button>
                         </div>

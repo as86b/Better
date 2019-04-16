@@ -17,7 +17,10 @@ async function addPost(username, title, body, scope, anon, res) {
         title: title,
         body: body,
         scope: scope,
-        supports: 0,
+        replies: [],
+        supports: [],
+        flags: [],
+        file: '',
         timestamp: Date.now(),
         isAnonymous: anon
     })
@@ -39,8 +42,9 @@ async function retrievePost(postID, res) {
         if (item.isAnonymous) {
             u = "Anonymous"
         } else {
-            doc = await User.findOne({ _id: item.user_id }).exec();
-            u = doc.username
+            // TODO u = item.username
+            // TODO declare all variables......
+            u = "Username"
         }
 
         res.json({
@@ -57,9 +61,9 @@ async function retrievePost(postID, res) {
 
 router.post('/', (req,res) => {
 	// !! NEED TO CHECK FOR XSS, SQLi, & GENERAL VERIFICATION !!
-
-    token = req.body['token'];
+    token = JSON.parse(req.body['token']);
     t = Tokens.checkToken(token);
+
     if (!t) {
     	res.json({
             "status": "error",

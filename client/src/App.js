@@ -81,9 +81,8 @@ export default App;
 // manage the endpoint of the server for api requests
 export const endpoint = 'http://localhost:4000'
 
-export const loginUser = (user, token) => {
-  console.log('logging in ' + user.username);
-  Cookies.set('user', JSON.stringify(user), { expires: 1 });
+export const loginUser = (username, token) => {
+  Cookies.set('user', username, { expires: 1 });
   localStorage.setItem('token', JSON.stringify(token));
 }
 
@@ -93,11 +92,11 @@ export const logoutUser = () => {
 }
 
 export const loadUser = () => {
-  let user = JSON.parse(Cookies.get('user'));
+  let user = Cookies.get('user');
   return user;
 }
 
 export const loadToken = () => {
-  let token = JSON.parse(localStorage.getItem('token'));
+  let token = localStorage.getItem('token');
   return token;
 }

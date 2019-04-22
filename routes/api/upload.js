@@ -2,6 +2,16 @@
 const express = require('express');
 const router = express.Router();
 const database = require('../../model/database.js');
+const mongoose = require('mongoose');
+const Grid = require('gridfs-stream');
+eval(`Grid.prototype.findOne = ${Grid.prototype.findOne.toString().replace('nextObject', 'next')}`);
+
+let db = mongoose.connection;
+let gfs;  
+db.once('open', () => {
+    gfs = Grid(db.db, mongoose.mongo);
+    gfs.collection('uploads');
+});
 
 // handle single file uploads
 router.post('/', database.upload.single('file'), (req, res) => {
@@ -14,15 +24,26 @@ router.post('/', database.upload.single('file'), (req, res) => {
 
 // handle single file requests by username 
 router.get('/image/:filename', (req, res) => {
-  console.log('fetching filename: ' + req.params['filename']);
-  let rs = database.getFile(req.params['filename']);
-  if (rs.status && rs.status === "error") {
-    res.json(rs);
-  }
-  else {
-    // we have a readstream
-    rs.pipe(res);
-  }
+  console.log(req.params['filename']);
+  gfs.findOne({ filename : req.params['filename'] }, (err, file) => {
+    if (err) {
+      console.log(err);
+    }
+    else if (file) {
+      // checking specifically for image here
+      if (file.contentType == 'image/png' || file.contentType == 'image/jpeg') {
+        res.set('Content-Type', file.mimeType);
+        const readstream = gfs.createReadStream(file.filename);
+        readstream.pipe(res);
+      }
+      else {
+          console.log('File specified is not an image');
+      }
+    }
+    else {
+      console.log('Failed to find specified file');
+    }
+  });
 });
 
 module.exports = router; 

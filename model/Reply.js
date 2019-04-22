@@ -11,10 +11,11 @@ const Post = require('./Post');
 const ReplySchema = mongoose.Schema({
     post_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },                                       
     body: String,
-    supports: Number,
+    file: String,
+    supports: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    flags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     timestamp: String,
     isAnonymous: Boolean,
-    salt: String
 });
 
 const Reply = module.exports = mongoose.model('Reply', ReplySchema);

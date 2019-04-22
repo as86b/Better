@@ -18,7 +18,7 @@ class Footer extends React.Component  {
                 <div className="container">
                     <div className="row">
                         <div className="col m2 hide-on-small-and-down">
-                            <Link to="/" className="footLinks">About</Link>
+                            <Link to="/about" className="footLinks">About</Link>
                         </div>
                         <div className="col m2 push-m6 s12">
                             <a href="https://www.suicidepreventionlifeline.org" className="footLinks">Get Help</a>

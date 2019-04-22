@@ -41,7 +41,7 @@ class Post extends Component {
                                 </div>
 
                                 <div class="show-more">
-                                    <a href="#">Show more</a>
+                                    <a href="#" className="show-more-btn">Show more</a>
                                 </div>
                             </div>
                             <div className="col s3 m2 post-support-icon">

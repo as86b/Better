@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
+import { Link, Redirect } from 'react-router-dom';
 
 import Post from '../components/Post';
 import ProfileBioPopup from '../components/ProfileBioPopup';
@@ -57,6 +58,14 @@ class ProfileView extends Component {
                     </div>
                     
                     <Post></Post>
+                </div>
+                <div class="fixed-action-btn">
+                    <Link to="/createpost">
+                        <a class="btn-floating btn-large create-post-btn">
+                            <i class="large material-icons">mode_edit</i>
+                        </a>
+                    </Link>
+                    
                 </div>
             </div>
         );

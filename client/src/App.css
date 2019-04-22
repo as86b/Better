@@ -152,13 +152,17 @@ nav ul a {
 /* TODO fix post text overflowing */
 .hide-content {
     overflow: hidden;
-    line-height: 1em;
-    height: 3em;
+    line-height: 1.5em;
+    height: 4.5em;
 }
 
 .showContent {
     line-height: 1em;
     height: auto;
+}
+
+.show-more-btn {
+    color:  #46c6a5;
 }
 
 .post-content p {
@@ -272,6 +276,11 @@ nav ul a {
     height: 40vh;
     border: 3px solid #27aa89;
 
+}
+
+.create-post-btn {
+    color: #46c6a5;
+    margin: 50px 0px;
 }
 
 /* Edit for @media */

@@ -150,11 +150,22 @@ nav ul a {
 }
 
 /* TODO fix post text overflowing */
-.post-text p {
+.hide-content {
+    overflow: hidden;
+    line-height: 1em;
+    height: 3em;
+}
+
+.showContent {
+    line-height: 1em;
+    height: auto;
+}
+
+.post-content p {
     margin-top: 1px; 
 }
 
-.post-text h5 {
+.post-content h5 {
     margin-bottom: 1px;
     margin-top: 5px; 
 }

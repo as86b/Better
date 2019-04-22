@@ -15,6 +15,12 @@ import { withRouter } from 'react-router-dom';
 const profilePicture = require('../assets/img/blank-profile-picture.png');
 
 class Post extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+
+
     render() {
         return(
             <div className="row">
@@ -27,10 +33,16 @@ class Post extends Component {
                     <div className="col s9 m10">
                         {/*post content*/}
                         <div className="row">
-                            <div className="col s9 m10 post-text">
+                            <div className="col s9 m10 post-content">
                                 {/*post text*/}
                                 <h5>Title</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at cursus ligula, sed eleifend sem. Vivamus quis arcu a ipsum placerat laoreet. Morbi mattis nibh at diam ullamcorper, nec sagittis tellus consectetur. Nulla at placerat nisi, eget sodales nisi. Quisque lacinia risus nec augue euismod, vitae malesuada magna bibendum.</p>
+                                <div className="hide-content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at cursus ligula, sed eleifend sem. Vivamus quis arcu a ipsum placerat laoreet. Morbi mattis nibh at diam ullamcorper, nec sagittis tellus consectetur. Nulla at placerat nisi, eget sodales nisi. Quisque lacinia risus nec augue euismod, vitae malesuada magna bibendum.</p>
+                                </div>
+
+                                <div class="show-more">
+                                    <a href="#">Show more</a>
+                                </div>
                             </div>
                             <div className="col s3 m2 post-support-icon">
                                 {/*support button*/}

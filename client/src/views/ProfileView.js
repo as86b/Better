@@ -56,8 +56,7 @@ class ProfileView extends Component {
                             <p>This is the user's profile bio. You can write anything you want about yourself in this box. Edit this box by using the buttons above.</p>
                         </div>
                     </div>
-                    
-                    <Post></Post>
+                    {/* TODO add posts */}
                 </div>
                 <div class="fixed-action-btn">
                     <Link to="/createpost">

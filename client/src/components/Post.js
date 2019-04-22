@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
+import { endpoint } from '../App';
 
 // TODO probably use withRouter to distinguish between views 
 import { withRouter } from 'react-router-dom';
@@ -22,22 +23,23 @@ class Post extends Component {
 
 
     render() {
+        console.log(this.props.post);
         return(
             <div className="row">
                 <div className="col s12 m8 push-m2 post z-depth-3">
                     <div className="col s3 m2 post-profile-pic center">
                         {/*profile pic*/}
-                        <img className="responsive-img circle z-depth-2 profile-picture" src={profilePicture} alt="Profile" />
-                        <p>Username</p>
+                        <img className="responsive-img circle z-depth-2 profile-picture" src={`${endpoint}/api/users/getProfilePicture/${this.props.post.username}`} alt="Profile" />
+                        <p>{this.props.post.username}</p>
                     </div>
                     <div className="col s9 m10">
                         {/*post content*/}
                         <div className="row">
                             <div className="col s9 m10 post-content">
                                 {/*post text*/}
-                                <h5>Title</h5>
+                                <h5>{this.props.post.title}</h5>
                                 <div className="hide-content">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at cursus ligula, sed eleifend sem. Vivamus quis arcu a ipsum placerat laoreet. Morbi mattis nibh at diam ullamcorper, nec sagittis tellus consectetur. Nulla at placerat nisi, eget sodales nisi. Quisque lacinia risus nec augue euismod, vitae malesuada magna bibendum.</p>
+                                    <p>{this.props.post.body}</p>
                                 </div>
 
                                 <div class="show-more">
@@ -50,7 +52,7 @@ class Post extends Component {
                             </div>
                         </div>
                         <div className="row">
-                            {/*tags*/}
+                            {/*TODO tags*/}
                         </div>
                     </div>
                 </div>

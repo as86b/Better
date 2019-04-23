@@ -11,19 +11,20 @@ import { endpoint } from '../App';
 // TODO probably use withRouter to distinguish between views 
 import { withRouter } from 'react-router-dom';
 
-// import profile picture
-// TODO make this dynamic based on user 
-const profilePicture = require('../assets/img/blank-profile-picture.png');
-
 class Post extends Component {
     constructor(props) {
         super(props);
     }
 
-
-
     render() {
-        console.log(this.props.post);
+        let link = (<span></span>);
+        if (!this.props.contained) {
+            link = (
+                <div className="show-more">
+                    <a href={`/post/${this.props.post._id}`} className="show-more-btn">Show more</a>
+                </div>
+            );
+        }
         return(
             <div className="row">
                 <div className="col s12 m8 push-m2 post z-depth-3">
@@ -38,13 +39,10 @@ class Post extends Component {
                             <div className="col s9 m10 post-content">
                                 {/*post text*/}
                                 <h5>{this.props.post.title}</h5>
-                                <div className="hide-content">
+                                <div className={this.props.contained ? "" : "hide-content"}>
                                     <p>{this.props.post.body}</p>
                                 </div>
-
-                                <div class="show-more">
-                                    <a href="#" className="show-more-btn">Show more</a>
-                                </div>
+                                { link }
                             </div>
                             <div className="col s3 m2 post-support-icon">
                                 {/*support button*/}

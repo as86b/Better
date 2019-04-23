@@ -41,21 +41,14 @@ async function addPost(username, title, body, scope, anon, res) {
 async function retrievePost(postID, res) {
 
     Post.findOne({ _id: postID }).exec().then( item => {
+        console.log(item);
         if (item.isAnonymous) {
-            u = "Anonymous"
-        } else {
-            // TODO u = item.username
-            // TODO declare all variables......
-            u = "Username"
+            item.username = "Anonymous"
         }
 
         res.json({
             "status": "success",
-            "postID": item._id,
-            "username": u,
-            "title": item.title,
-            "body": item.body,
-            "timestamp": item.timestamp
+            "post" : item
         });
         // Need to return reply data
     });
@@ -86,7 +79,8 @@ router.post('/', (req,res) => {
 });
 
 router.get('/:post', (req,res) => {
-	postID = req.params['postID'];
+    postID = req.params['post'];
+    console.log('getting post: ' + postID);
 
     retrievePost(postID, res);
 });

@@ -41,9 +41,7 @@ class DashboardView extends Component {
         if (this.state.feed) {
              for (var i = 0; i < this.state.feed.length; i++) {
                 posts.push(
-                    <Link to={`/post/${this.state.feed[i]._id}`}>
-                        <Post key={(i+1)*this.state.page} post={this.state.feed[i]}></Post>
-                    </Link>
+                    <Post key={(i+1)*this.state.page} post={this.state.feed[i]}></Post>
                 );
              }
         }
@@ -55,6 +53,11 @@ class DashboardView extends Component {
                 <div className="col s12 m8 push-m2">
                     <h1>Dashboard</h1>
                     { posts }
+                </div>
+                <div className="fixed-action-btn">
+                    <Link to="/createpost" className="btn-floating btn-large create-post-btn">
+                        <i className="large material-icons">mode_edit</i>
+                    </Link>
                 </div>
             </div>
         );

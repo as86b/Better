@@ -15,7 +15,24 @@ db.once('open', () => {
     gfs.collection('uploads');
 });
 
-// handle single file uploads
+// creates a follower relationship between the two users
+router.post('/addFollower', (req, res) => {
+    // verify token
+    var token = req.body['token'];
+    t = Tokens.checkToken(token);
+    if (!t) {
+        res.json({
+            "status": "error",
+            "details": "You are not authorized to make that request."
+        });
+        return; 
+    }
+
+    // get the user and establish the follow
+    let user = req.body['user'];
+});
+
+// handle picture changes
 router.post('/changeProfilePicture', (req, res) => {
     token = req.body['token'];
     console.log('checking token: ' + token);

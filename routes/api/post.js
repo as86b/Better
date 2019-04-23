@@ -85,8 +85,8 @@ router.post('/', (req,res) => {
     addPost(username, title, body, scope, anon, res);
 });
 
-router.get('/', (req,res) => {
-	postID = req.body['postID'];
+router.get('/:post', (req,res) => {
+	postID = req.params['postID'];
 
     retrievePost(postID, res);
 });

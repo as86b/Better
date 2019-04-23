@@ -29,6 +29,7 @@ import AboutView from './views/AboutView';
 import DashboardView from './views/DashboardView';
 import ProfileView from './views/ProfileView';
 import CreatePostView from './views/CreatePostView';
+import PostView from './views/PostView';
 
 // component imports 
 import Header from './components/Header';
@@ -67,6 +68,7 @@ class App extends Component {
                   <Route path="/register" component={RegisterView}></Route>
                   <Route path="/about" component={AboutView}></Route>
                   <Route path="/createpost" component={CreatePostView}></Route>
+                  <Route path="/post/:postID" component={PostView}></Route>
                   {/* default case - TODO possibly make a 404 error for here */}
                   <Route component={LandingView}></Route>
               </Switch>

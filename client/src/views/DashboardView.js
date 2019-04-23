@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import axios from 'axios'; 
+import { Link } from 'react-router-dom';
 import { endpoint } from '../App'; 
 
 import Post from '../components/Post';
@@ -39,7 +40,11 @@ class DashboardView extends Component {
         let posts = [];
         if (this.state.feed) {
              for (var i = 0; i < this.state.feed.length; i++) {
-                posts.push(<Post key={(i+1)*this.state.page} post={this.state.feed[i]}></Post>);
+                posts.push(
+                    <Link to={`/post/${this.state.feed[i]._id}`}>
+                        <Post key={(i+1)*this.state.page} post={this.state.feed[i]}></Post>
+                    </Link>
+                );
              }
         }
         else {

@@ -47,7 +47,7 @@ class PostView extends Component {
 
     render() {
         if (this.state.queried && !this.state.post) 
-            return(<Redirect to="/dashboard"></Redirect>);
+            return(<Redirect to="/404"></Redirect>);
         let post; 
         if (this.state.queried) 
             post = (<Post post={this.state.post} contained={true}></Post>);

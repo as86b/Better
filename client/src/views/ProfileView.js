@@ -7,7 +7,7 @@
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Link, Redirect, withRouter } from 'react-router-dom';
-import { endpoint } from '../App';
+import { endpoint, loadToken } from '../App';
 
 import Post from '../components/Post';
 import PopupEdit from '../components/PopupEdit';
@@ -19,6 +19,7 @@ class ProfileView extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            owner: false,
             showPopup: false,
             redirect: false,
             user: null
@@ -36,6 +37,15 @@ class ProfileView extends Component {
             }
             else {
                 this.setState({ user: res.data });
+                // check if the logged in user is this profile 
+                let query = { token: loadToken(), username: this.state.user.username };
+                console.log('sending query: ' + query); 
+                axios.post(`${endpoint}/api/users/checkProfile`, query)
+                .then((res) => {
+                    if (res.data.status === "success") {
+                        this.setState({ owner: true });
+                    }
+                });
             }
         });
     }
@@ -47,20 +57,28 @@ class ProfileView extends Component {
     }
 
     render() {
+        console.log('owner: ' + this.state.owner);
+        console.log('user: ' + JSON.stringify(this.state.user));
+        if ( this.state.user && this.state.user.username !== this.props.match.params.username) {
+            this.retrieveProfile();
+        }
         if (this.state.redirect) 
             return(<Redirect to="/404"></Redirect>);
         return(
             <div className="row">
                 <div className="col s12 m8 push-m2">
                     <div className="center" id="profile-picture">
-                        <img className="responsive-img circle z-depth-2 profile-picture" src={this.state.user ? `${endpoint}/api/users/getProfilePicture/${this.state.user.username}` : ''} alt="Profile" />
+                        <img className="circle z-depth-2 profile-picture-big" src={this.state.user ? `${endpoint}/api/users/getProfilePicture/${this.state.user.username}` : ''} alt="Profile" />
                     </div>
 
                     <div className="card center profileBioCard"> 
                         <div className="cardTop">
                             {/* TODO change icons based on if you're viewing your account or another */}
                             <a href="#" className="bio-button btn-floating waves-effect waves-light right" ><i className="material-icons">group</i></a>
-                            <a className="bio-button btn-floating waves-effect waves-light right" onClick={this.togglePopup.bind(this)}><i className="material-icons">edit</i></a>
+                            {this.state.owner ? 
+                                <a className="bio-button btn-floating waves-effect waves-light right" onClick={this.togglePopup.bind(this)}><i className="material-icons">edit</i></a>
+                                : null
+                            }
                             {this.state.showPopup ? 
                                 <PopupEdit closePopup={this.togglePopup.bind(this)} /> : null
                             }

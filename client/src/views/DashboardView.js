@@ -46,12 +46,11 @@ class DashboardView extends Component {
              }
         }
         else {
-            posts = (<h3 className="center">No posts to display!</h3>);
+            posts = null;
         }
         return(
             <div className="row">
                 <div className="col s12 m8 push-m2">
-                    <h1>Dashboard</h1>
                     { posts }
                 </div>
                 <div className="fixed-action-btn">

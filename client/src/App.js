@@ -63,12 +63,12 @@ class App extends Component {
               <Switch>
                   <Route exact path="/" component={LandingView}></Route>
                   <Route path="/dashboard" component={DashboardView}></Route>
-                  <Route path="/profile/:username" component={ProfileView}></Route>
+                  <Route exact path="/profile/:username" component={ProfileView}></Route>
                   <Route path="/login" component={LoginView}></Route>
                   <Route path="/register" component={RegisterView}></Route>
                   <Route path="/about" component={AboutView}></Route>
                   <Route path="/createpost" component={CreatePostView}></Route>
-                  <Route path="/post/:postID" component={PostView}></Route>
+                  <Route exact path="/post/:postID" component={PostView}></Route>
                   {/* default case - TODO possibly make a 404 error for here */}
                   <Route component={MissingView}></Route>
               </Switch>

@@ -186,6 +186,15 @@ nav ul a {
 .profile-picture {
     border: 2px solid white;
     border-radius: 50%;
+    width:75px;
+    height:75px;
+}
+
+.profile-picture-big {
+    border: 2px solid white;
+    border-radius: 50%;
+    width:150px;
+    height:150px;
 }
 
 /* custom media queries for material-icons */

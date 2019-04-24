@@ -19,7 +19,7 @@ db.once('open', () => {
 router.post('/addFollower', (req, res) => {
     // verify token
     var token = req.body['token'];
-    t = Tokens.checkToken(token);
+    var t = Tokens.checkToken(token);
     if (!t) {
         res.json({
             "status": "error",
@@ -36,7 +36,7 @@ router.post('/addFollower', (req, res) => {
 router.post('/changeBio', (req, res) => {
     // verify token
     var token = req.body['token'];
-    t = Tokens.checkToken(token);
+    var t = Tokens.checkToken(token);
     if (!t) {
         res.json({
             "status": "error",
@@ -61,8 +61,8 @@ router.post('/changeBio', (req, res) => {
 
 // handle picture changes
 router.post('/changeProfilePicture', (req, res) => {
-    token = req.body['token'];
-    t = Tokens.checkToken(token);
+    var token = req.body['token'];
+    var t = Tokens.checkToken(token);
     
     if (!t) {
         console.log("Can't update profile picture");
@@ -87,6 +87,29 @@ router.post('/changeProfilePicture', (req, res) => {
             });
         }
     });
+});
+
+// check if the token sent belongs to the given username
+router.post('/checkProfile', (req, res) => {
+    var token = req.body['token'];
+    var username = req.body['username'];
+    var t = Tokens.checkToken(token);
+    
+    if (!t) {
+        console.log("Can't update profile picture");
+    	res.json({
+            "status": "error",
+            "details": "You are not authorized to make that request."
+        });
+        return;
+    }
+    
+    if (t.username === username) {
+        res.json({ "status": "success" });
+    }
+    else {
+        res.json({ "status": "failure" });
+    }
 });
 
 router.get('/getProfile/:username', (req, res) => {

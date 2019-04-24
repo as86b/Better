@@ -31,7 +31,7 @@ class Post extends Component {
                     <div className="col s3 m2 post-profile-pic center">
                         {/*profile pic*/}
                         <Link to={`/profile/${this.props.post.username}`}>
-                            <img className="responsive-img circle z-depth-2 profile-picture" src={`${endpoint}/api/users/getProfilePicture/${this.props.post.username}`} alt="Profile" />
+                            <img className="profile-picture circle z-depth-2" src={`${endpoint}/api/users/getProfilePicture/${this.props.post.username}`} alt="Profile" />
                         </Link>
                         <p>{this.props.post.username}</p>
                     </div>

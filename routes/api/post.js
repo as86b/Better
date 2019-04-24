@@ -50,6 +50,13 @@ async function retrievePost(postID, res) {
             "post" : item
         });
         // Need to return reply data
+    })
+    .catch((err) => {
+        console.log(err);
+        res.json({
+            "status": "error",
+            "details": "Failed to find post"
+        });
     });
 }
 

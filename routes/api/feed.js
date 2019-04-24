@@ -15,6 +15,11 @@ router.get('/:scope-:page', (req,res) => {
             })
         }
         else {
+            for (var i = 0; i < feed.docs.length; i++) {
+                if (feed.docs[i].isAnonymous) {
+                    feed.docs[i].username = "Anonymous";
+                }
+            }
             res.json({
                 "status": "success",
                 "feed": feed

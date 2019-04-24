@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../model/User');
+const Post = require('../../model/Post');
 const Tokens = require('../../tokens.js');
 const mongoose = require('mongoose');
 const Grid = require('gridfs-stream');
@@ -113,12 +114,12 @@ router.post('/checkProfile', (req, res) => {
 });
 
 router.get('/getProfile/:username', (req, res) => {
-    User.findOne({ username: req.params['username']}).exec()
+    User.findOne({ username: req.params['username']} ).exec()
     .then((user) => {
         res.json({
             // TODO get more stuff here 
             "username": user.username,
-            "bio": user.bio
+            "bio": user.bio,
         });
     })
     .catch((err) => {
@@ -127,6 +128,24 @@ router.get('/getProfile/:username', (req, res) => {
             "status": "error",
             "details": "Failed to retrieve user info"
         });
+    });
+});
+
+router.get('/getProfilePosts/:username-:page', (req, res) => {
+    Post.getPostsForPublicUser(req.params['username'], req.params['page'], (err, posts) => {
+        if (err) {
+            console.log(err);
+            res.json({
+                "status": "error",
+                "details": "Failed to retrieve posts for user"
+            });
+        }
+        else {
+            res.json({
+                "status": "success",
+                "posts": posts
+            });
+        }
     });
 });
 

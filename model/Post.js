@@ -41,3 +41,19 @@ module.exports.getPostsForFeed = (scope, page, callback) => {
         callback
     ); 
 }
+
+module.exports.getPostsForPublicUser = (username, page, callback) => {
+    let options = {
+        sort: { timestamp: -1 },
+        page: page
+    };
+    let query = { 
+        username: username,
+        isAnonymous: false
+    };
+    Post.paginate(
+        query,
+        options,
+        callback
+    );
+}

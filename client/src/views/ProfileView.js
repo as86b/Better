@@ -22,7 +22,9 @@ class ProfileView extends Component {
             owner: false,
             showPopup: false,
             redirect: false,
-            user: null
+            user: null,
+            page: 1,
+            posts: []
         }   
 
         this.retrieveProfile();
@@ -45,6 +47,15 @@ class ProfileView extends Component {
                     if (res.data.status === "success") {
                         this.setState({ owner: true });
                     }
+                    // get posts for the user's profile (only public ones)
+                    // TODO get anonymous posts for user's viewing their own profile  
+                    axios.get(`${endpoint}/api/users/getProfilePosts/${this.state.user.username}-${this.state.page}`)
+                    .then((res) => {
+                        console.log(res);
+                        if (res.data.status === "success" && res.data.posts.docs.length > 0) {
+                            this.setState({ posts: res.data.posts.docs });
+                        }
+                    });
                 });
             }
         });
@@ -64,6 +75,17 @@ class ProfileView extends Component {
         }
         if (this.state.redirect) 
             return(<Redirect to="/404"></Redirect>);
+        let posts = [];
+        if (this.state.posts.length > 0) {
+            for (var i = 0; i < this.state.posts.length; i++) {
+                posts.push(
+                    <Post key={(i+1)*this.state.page} post={this.state.posts[i]}></Post>
+                );
+            }
+        }
+        else {
+            posts = null; 
+        }
         return(
             <div className="row">
                 <div className="col s12 m8 push-m2">
@@ -91,6 +113,7 @@ class ProfileView extends Component {
                         </div>
                     </div>
                     {/* TODO add posts */}
+                    { posts }
                 </div>
                 <div className="fixed-action-btn">
                     <Link to="/createpost" className="btn-floating btn-large create-post-btn">

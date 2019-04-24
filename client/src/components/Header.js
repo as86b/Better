@@ -26,21 +26,15 @@ class Header extends React.Component {
         //Intialize state to landing page
         this.state = {
             path: '/',
-            // redirectToUser: false
         }
         
         this.handleLogoutClick = this.handleLogoutClick.bind(this);
-        this.handleProfilePictureClick = this.handleProfilePictureClick.bind(this);
         this.pageBodyLoader = this.pageBodyLoader.bind(this);
     }
 
     handleLogoutClick() {
         logoutUser();
         window.location.reload();
-    }
-
-    handleProfilePictureClick() {
-       // this.setState({ redirectToUser: true });
     }
 
     /*{ Checking for dark theme? }*/
@@ -82,7 +76,7 @@ class Header extends React.Component {
                         </Link>
                     </li>
                     <li>
-                        <Link to={`/profile/${username}`} onClick={this.handleProfilePictureClick}>
+                        <Link to={`/profile/${username}`}>
                             <img className="headerProfilePic z-depth-2" src={`${endpoint}/api/users/getProfilePicture/${username}`} alt="Profile"></img>
                         </Link>
                     </li>

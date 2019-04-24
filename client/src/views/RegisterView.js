@@ -75,6 +75,7 @@ class RegisterView extends Component {
             password: this.state.passwordVal,
             confirmPassword: this.state.confirmPasswordVal
         }
+        this.setState({ errorText: '' });
         // validate the registration information
         if (this.validateRegisterAttempt(registerAttempt) && this.state.errorText === '') {
             // registerAttempt has been validated
@@ -108,7 +109,7 @@ class RegisterView extends Component {
                                         }
                                         axios.post(`${endpoint}/api/users/changeProfilePicture`, userData)
                                         .then((res) => {
-                                            loginUser(userData.username, token);
+                                            loginUser(loginAttempt.login, token);
                                             this.setState({ redirect: true });
                                         });
                                     }

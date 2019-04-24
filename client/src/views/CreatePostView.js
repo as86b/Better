@@ -120,7 +120,7 @@ class CreatePostView extends Component {
                         <div className="col s3 m2 push-m1 createpost-profile-pic">
                                 {/*profile pic*/}
                                 <a href="#"> {/* profile page link */ }
-                                    <img className="responsive-img circle profile-picture" src={`${endpoint}/api/users/getProfilePicture/${this.state.username}`} alt="Profile" />
+                                    <img className="circle profile-picture-big" src={`${endpoint}/api/users/getProfilePicture/${this.state.username}`} alt="Profile" />
                                 </a>
                         </div>
                         <FilterBar handleScopeChange={this.handleScopeChange}></FilterBar>

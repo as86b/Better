@@ -44,7 +44,7 @@ async function retrievePost(postID, res) {
         if (item.isAnonymous) {
             item.username = "Anonymous"
         }
-
+        console.log(item);
         res.json({
             "status": "success",
             "post" : item

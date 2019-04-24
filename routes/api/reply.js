@@ -6,6 +6,7 @@ const router = express.Router();
 const Tokens = require('../../tokens.js');
 const Post = require('../../model/Post.js');
 const Reply = require('../../model/Reply.js');
+const User = require('../../model/User.js');
 
 async function addReply(username, postID, body, anon, res) {
 
@@ -55,7 +56,7 @@ router.post('/', (req,res) => {
         return;
     }
     username = t.username;
-
+	console.log(req.body);
 	postID = req.body['postID'];
 	body = req.body['body'];
     anon = false;

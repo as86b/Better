@@ -22,15 +22,18 @@ class PopupEdit extends React.Component {
       this.state = {
         text: '',
         file: null,
+        anon: false,
         details: {
           header: "Add content",
           iplace: "Picture upload",
-          tplace: ""
+          tplace: "",
+          reply: false
         }
       }
 
       this.handleSubmit = this.handleSubmit.bind(this); 
       this.handleTextChange = this.handleTextChange.bind(this);
+      this.handleAnonChange = this.handleAnonChange.bind(this);
       this.handleFileUpload = this.handleFileUpload.bind(this);
     }
 
@@ -82,6 +85,17 @@ class PopupEdit extends React.Component {
           console.log('creating reply');
           if (this.props.post_id) {
             // send the update 
+            query = { 
+              token: loadToken(), 
+              postID: this.props.post_id,
+              body: this.state.text,
+              anon: this.state.anon
+            }
+            axios.post(`${endpoint}/api/reply/`, query)
+            .then((res) => {
+              // TODO upload image on reply
+              console.log(res);
+            });
           }
           else {
             console.log('Error: no post id specified');
@@ -93,6 +107,10 @@ class PopupEdit extends React.Component {
     handleTextChange(e) {
       this.setState({ text: e.target.value });
     }
+
+    handleAnonChange(e) {
+      this.setState({ anon: e.target.checked });
+    } 
 
     handleFileUpload() {
       this.setState({ file: document.getElementById('file-input').files[0] });
@@ -109,7 +127,7 @@ class PopupEdit extends React.Component {
           details.header = "Update your profile information";
           details.iplace = "Change your profile picture";
           details.tplace = "Change your profile bio..";
-          this.setState({ details: details });
+          this.setState({ details: details, reply: false });
           break;
 
         case 'post':
@@ -118,7 +136,7 @@ class PopupEdit extends React.Component {
           details.header = "Reply to this post";
           details.iplace = "Add an image";
           details.tplace = "Type your reply here..";
-          this.setState({ details: details });
+          this.setState({ details: details, reply: true });
           break;
       }
     }
@@ -144,6 +162,15 @@ class PopupEdit extends React.Component {
                           <input className="file-path validate" type="text" value={this.state.file ? this.state.file.name : this.state.details.iplace} readOnly />
                       </div>
                   </div>
+                  {this.state.reply ? 
+                    <div action="#" className="postCheckBox m4">
+                      <label>
+                          <input type="checkbox" onChange={this.handleAnonChange} value={this.state.anon} />
+                          <span id="postPhrase">Reply Anonymously?</span>
+                      </label>
+                    </div> 
+                    : null
+                  }
               </div>
               <button onClick={this.handleSubmit} className="btn waves-effect updateBioButton">Submit</button>
               <button onClick={this.props.closePopup} className="btn waves-effect updateBioButton">Cancel</button>

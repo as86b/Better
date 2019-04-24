@@ -30,10 +30,11 @@ PostSchema.plugin(mongoosePaginate);
 const Post = module.exports = mongoose.model('Post', PostSchema);
 
 module.exports.getPostsForFeed = (scope, page, callback) => {
+    console.log('getting page: ' + page);
     let options = { 
         sort: { timestamp: -1 },
         page: page, 
-        limit: 30,
+        limit: 20
     };
     Post.paginate(
         { scope: scope }, 
@@ -45,7 +46,8 @@ module.exports.getPostsForFeed = (scope, page, callback) => {
 module.exports.getPostsForPublicUser = (username, page, callback) => {
     let options = {
         sort: { timestamp: -1 },
-        page: page
+        page: page,
+        limit: 20
     };
     let query = { 
         username: username,

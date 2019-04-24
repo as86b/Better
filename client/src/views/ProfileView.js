@@ -28,6 +28,8 @@ class ProfileView extends Component {
         }   
 
         this.retrieveProfile();
+        this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this);
+        this.retrievePosts = this.retrievePosts.bind(this);
     };
 
     retrieveProfile() {
@@ -47,18 +49,30 @@ class ProfileView extends Component {
                     if (res.data.status === "success") {
                         this.setState({ owner: true });
                     }
-                    // get posts for the user's profile (only public ones)
-                    // TODO get anonymous posts for user's viewing their own profile  
-                    axios.get(`${endpoint}/api/users/getProfilePosts/${this.state.user.username}-${this.state.page}`)
-                    .then((res) => {
-                        console.log(res);
-                        if (res.data.status === "success" && res.data.posts.docs.length > 0) {
-                            this.setState({ posts: res.data.posts.docs });
-                        }
-                    });
+                    this.retrievePosts(this.state.page);
                 });
             }
         });
+    }
+
+    retrievePosts(page) {
+        // get posts for the user's profile (only public ones)
+        // TODO get anonymous posts for user's viewing their own profile  
+        axios.get(`${endpoint}/api/users/getProfilePosts/${this.state.user.username}-${page}`)
+        .then((res) => {
+            console.log(res);
+            if (res.data.status === "success" && res.data.posts.docs.length > 0) {
+                let posts = this.state.posts;
+                Array.prototype.push.apply(posts, res.data.posts.docs);
+                this.setState({ posts: posts });
+            }
+        });
+    }
+
+    handleLoadMoreClick() {
+        var page = this.state.page + 1;
+        this.setState({ page: page });
+        this.retrievePosts(page);
     }
 
     togglePopup() {
@@ -112,8 +126,10 @@ class ProfileView extends Component {
                             <p>{this.state.user ? this.state.user.bio : 'User bio'}</p>
                         </div>
                     </div>
-                    {/* TODO add posts */}
                     { posts }
+                    <div className="center">
+                        <button className="btn" onClick={this.handleLoadMoreClick}>More posts</button>
+                    </div>
                 </div>
                 <div className="fixed-action-btn">
                     <Link to="/createpost" className="btn-floating btn-large create-post-btn">

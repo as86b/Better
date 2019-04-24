@@ -18,27 +18,38 @@ class DashboardView extends Component {
 
         this.state = {
             page: 1,
-            feed: null
+            scope: 'global',
+            feed: []
         };
 
-        // TODO implement pagination and filtering
-        let query = { scope: 'global', page: '1' };
-        axios.get(`${endpoint}/api/feed/${query.scope}-${query.page}`)
+        this.retrieveFeed(this.state.scope, this.state.page);
+
+        this.retrieveFeed = this.retrieveFeed.bind(this);
+        this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this);
+    }
+
+    handleLoadMoreClick() {
+        var page = this.state.page + 1;
+        this.setState({ page: page });
+        this.retrieveFeed(this.state.scope, page);
+    }
+
+    retrieveFeed(scope, page) {
+        console.log('query: ' + page);
+        axios.get(`${endpoint}/api/feed/${scope}-${page}`)
         .then((res) => {
-            console.log(res.data); 
-            // TODO error detection for returning no posts (empty doc): 
-                // try and query page one then post results
-                // could be useful whenever users are trying to query an inexistent page
-            this.setState({ feed: res.data.feed.docs }); 
-        })
-        .catch((err) => {
-            console.log(err);
+            console.log(res);
+            if (res.data.status === "success") {
+                let feed = this.state.feed;
+                Array.prototype.push.apply(feed, res.data.feed.docs);
+                this.setState({ feed: feed }); 
+            }
         });
     }
 
     render() {
         let posts = [];
-        if (this.state.feed) {
+        if (this.state.feed.length > 0) {
              for (var i = 0; i < this.state.feed.length; i++) {
                 posts.push(
                     <Post key={(i+1)*this.state.page} post={this.state.feed[i]}></Post>
@@ -52,6 +63,9 @@ class DashboardView extends Component {
             <div className="row">
                 <div className="col s12 m8 push-m2">
                     { posts }
+                    <div className="center">
+                        <button className="btn" onClick={this.handleLoadMoreClick}>More posts</button>
+                    </div>
                 </div>
                 <div className="fixed-action-btn">
                     <Link to="/createpost" className="btn-floating btn-large create-post-btn">

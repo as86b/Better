@@ -77,7 +77,7 @@ class RegisterView extends Component {
         }
         this.setState({ errorText: '' });
         // validate the registration information
-        if (this.validateRegisterAttempt(registerAttempt) && this.state.errorText === '') {
+        if (this.validateRegisterAttempt(registerAttempt)) {
             // registerAttempt has been validated
             // send the registration attempt somewhere
             axios.post(`${endpoint}/api/register/`, registerAttempt)
@@ -134,8 +134,10 @@ class RegisterView extends Component {
             });
         }
         // reset registration form
-        // TODO reset usernameVal, removed for testing 
-        this.setState({ emailVal: '', usernameVal: '', passwordVal: '', confirmPasswordVal: '' });
+        if (this.state.errorText !== '')
+            this.setState({ emailVal: '', usernameVal: '', passwordVal: '', confirmPasswordVal: '' });
+        else 
+            this.setState({ passwordVal: '', confirmPasswordVal: '' });
     }
 
     // update the state of the email based on what is being typed

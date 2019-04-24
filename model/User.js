@@ -32,6 +32,15 @@ const UserSchema = mongoose.Schema({
 
 const User = module.exports = mongoose.model('User', UserSchema);
 
+module.exports.updateBio = (username, newBio, callback) => {
+    User.updateOne(
+        {username: username},
+        {$set: {bio: newBio}},
+        {multi: false},
+        callback
+    );
+}
+
 module.exports.updateProfilePicture = (username, filename, callback) => {
     console.log(username + ' changing profile pic: ' + filename);
     User.updateOne(

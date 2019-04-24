@@ -103,18 +103,11 @@ class RegisterView extends Component {
                                     else {
                                         // add the profile picture to the user's account 
                                         let userData = {
-                                            username: registerAttempt.username, 
                                             filename: res.data.file.filename,
                                             token: token
                                         }
                                         axios.post(`${endpoint}/api/users/changeProfilePicture`, userData)
                                         .then((res) => {
-                                            if (res.data.status === "success") {
-                                                console.log(res.data.user);
-                                            }
-                                            else {
-                                                console.log(res.data.details); 
-                                            }
                                             loginUser(userData.username, token);
                                             this.setState({ redirect: true });
                                         });

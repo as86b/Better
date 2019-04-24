@@ -9,7 +9,7 @@ import 'materialize-css/dist/css/materialize.min.css';
 import { endpoint } from '../App';
 
 // TODO probably use withRouter to distinguish between views 
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 class Post extends Component {
     constructor(props) {
@@ -30,7 +30,9 @@ class Post extends Component {
                 <div className="col s12 m8 push-m2 post z-depth-3">
                     <div className="col s3 m2 post-profile-pic center">
                         {/*profile pic*/}
-                        <img className="responsive-img circle z-depth-2 profile-picture" src={`${endpoint}/api/users/getProfilePicture/${this.props.post.username}`} alt="Profile" />
+                        <Link to={`/profile/${this.props.post.username}`}>
+                            <img className="responsive-img circle z-depth-2 profile-picture" src={`${endpoint}/api/users/getProfilePicture/${this.props.post.username}`} alt="Profile" />
+                        </Link>
                         <p>{this.props.post.username}</p>
                     </div>
                     <div className="col s9 m10">

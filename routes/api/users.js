@@ -32,10 +32,36 @@ router.post('/addFollower', (req, res) => {
     let user = req.body['user'];
 });
 
+// handle user changing bio 
+router.post('/changeBio', (req, res) => {
+    // verify token
+    var token = req.body['token'];
+    t = Tokens.checkToken(token);
+    if (!t) {
+        res.json({
+            "status": "error",
+            "details": "You are not authorized to make that request."
+        });
+        return; 
+    }
+
+    User.updateBio(t.username, req.body['bio'], (err, user) => {
+        if (err) {
+            console.log(err); 
+            res.json({
+                "status": "error",
+                "details": "Failed to update bio"
+            });
+        }
+        else {
+            res.json({ "status": "success", "user": user });
+        }
+    });
+});
+
 // handle picture changes
 router.post('/changeProfilePicture', (req, res) => {
     token = req.body['token'];
-    console.log('checking token: ' + token);
     t = Tokens.checkToken(token);
     
     if (!t) {
@@ -47,7 +73,7 @@ router.post('/changeProfilePicture', (req, res) => {
         return;
     }
     
-    User.updateProfilePicture(req.body['username'], req.body['filename'], (err, user) => {
+    User.updateProfilePicture(t.username, req.body['filename'], (err, user) => {
         if (err) {
             console.log(err);
             res.json({
@@ -57,15 +83,31 @@ router.post('/changeProfilePicture', (req, res) => {
         }
         else {
             res.json({
-                "status": "success",
-                "user": user
+                "status": "success"
             });
         }
     });
 });
 
+router.get('/getProfile/:username', (req, res) => {
+    User.findOne({ username: req.params['username']}).exec()
+    .then((user) => {
+        res.json({
+            // TODO get more stuff here 
+            "username": user.username,
+            "bio": user.bio
+        });
+    })
+    .catch((err) => {
+        console.log(err); 
+        res.json({
+            "status": "error",
+            "details": "Failed to retrieve user info"
+        });
+    });
+});
+
 router.get('/getProfilePicture/:username',  (req, res) => {
-    console.log('retrieving profile picture for ' + req.params['username']);
     // get the filename of the user's profile picture
     User.getProfilePicture(req.params['username'], (err, pic) => {
         if (err) {

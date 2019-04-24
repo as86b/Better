@@ -30,6 +30,7 @@ import DashboardView from './views/DashboardView';
 import ProfileView from './views/ProfileView';
 import CreatePostView from './views/CreatePostView';
 import PostView from './views/PostView';
+import MissingView from './views/MissingView';
 
 // component imports 
 import Header from './components/Header';
@@ -62,15 +63,14 @@ class App extends Component {
               <Switch>
                   <Route exact path="/" component={LandingView}></Route>
                   <Route path="/dashboard" component={DashboardView}></Route>
-                  <Route path="/profile" component={ProfileView}></Route>
-                  {/* have to use this long obscene method to pass props in router */}
+                  <Route path="/profile/:username" component={ProfileView}></Route>
                   <Route path="/login" component={LoginView}></Route>
                   <Route path="/register" component={RegisterView}></Route>
                   <Route path="/about" component={AboutView}></Route>
                   <Route path="/createpost" component={CreatePostView}></Route>
                   <Route path="/post/:postID" component={PostView}></Route>
                   {/* default case - TODO possibly make a 404 error for here */}
-                  <Route component={LandingView}></Route>
+                  <Route component={MissingView}></Route>
               </Switch>
           </div>  
         </ScrollToTop>

@@ -41,7 +41,6 @@ async function addPost(username, title, body, scope, anon, res) {
 async function retrievePost(postID, res) {
 
     Post.findOne({ _id: postID }).exec().then( item => {
-        console.log(item);
         if (item.isAnonymous) {
             item.username = "Anonymous"
         }

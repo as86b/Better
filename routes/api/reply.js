@@ -6,10 +6,18 @@ const router = express.Router();
 const Tokens = require('../../tokens.js');
 const Post = require('../../model/Post.js');
 const Reply = require('../../model/Reply.js');
+const User = require('../../model/User.js');
 
 async function addReply(username, postID, body, anon, res) {
 
 	doc = await User.findOne({ username: username }).exec();
+	if (!doc) {
+		res.json({
+			"status": "error",
+			"details": "User does not exist."
+		});
+		return;
+	}
 
 	var reply = new Reply({
 		user_id: doc._id,

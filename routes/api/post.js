@@ -28,7 +28,12 @@ async function addPost(username, title, body, scope, anon, res) {
         isAnonymous: anon
     })
     post.save().then(item => {
-		res.json({"status": "success"});
+        console.log('post saved');
+        console.log(item);
+		res.json({
+            "status": "success",
+            "_id": item._id
+        });
 	}).catch(err => {
 		console.log('\nDatabase ERROR - ' + new Date(Date.now()).toLocaleString())
 		console.log(err)
@@ -89,6 +94,34 @@ async function retrievePost(postID, res) {
         }
     );
 }
+
+router.post('/addPicture', (req,res) => {
+    token = req.body['token'];
+    t = Tokens.checkToken(token);
+
+    if (!t) {
+    	res.json({
+            "status": "error",
+            "details": "You are not authorized to make that request."
+        });
+        return;
+    }
+
+    let post_id = req.body['_id'];
+    let filename = req.body['filename'];
+    Post.addPicture(post_id, filename, (err, post) => {
+        if (err) {
+            console.log(err);
+            res.json({
+                "status": "error",
+                "details": "Failed to add picture to post"
+            });
+        }
+        else {
+            res.json({ "status": "success" });
+        }
+    })
+});
 
 router.post('/', (req,res) => {
 	// !! NEED TO CHECK FOR XSS, SQLi, & GENERAL VERIFICATION !!

@@ -18,6 +18,7 @@ class Post extends Component {
 
     render() {
         let link = (<span></span>);
+        let image = (<span></span>);
         if (!this.props.contained) {
             link = (
                 <div className="show-more">
@@ -25,9 +26,15 @@ class Post extends Component {
                 </div>
             );
         }
+        else {
+            if (this.props.post.file) {
+                // load the file 
+                image = (<img className="responsive-img z-depth-2" src={`${endpoint}/api/upload/image/${this.props.post.file}`} alt="postImage" />);
+            }
+        }
         return(
             <div className="row">
-                <div className="col s12 m8 push-m2 post z-depth-3">
+                <div className={!this.props.contained ? "col s12 m8 push-m2 post z-depth-3" : "col s12 m8 push-m2 post-full z-depth-3"}>
                     <div className="col s3 m2 post-profile-pic center">
                         {/*profile pic*/}
                         <Link to={`/profile/${this.props.post.username}`}>
@@ -44,6 +51,7 @@ class Post extends Component {
                                 <div className={this.props.contained ? "" : "hide-content"}>
                                     <p>{this.props.post.body}</p>
                                 </div>
+                                { image }
                                 { link }
                             </div>
                             <div className="col s3 m2 post-support-icon">

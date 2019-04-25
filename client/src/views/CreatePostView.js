@@ -75,10 +75,30 @@ class CreatePostView extends Component {
         console.log(postValues);
         axios.post(`${endpoint}/api/post/`, postValues)
         .then((res) => {
-            // FIXME getting invalid unauthorized 
-            console.log(res);
             // upload any images after post is created
             if (res.data.status == "success") {
+                let postID = res.data._id; 
+                if (this.state.file) {
+                    let fd = new FormData();
+                    fd.append('file', this.state.file, this.state.file.name);
+                    axios.post(`${endpoint}/api/upload/`, fd)
+                    .then((res) => {
+                        if (res.data.status === "success") {
+                            console.log(res.data.details);
+                            // add file to post 
+                            let query = { 
+                                token: this.state.token,
+                                _id: postID,
+                                filename: res.data.file.filename 
+                            };
+                            axios.post(`${endpoint}/api/post/addPicture`, query)
+                            .then((res) => {
+                                // done
+                                this.setState({ redirect: true });
+                            });
+                        }
+                    });
+                }
                 this.setState({ redirect: true });
             }
         });

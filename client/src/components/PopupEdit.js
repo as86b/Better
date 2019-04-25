@@ -82,7 +82,6 @@ class PopupEdit extends React.Component {
 
         case 'post':
           // should be a reply, should have a post id in the props 
-          console.log('creating reply');
           if (this.props.post_id) {
             // send the update 
             query = { 
@@ -94,7 +93,8 @@ class PopupEdit extends React.Component {
             axios.post(`${endpoint}/api/reply/`, query)
             .then((res) => {
               // TODO upload image on reply
-              console.log(res);
+              this.props.closePopup();
+              window.location.reload();
             });
           }
           else {

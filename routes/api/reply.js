@@ -18,7 +18,7 @@ async function addReply(username, postID, body, anon, res) {
 		});
 		return;
 	}
-
+	
 	var reply = new Reply({
 		user_id: doc._id,
 		post_id: postID,
@@ -62,8 +62,7 @@ router.post('/', (req,res) => {
         });
         return;
     }
-    username = t.username;
-	console.log(req.body);
+	username = t.username;
 	postID = req.body['postID'];
 	body = req.body['body'];
     anon = false;

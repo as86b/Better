@@ -49,8 +49,6 @@ async function retrievePost(postID, res) {
         })
         .populate('user_id', 'username')
         .exec().then( item => {
-            console.log('item');
-            console.log(item);
             if (!item) {
                 res.json({
                     "status": "error",
@@ -58,21 +56,35 @@ async function retrievePost(postID, res) {
                 });
                 return;
             }
-
+            
             if (item.isAnonymous) {
                 item.username = "Anonymous"
             }
 
-            replies = []
-            item.replies.forEach(function(r) {
-                if (r.isAnonymous) {
-                    r.username = "Anonymous";
+            let replies = [];
+            var u; 
+            for (var i = 0; i < item.replies.length; i++) {
+                if (item.replies[i].isAnonymous) {
+                    u = "Anonymous";
                 }
-            });
+                else {
+                    u = item.replies[i].user_id.username;
+                }
+
+                replies.push({
+                    "_id": item.replies[i]._id,
+                    "username": u,
+                    "body": item.replies[i].body,
+                    "timestamp": item.replies[i].timestamp
+                });
+            }
+
+            delete item.replies;
 
             res.json({
                 "status": "success",
-                "post": item
+                "post": item,
+                "replies": replies
             });
         }
     );
@@ -104,7 +116,6 @@ router.post('/', (req,res) => {
 
 router.get('/:post', (req,res) => {
     postID = req.params['post'];
-    console.log('getting post: ' + postID);
 
     retrievePost(postID, res);
 });

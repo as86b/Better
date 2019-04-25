@@ -20,6 +20,7 @@ class PostView extends Component {
 
         this.state = {
             post: null,
+            replies: [],
             queried: false,
             showPopup: false
         }
@@ -32,12 +33,11 @@ class PostView extends Component {
     retrievePost() {
         axios.get(`${endpoint}/api/post/${this.props.match.params.postID}`)
         .then((res) => {
-            console.log(res);
             if (res.data.status == "success") {
                 this.setState({ post: res.data.post }); 
+                this.setState({ replies: res.data.replies });
             }
             this.setState({ queried: true });
-            console.log('found post: ' + this.state.post);
         });
     }
 
@@ -49,9 +49,19 @@ class PostView extends Component {
     render() {
         if (this.state.queried && !this.state.post) 
             return(<Redirect to="/404"></Redirect>);
-        let post; 
-        if (this.state.queried) 
+        let post, replies = []; 
+        if (this.state.queried) {
             post = (<Post post={this.state.post} contained={true}></Post>);
+            // TODO add pagination on replies to a post...
+            for (var i = 0; i < this.state.replies.length; i++) {
+                replies.push(
+                    <Post key={i} post={this.state.replies[i]} contained={true}></Post>
+                );
+            }
+            if (replies.length <= 0) {
+                replies = null; 
+            }
+        }
         else 
             post = (<h2 className="center">Loading post...</h2>);
         return(
@@ -61,6 +71,11 @@ class PostView extends Component {
                 }
                 <div className="row">
                     { post }
+                </div>
+                <div className="row">
+                    <div className="col s12 m8 push-m2">
+                        { replies }
+                    </div>
                 </div>
                 <div className="fixed-action-btn">
                     <a className="btn-floating btn-large create-post-btn" onClick={this.togglePopup}>

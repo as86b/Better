@@ -16,14 +16,11 @@ class Post extends Component {
         super(props);
     }
 
-<<<<<<< HEAD
     handleSupportClick(e) {
-        
+        /*change support button color when clicked */
     
     }
 
-=======
->>>>>>> master
     render() {
         let link = (<span></span>);
         if (!this.props.contained) {

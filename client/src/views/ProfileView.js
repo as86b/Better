@@ -110,15 +110,11 @@ class ProfileView extends Component {
                     <div className="card center profileBioCard"> 
                         <div className="cardTop">
                             {/* TODO change icons based on if you're viewing your account or another */}
-                            <a href="#" className="bio-button btn-floating waves-effect waves-light right" ><i className="material-icons">group</i></a>
-<<<<<<< HEAD
-                            <a className="bio-button btn-floating waves-effect waves-light right" title="Edit Bio" onClick={this.togglePopup.bind(this)}><i className="material-icons">edit</i></a>
-=======
+                            <a href="#" className="bio-button btn-floating waves-effect waves-light right" title="Followers"><i className="material-icons">group</i></a>
                             {this.state.owner ? 
-                                <a className="bio-button btn-floating waves-effect waves-light right" onClick={this.togglePopup.bind(this)}><i className="material-icons">edit</i></a>
+                                <a className="bio-button btn-floating waves-effect waves-light right" onClick={this.togglePopup.bind(this)} title="Edit Bio"><i className="material-icons">edit</i></a>
                                 : null
                             }
->>>>>>> master
                             {this.state.showPopup ? 
                                 <PopupEdit closePopup={this.togglePopup.bind(this)} /> : null
                             }
@@ -135,17 +131,9 @@ class ProfileView extends Component {
                         <button className="btn" onClick={this.handleLoadMoreClick}>More posts</button>
                     </div>
                 </div>
-<<<<<<< HEAD
-                <div class="fixed-action-btn">
-                    <Link to="/createpost">
-                        <a class="btn-floating btn-large create-post-btn" title="Create Post">
-                            <i class="large material-icons">add</i>
-                        </a>
-=======
                 <div className="fixed-action-btn">
-                    <Link to="/createpost" className="btn-floating btn-large create-post-btn">
-                        <i className="large material-icons">mode_edit</i>
->>>>>>> master
+                    <Link to="/createpost" className="btn-floating btn-large create-post-btn" title="Create Post"> 
+                        <i className="large material-icons">add</i>
                     </Link>
                 </div>
             </div>

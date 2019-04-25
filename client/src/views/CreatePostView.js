@@ -53,7 +53,8 @@ class CreatePostView extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this); 
         this.handleScopeChange = this.handleScopeChange.bind(this); 
-        this.handleAnonChange = this.handleAnonChange.bind(this); 
+        this.handleAnonChange = this.handleAnonChange.bind(this);
+        this.handleTitleChange = this.handleTitleChange.bind(this); 
         this.handleTextChange = this.handleTextChange.bind(this); 
         this.handleTagsChange = this.handleTagsChange.bind(this); 
         this.handleFileUpload = this.handleFileUpload.bind(this);
@@ -67,7 +68,7 @@ class CreatePostView extends Component {
             scope: this.state.scopeVal,
             anon: this.state.anon,
             // TODO add a title form and rename 'text' to 'body'
-            title: 'Title',
+            title: this.state.title,
             body: this.state.text,
             tags: this.state.tags,
         }
@@ -95,6 +96,10 @@ class CreatePostView extends Component {
         this.setState({ anon: e.target.checked });
     }
 
+    handleTitleChange(e) {
+        this.setState({ title: e.target.value });
+    }
+
     handleTextChange(e) {
         this.setState({ text: e.target.value });
     }
@@ -119,11 +124,33 @@ class CreatePostView extends Component {
                     <div className="row">
                         <div className="col s3 m2 push-m1 createpost-profile-pic">
                                 {/*profile pic*/}
-                                <a href="#"> {/* profile page link */ }
-                                    <img className="circle profile-picture-big" src={`${endpoint}/api/users/getProfilePicture/${this.state.username}`} alt="Profile" />
-                                </a>
+                                <img className="circle profile-picture-big" src={`${endpoint}/api/users/getProfilePicture/${this.state.username}`} alt="Profile" />
                         </div>
                         <FilterBar handleScopeChange={this.handleScopeChange}></FilterBar>
+                    </div>
+            
+                    {/* Post content */}
+                    {/* Check for max character count */}
+                    <div className="row">
+
+                        <div className="row">
+                            <div className="input-field col s12 m9 push-m1">
+                                <input id="title" value={this.state.title} onChange={this.handleTitleChange} type="text" className="validate"></input>
+                                <label htmlFor="title" className="active">Title</label>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <textarea   id="createPostBox" 
+                                            value={this.state.text}
+                                            onChange={this.handleTextChange}
+                                            placeholder="Share yourself..." 
+                                            className="materialize-textarea" 
+                                            data-length="150">
+                                </textarea>
+                            </div>
+                        </div>
                     </div>
 
                     {/* attaching image and to post anonymously or not */}
@@ -154,34 +181,18 @@ class CreatePostView extends Component {
                         </div>
 
                     </div>
-            
-                    {/* Post content */}
-                    {/* Check for max character count */}
-                    <div className="row">
-                        <div className="row">
-                            <div className="input-field col s12">
-                                <textarea   id="createPostBox" 
-                                            value={this.state.text}
-                                            onChange={this.handleTextChange}
-                                            placeholder="Share yourself..." 
-                                            className="materialize-textarea" 
-                                            data-length="150">
-                                </textarea>
-                            </div>
-                        </div>
-                    </div>
 
                     {/* Adding Tags and submission button */}
                     {/* Will take user back to feed after submission */}
                     <div className="row tagField">
-                            <div className="row">
+                            {/* <div className="row">
                                 <div className="input-field col s6">
                                     Tags: <input type="text" data-length="10" placeholder="Press enter to add..."></input>
                                 </div>
                                 <div className="btn-floating betterButton">
                                         <i className="material-icons">add</i>
                                 </div>
-                            </div>
+                            </div> */}
 
                         <button className="btn right betterButton" onClick={this.handleSubmit}>Post</button>
                     </div>

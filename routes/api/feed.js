@@ -6,9 +6,7 @@ const Post = require('../../model/Post');
 
 router.get('/:scope-:page', (req,res) => {
     // FIXME allows for people to specify pages beyond what is allowed..
-    console.log('retrieving feed');
-    console.log(req.params);
-    Post.getPostsForFeed('global', 1, (err, feed) => {
+    Post.getPostsForFeed(req.params['scope'], req.params['page'], (err, feed) => {
         if (err) {
             console.log(err);
             res.json({
@@ -17,7 +15,11 @@ router.get('/:scope-:page', (req,res) => {
             })
         }
         else {
-            console.log(feed);
+            for (var i = 0; i < feed.docs.length; i++) {
+                if (feed.docs[i].isAnonymous) {
+                    feed.docs[i].username = "Anonymous";
+                }
+            }
             res.json({
                 "status": "success",
                 "feed": feed

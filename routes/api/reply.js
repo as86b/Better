@@ -63,7 +63,7 @@ router.post('/', (req,res) => {
         return;
     }
     username = t.username;
-
+	console.log(req.body);
 	postID = req.body['postID'];
 	body = req.body['body'];
     anon = false;

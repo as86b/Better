@@ -75,8 +75,9 @@ class RegisterView extends Component {
             password: this.state.passwordVal,
             confirmPassword: this.state.confirmPasswordVal
         }
+        this.setState({ errorText: '' });
         // validate the registration information
-        if (this.validateRegisterAttempt(registerAttempt) && this.state.errorText === '') {
+        if (this.validateRegisterAttempt(registerAttempt)) {
             // registerAttempt has been validated
             // send the registration attempt somewhere
             axios.post(`${endpoint}/api/register/`, registerAttempt)
@@ -103,19 +104,12 @@ class RegisterView extends Component {
                                     else {
                                         // add the profile picture to the user's account 
                                         let userData = {
-                                            username: registerAttempt.username, 
                                             filename: res.data.file.filename,
                                             token: token
                                         }
                                         axios.post(`${endpoint}/api/users/changeProfilePicture`, userData)
                                         .then((res) => {
-                                            if (res.data.status === "success") {
-                                                console.log(res.data.user);
-                                            }
-                                            else {
-                                                console.log(res.data.details); 
-                                            }
-                                            loginUser(userData.username, token);
+                                            loginUser(loginAttempt.login, token);
                                             this.setState({ redirect: true });
                                         });
                                     }
@@ -140,8 +134,10 @@ class RegisterView extends Component {
             });
         }
         // reset registration form
-        // TODO reset usernameVal, removed for testing 
-        this.setState({ emailVal: '', usernameVal: '', passwordVal: '', confirmPasswordVal: '' });
+        if (this.state.errorText !== '')
+            this.setState({ emailVal: '', usernameVal: '', passwordVal: '', confirmPasswordVal: '' });
+        else 
+            this.setState({ passwordVal: '', confirmPasswordVal: '' });
     }
 
     // update the state of the email based on what is being typed

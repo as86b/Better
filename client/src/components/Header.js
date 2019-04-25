@@ -34,7 +34,6 @@ class Header extends React.Component {
 
     handleLogoutClick() {
         logoutUser();
-        this.forceUpdate();
         window.location.reload();
     }
 
@@ -77,7 +76,7 @@ class Header extends React.Component {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/profile">
+                        <Link to={`/profile/${username}`}>
                             <img className="headerProfilePic z-depth-2" src={`${endpoint}/api/users/getProfilePicture/${username}`} alt="Profile"></img>
                         </Link>
                     </li>
@@ -105,7 +104,7 @@ class Header extends React.Component {
                             <ul id="nav-mobile" className="left">
                                 {/* Element is bleeding over slightly from navbar */}
                                 <li>
-                                    <Link to="/" >
+                                    <Link to="/dashboard" >
                                         <div>
                                             <img className="betterMountainLogo" src={logo} alt="Logo"></img>
                                         </div>

@@ -65,7 +65,7 @@ class LoginView extends Component {
     handleLoginClick(e) {
         e.preventDefault();
         let loginAttempt = { login: this.state.loginVal, password: this.state.passwordVal };
-        if (this.validateLoginAttempt(loginAttempt) && this.state.errorText === '') {
+        if (this.validateLoginAttempt(loginAttempt)) {
             // loginAttempt has been validated
             // send the login attempt somewhere
             axios.post(`${endpoint}/api/login/`, loginAttempt)

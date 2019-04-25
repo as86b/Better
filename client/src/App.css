@@ -1,9 +1,9 @@
 /* custom styles should go in here. this is a global sheet */ 
 
-html, body {
+/* html, body {
     min-height: 100vh;
-    margin-bottom: 500px;
-}
+    margin-bottom: 600px;
+} */
 
 /* Header bits */
 nav {
@@ -11,11 +11,11 @@ nav {
 }
 
 .switchStyle {
-    height: 90vh;
-}
+    margin-bottom: 10vh;
+} 
 
 /* footer */ 
-.footBar{
+.footBar {
     position: fixed; 
     height: 7.5vh;
     bottom: 0px;
@@ -99,7 +99,7 @@ nav ul a {
 /********  Landing Page CSS **********/
 #landingImgLeft, #landingImgRight, #aboutImgLeft, #aboutImgRight{
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     padding: 0%;
     margin: 0%;
 }
@@ -186,6 +186,15 @@ nav ul a {
 .profile-picture {
     border: 2px solid white;
     border-radius: 50%;
+    width:75px;
+    height:75px;
+}
+
+.profile-picture-big {
+    border: 2px solid white;
+    border-radius: 50%;
+    width:150px;
+    height:150px;
 }
 
 /* custom media queries for material-icons */

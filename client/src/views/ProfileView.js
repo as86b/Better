@@ -44,7 +44,7 @@ class ProfileView extends Component {
                     <div className="card center profileBioCard"> 
                         <div className="cardTop">
                             <a href="#" className="bio-button btn-floating waves-effect waves-light right" ><i className="material-icons">group</i></a>
-                            <a className="bio-button btn-floating waves-effect waves-light right" onClick={this.togglePopup.bind(this)}><i className="material-icons">edit</i></a>
+                            <a className="bio-button btn-floating waves-effect waves-light right" title="Edit Bio" onClick={this.togglePopup.bind(this)}><i className="material-icons">edit</i></a>
                             {this.state.showPopup ? 
                                 <ProfileBioPopup closePopup={this.togglePopup.bind(this)} /> : null
                             }
@@ -61,8 +61,8 @@ class ProfileView extends Component {
                 </div>
                 <div class="fixed-action-btn">
                     <Link to="/createpost">
-                        <a class="btn-floating btn-large create-post-btn">
-                            <i class="large material-icons">mode_edit</i>
+                        <a class="btn-floating btn-large create-post-btn" title="Create Post">
+                            <i class="large material-icons">add</i>
                         </a>
                     </Link>
                     

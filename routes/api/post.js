@@ -50,7 +50,7 @@ async function retrievePost(postID, res) {
         .populate({
             path: 'replies',
             populate: { path: 'user_id', select: 'username' },
-            select: ['body', 'isAnonymous', 'timestamp']
+            select: ['body', 'file', 'isAnonymous', 'timestamp']
         })
         .populate('user_id', 'username')
         .exec().then( item => {
@@ -80,6 +80,7 @@ async function retrievePost(postID, res) {
                     "_id": item.replies[i]._id,
                     "username": u,
                     "body": item.replies[i].body,
+                    "file": item.replies[i].file,
                     "timestamp": item.replies[i].timestamp
                 });
             }

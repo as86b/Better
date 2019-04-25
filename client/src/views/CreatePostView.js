@@ -84,7 +84,6 @@ class CreatePostView extends Component {
                     axios.post(`${endpoint}/api/upload/`, fd)
                     .then((res) => {
                         if (res.data.status === "success") {
-                            console.log(res.data.details);
                             // add file to post 
                             let query = { 
                                 token: this.state.token,
@@ -101,6 +100,7 @@ class CreatePostView extends Component {
                 }
                 this.setState({ redirect: true });
             }
+            // TODO else display an error
         });
     }
 

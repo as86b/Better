@@ -98,10 +98,7 @@ class RegisterView extends Component {
                                 fd.append('file', this.state.file, this.state.file.name);
                                 axios.post(`${endpoint}/api/upload/`, fd)
                                 .then((res) => {
-                                    if (res.data.status === "error") {
-                                        console.log(res.data.details);
-                                    }
-                                    else {
+                                    if (res.data.status === "success") {
                                         // add the profile picture to the user's account 
                                         let userData = {
                                             filename: res.data.file.filename,

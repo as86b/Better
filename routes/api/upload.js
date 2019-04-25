@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const database = require('../../model/database.js');
+const Tokens = require('../../tokens.js');
 const mongoose = require('mongoose');
 const Grid = require('gridfs-stream');
 eval(`Grid.prototype.findOne = ${Grid.prototype.findOne.toString().replace('nextObject', 'next')}`);

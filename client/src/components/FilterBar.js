@@ -62,17 +62,14 @@ class FilterBar extends React.Component  {
             case '/createpost':
                 bar = (
                     <div className="">
-                        <p>Share with:   </p>
                         <div className="filterBarButtons col s12 m10 push-m2">
                             <button id="global" 
                                     className={this.state.buttons.global === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
                                     onClick={() => this.handleScopeClick('global')}>Global</button>
                             <button id="followers" 
-                                    className="waves-effect waves-light btn betterButton" 
                                     className={this.state.buttons.followers === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
                                     onClick={() => this.handleScopeClick('followers')}>Followers</button>
                             <button id="private" 
-                                    className="waves-effect waves-light btn betterButton" 
                                     className={this.state.buttons.private === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
                                     onClick={() => this.handleScopeClick('private')}>Just Me</button>
                         </div>
@@ -109,9 +106,7 @@ class FilterBar extends React.Component  {
 
     componentDidMount() {
         let newPath = this.props.location.pathname;
-        console.log(newPath);
         this.setState({ path: newPath });
-        console.log(this.state.path);
     }
 
     render() {

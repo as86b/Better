@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { endpoint, loginUser, loadUser } from '../App';
+import { endpoint, loginUser, loadToken } from '../App';
 
 class RegisterView extends Component {
     constructor(props) {
@@ -75,62 +75,54 @@ class RegisterView extends Component {
             password: this.state.passwordVal,
             confirmPassword: this.state.confirmPasswordVal
         }
+        this.setState({ errorText: '' });
         // validate the registration information
-        if (this.validateRegisterAttempt(registerAttempt) && this.state.errorText === '') {
+        if (this.validateRegisterAttempt(registerAttempt)) {
             // registerAttempt has been validated
             // send the registration attempt somewhere
             axios.post(`${endpoint}/api/register/`, registerAttempt)
             .then((res) => {
                 if (res.data.status === "success") {
-                    /*
-                        user registered successfully
-                        now try to upload the profile picture, if there is one 
-                    */
-                    if (this.state.file) {
-                        let fd = new FormData();
-                        fd.append('file', this.state.file, this.state.file.name);
-                        axios.post(`${endpoint}/api/upload/`, fd)
-                        .then((res) => {
-                            if (res.data.status === "error") {
-                                console.log(res.data.details);
-                            }
-                            else {
-                                // add the profile picture to the user's account 
-                                let userData = {
-                                    "username": registerAttempt.username, 
-                                    "filename": res.data.file.filename
-                                }
-                                axios.post(`${endpoint}/api/users/changeProfilePicture`, userData)
-                                .then((res) => {
-                                    if (res.data.status === "success") {
-                                        console.log(res.data.user);
-                                    }
-                                    else {
-                                        console.log(res.data.details); 
-                                    }
-                                });
-                            }
-                        },
-                        (err) => {
-                            console.log(err);
-                        });
-                    }
-                    // sign the user in and redirect 
+                    // sign the user in
                     let loginAttempt = { login: registerAttempt.username, password: registerAttempt.password };
-                    console.log(loginAttempt);
                     axios.post(`${endpoint}/api/login/`, loginAttempt)
                     .then((res) => {
                         if (res.data.status === "success") {
-                            let user = { _id: res.data.user.user_id, username: registerAttempt.username };
-                            loginUser(user, res.data.user.token);
-                            this.setState({ redirect: true });
+                            /*
+                                user registered successfully
+                                now try to upload the profile picture, if there is one 
+                            */
+                            let token = res.data.token;
+                            if (this.state.file) {
+                                let fd = new FormData();
+                                fd.append('file', this.state.file, this.state.file.name);
+                                axios.post(`${endpoint}/api/upload/`, fd)
+                                .then((res) => {
+                                    if (res.data.status === "error") {
+                                        console.log(res.data.details);
+                                    }
+                                    else {
+                                        // add the profile picture to the user's account 
+                                        let userData = {
+                                            filename: res.data.file.filename,
+                                            token: token
+                                        }
+                                        axios.post(`${endpoint}/api/users/changeProfilePicture`, userData)
+                                        .then((res) => {
+                                            loginUser(loginAttempt.login, token);
+                                            this.setState({ redirect: true });
+                                        });
+                                    }
+                                });
+                            } 
+                            else {
+                                loginUser(loginAttempt.login, token);
+                                this.setState({ redirect: true });
+                            }
                         }
                         else {
                             this.setState({ errorText: res.data.details });
                         }
-                    })
-                    .catch((err) => {
-                        console.log(err);
                     });
                 }
                 else {
@@ -142,8 +134,10 @@ class RegisterView extends Component {
             });
         }
         // reset registration form
-        // TODO reset usernameVal, removed for testing 
-        this.setState({ emailVal: '', usernameVal: '', passwordVal: '', confirmPasswordVal: '' });
+        if (this.state.errorText !== '')
+            this.setState({ emailVal: '', usernameVal: '', passwordVal: '', confirmPasswordVal: '' });
+        else 
+            this.setState({ passwordVal: '', confirmPasswordVal: '' });
     }
 
     // update the state of the email based on what is being typed
@@ -172,7 +166,7 @@ class RegisterView extends Component {
     }
 
     render() {
-        if (this.state.redirect || loadUser()) {
+        if (this.state.redirect || loadToken()) {
             return(<Redirect to="/dashboard"></Redirect>);
         }
         // display an error if one is set  

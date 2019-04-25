@@ -18,6 +18,7 @@ import './App.css';
 import socketIOClient from 'socket.io-client';
 import axios from 'axios';
 import { Route, Switch } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 
 // view imports 
@@ -28,6 +29,8 @@ import AboutView from './views/AboutView';
 import DashboardView from './views/DashboardView';
 import ProfileView from './views/ProfileView';
 import CreatePostView from './views/CreatePostView';
+import PostView from './views/PostView';
+import MissingView from './views/MissingView';
 
 // component imports 
 import Header from './components/Header';
@@ -60,14 +63,14 @@ class App extends Component {
               <Switch>
                   <Route exact path="/" component={LandingView}></Route>
                   <Route path="/dashboard" component={DashboardView}></Route>
-                  <Route path="/profile" component={ProfileView}></Route>
-                  {/* have to use this long obscene method to pass props in router */}
-                  <Route path="/login" render={(props) => <LoginView {...props} loginUser={this.loginUser}/>}></Route>
-                  <Route path="/register" render={(props) => <RegisterView {...props} loginUser={this.loginUser}/>}></Route>
+                  <Route exact path="/profile/:username" component={ProfileView}></Route>
+                  <Route path="/login" component={LoginView}></Route>
+                  <Route path="/register" component={RegisterView}></Route>
                   <Route path="/about" component={AboutView}></Route>
                   <Route path="/createpost" component={CreatePostView}></Route>
+                  <Route exact path="/post/:postID" component={PostView}></Route>
                   {/* default case - TODO possibly make a 404 error for here */}
-                  <Route component={LandingView}></Route>
+                  <Route component={MissingView}></Route>
               </Switch>
           </div>  
         </ScrollToTop>
@@ -82,23 +85,22 @@ export default App;
 // manage the endpoint of the server for api requests
 export const endpoint = 'http://localhost:4000'
 
-export const loginUser = (user, token) => {
-  console.log('logging in ' + user.username);
-  localStorage.setItem('user', JSON.stringify(user));
-  localStorage.setItem('token', JSON.stringify(token));
+export const loginUser = (username, token) => {
+  Cookies.set('user', username, { expires: 1 });
+  localStorage.setItem('token', token);
 }
 
 export const logoutUser = () => {
-  localStorage.removeItem('user');
+  Cookies.remove('user');
   localStorage.removeItem('token');
 }
 
 export const loadUser = () => {
-  let user = JSON.parse(localStorage.getItem('user'));
+  let user = Cookies.get('user');
   return user;
 }
 
 export const loadToken = () => {
-  let token = JSON.parse(localStorage.getItem('token'));
+  let token = localStorage.getItem('token');
   return token;
 }

@@ -5,28 +5,25 @@ const router = express.Router();
 
 const Tokens = require('../../tokens.js');
 const Post = require('../../model/Post.js');
+const User = require('../../model/User.js');
+const Reply = require('../../model/Reply.js');
 
-router.post('/', (req,res) => {
-    uid = req.body['user_id'];
-    token = req.body['token'];
-    if (!Tokens.checkToken(uid, token)) {
-    	res.json({
-            "status": "error",
-            "details": "You are not authorized to make that request."
-        });
-        return;
-    }
+async function addPost(username, title, body, scope, anon, res) {
 
-    title = req.body['title'];
-    body = req.body['body'];
-    anon = false;
-    if (req.body['anon'])
-    	anon = true;
+	//get uid from username
+    doc = await User.findOne({ username: username }).exec();
 
-    var post = new Post({
+	var post = new Post({
+        user_id: doc._id,
+        username: username, 
         title: title,
         body: body,
-        supports: 0,
+        scope: scope,
+        file: '',
+        replies: [],
+        supports: [],
+        flags: [],
+        tags: [],
         timestamp: Date.now(),
         isAnonymous: anon
     })
@@ -40,6 +37,87 @@ router.post('/', (req,res) => {
 			"details": "There was an error saving to the database."
 		});
 	});
+}
+
+async function retrievePost(postID, res) {
+
+    Post.findOne({ _id: postID })
+        .populate({
+            path: 'replies',
+            populate: { path: 'user_id', select: 'username' },
+            select: ['body', 'isAnonymous', 'timestamp']
+        })
+        .populate('user_id', 'username')
+        .exec().then( item => {
+            if (!item) {
+                res.json({
+                    "status": "error",
+                    "details": "That post could not be found."
+                });
+                return;
+            }
+            
+            if (item.isAnonymous) {
+                item.username = "Anonymous"
+            }
+
+            let replies = [];
+            var u; 
+            for (var i = 0; i < item.replies.length; i++) {
+                if (item.replies[i].isAnonymous) {
+                    u = "Anonymous";
+                }
+                else {
+                    u = item.replies[i].user_id.username;
+                }
+
+                replies.push({
+                    "_id": item.replies[i]._id,
+                    "username": u,
+                    "body": item.replies[i].body,
+                    "timestamp": item.replies[i].timestamp
+                });
+            }
+
+            delete item.replies;
+
+            res.json({
+                "status": "success",
+                "post": item,
+                "replies": replies
+            });
+        }
+    );
+}
+
+router.post('/', (req,res) => {
+	// !! NEED TO CHECK FOR XSS, SQLi, & GENERAL VERIFICATION !!
+    token = req.body['token'];
+    t = Tokens.checkToken(token);
+
+    if (!t) {
+    	res.json({
+            "status": "error",
+            "details": "You are not authorized to make that request."
+        });
+        return;
+    }
+    username = t.username;
+
+    title = req.body['title'];
+    body = req.body['body'];
+    scope = req.body['scope'];
+    anon = false;
+    if (req.body['anon'])
+    	anon = true;
+
+    addPost(username, title, body, scope, anon, res);
+});
+
+router.get('/:post', (req,res) => {
+    postID = req.params['post'];
+
+    retrievePost(postID, res);
 });
 
 module.exports = router;

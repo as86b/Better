@@ -7,7 +7,7 @@
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Link, Redirect } from 'react-router-dom';
-import { endpoint, loginUser, loadUser } from '../App';
+import { endpoint, loginUser, loadToken } from '../App';
 import axios from 'axios';
 
 class LoginView extends Component {
@@ -65,14 +65,13 @@ class LoginView extends Component {
     handleLoginClick(e) {
         e.preventDefault();
         let loginAttempt = { login: this.state.loginVal, password: this.state.passwordVal };
-        if (this.validateLoginAttempt(loginAttempt) && this.state.errorText === '') {
+        if (this.validateLoginAttempt(loginAttempt)) {
             // loginAttempt has been validated
             // send the login attempt somewhere
             axios.post(`${endpoint}/api/login/`, loginAttempt)
             .then((res) => {
                 if (res.data.status === "success") {
-                    let user = { _id: res.data.user.user_id, username: loginAttempt.login };
-                    loginUser(user, res.data.user.token);
+                    loginUser(loginAttempt.login, res.data.token);
                     this.setState({ redirect: true });
                 }
                 else {
@@ -98,7 +97,7 @@ class LoginView extends Component {
     }
 
     render() {
-        if (this.state.redirect || loadUser()) {
+        if (this.state.redirect || loadToken()) {
             console.log('User already logged in');
             return(<Redirect to="/dashboard"></Redirect>);
         }

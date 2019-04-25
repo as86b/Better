@@ -34,17 +34,16 @@ class Header extends React.Component {
 
     handleLogoutClick() {
         logoutUser();
-        this.forceUpdate();
         window.location.reload();
     }
 
     /*{ Checking for dark theme? }*/
     //The top right of the navbar will change based off of what page is currently loaded into the body
-    pageBodyLoader(user) {
-        console.log(user);
+    pageBodyLoader(username) {
+        console.log(username);
         let headPart;
 
-        if (!user) {
+        if (!username) {
             headPart = (
                 <ul className="right hide-on-med-and-down">
                     <li>
@@ -77,8 +76,8 @@ class Header extends React.Component {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/profile">
-                            <img className="headerProfilePic z-depth-2" src={`${endpoint}/api/users/getProfilePicture/${user.username}`} alt="Profile"></img>
+                        <Link to={`/profile/${username}`}>
+                            <img className="headerProfilePic z-depth-2" src={`${endpoint}/api/users/getProfilePicture/${username}`} alt="Profile"></img>
                         </Link>
                     </li>
                     <li>
@@ -93,8 +92,8 @@ class Header extends React.Component {
     }
 
     render() {
-        let user = loadUser();
-        let part = this.pageBodyLoader(user);
+        let username = loadUser();
+        let part = this.pageBodyLoader(username);
 
         return(
             //Materialize utilizes header, main, footer
@@ -105,7 +104,7 @@ class Header extends React.Component {
                             <ul id="nav-mobile" className="left">
                                 {/* Element is bleeding over slightly from navbar */}
                                 <li>
-                                    <Link to="/" >
+                                    <Link to="/dashboard" >
                                         <div>
                                             <img className="betterMountainLogo" src={logo} alt="Logo"></img>
                                         </div>

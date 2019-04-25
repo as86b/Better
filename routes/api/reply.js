@@ -18,11 +18,7 @@ async function addReply(username, postID, body, anon, res) {
 		});
 		return;
 	}
-<<<<<<< HEAD
 	
-=======
-	console.log(doc);
->>>>>>> fc0466bb410c0a8eff48ff9fccd5d9dadf866b37
 	var reply = new Reply({
 		user_id: doc._id,
 		post_id: postID,

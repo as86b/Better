@@ -133,7 +133,7 @@ class ProfileView extends Component {
                 </div>
                 <div className="fixed-action-btn">
                     <Link to="/createpost" className="btn-floating btn-large create-post-btn" title="Create Post"> 
-                        <i className="large material-icons">add</i>
+                        <i className="large material-icons">mode_edit</i>
                     </Link>
                 </div>
             </div>

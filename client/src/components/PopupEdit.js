@@ -94,7 +94,8 @@ class PopupEdit extends React.Component {
             axios.post(`${endpoint}/api/reply/`, query)
             .then((res) => {
               // TODO upload image on reply
-              console.log(res);
+              this.props.closePopup();
+              window.location.reload();
             });
           }
           else {

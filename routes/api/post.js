@@ -6,6 +6,7 @@ const router = express.Router();
 const Tokens = require('../../tokens.js');
 const Post = require('../../model/Post.js');
 const User = require('../../model/User.js');
+const Reply = require('../../model/Reply.js');
 
 async function addPost(username, title, body, scope, anon, res) {
 
@@ -40,25 +41,54 @@ async function addPost(username, title, body, scope, anon, res) {
 
 async function retrievePost(postID, res) {
 
-    Post.findOne({ _id: postID }).exec().then( item => {
-        if (item.isAnonymous) {
-            u = "Anonymous"
-        } else {
-            // TODO u = item.username
-            // TODO declare all variables......
-            u = "Username"
-        }
+    Post.findOne({ _id: postID })
+        .populate({
+            path: 'replies',
+            populate: { path: 'user_id', select: 'username' },
+            select: ['body', 'isAnonymous', 'timestamp']
+        })
+        .populate('user_id', 'username')
+        .exec().then( item => {
+            if (!item) {
+                res.json({
+                    "status": "error",
+                    "details": "That post could not be found."
+                });
+                return;
+            }
 
-        res.json({
-            "status": "success",
-            "postID": item._id,
-            "username": u,
-            "title": item.title,
-            "body": item.body,
-            "timestamp": item.timestamp
-        });
-        // Need to return reply data
-    });
+            if (item.isAnonymous) {
+                u = "Anonymous"
+            } else {
+                u = item.user_id.username
+            }
+
+            replies = []
+            item.replies.forEach(function(r) {
+                if (r.isAnonymous) {
+                    user = "Anonymous";
+                } else {
+                    user = r.user_id.username;
+                }
+
+                replies.push({
+                    "username": user,
+                    "body": r.body,
+                    "timestamp": r.timestamp
+                })
+            });
+
+            res.json({
+                "status": "success",
+                "postID": item._id,
+                "username": u,
+                "title": item.title,
+                "body": item.body,
+                "timestamp": item.timestamp,
+                "replies": replies
+            });
+        }
+    );
 }
 
 router.post('/', (req,res) => {
@@ -85,8 +115,8 @@ router.post('/', (req,res) => {
     addPost(username, title, body, scope, anon, res);
 });
 
-router.get('/', (req,res) => {
-	postID = req.body['postID'];
+router.get('/:postID', (req,res) => {
+	postID = req.params['postID'];
 
     retrievePost(postID, res);
 });

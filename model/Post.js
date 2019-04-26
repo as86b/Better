@@ -59,3 +59,12 @@ module.exports.getPostsForPublicUser = (username, page, callback) => {
         callback
     );
 }
+
+module.exports.addPicture = (id, filename, callback) => {
+    Post.updateOne(
+        {_id: id},
+        {$set: {file: filename}},
+        {multi: false},
+        callback
+    );
+}

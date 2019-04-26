@@ -142,6 +142,13 @@ nav ul a {
 }
 */
 
+.post-full {
+    border-radius: 1rem;
+    background-color: #5185C7;
+    color: white;
+    margin-top: 5px;
+}
+
 .createpost-profile-pic {
     margin-top: 3%;
 }

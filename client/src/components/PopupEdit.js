@@ -92,9 +92,33 @@ class PopupEdit extends React.Component {
             }
             axios.post(`${endpoint}/api/reply/`, query)
             .then((res) => {
-              // TODO upload image on reply
-              this.props.closePopup();
-              window.location.reload();
+              // upload an image if there is one
+              if (res.data.status === "success") {
+                let replyID = res.data._id;
+                if (this.state.file) {
+                  let fd = new FormData();
+                  fd.append('file', this.state.file, this.state.file.name);
+                  axios.post(`${endpoint}/api/upload/`, fd)
+                  .then((res) => {
+                      if (res.data.status === "success") {
+                          // add file to post 
+                          let query = { 
+                              token: loadToken(),
+                              _id: replyID,
+                              filename: res.data.file.filename 
+                          };
+                          axios.post(`${endpoint}/api/reply/addPicture`, query)
+                          .then((res) => {
+                              // done
+                              this.props.closePopup();
+                              window.location.reload();
+                          });
+                      }
+                  });
+                }
+              }
+              // this.props.closePopup();
+              // window.location.reload();
             });
           }
           else {

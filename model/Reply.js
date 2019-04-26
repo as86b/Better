@@ -20,3 +20,12 @@ const ReplySchema = mongoose.Schema({
 });
 
 const Reply = module.exports = mongoose.model('Reply', ReplySchema);
+
+module.exports.addPicture = (id, filename, callback) => {
+    Reply.updateOne(
+        {_id: id},
+        {$set: {file: filename}},
+        {multi: false},
+        callback
+    );
+}

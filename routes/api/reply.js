@@ -22,7 +22,8 @@ async function addReply(username, postID, body, anon, res) {
 	var reply = new Reply({
 		user_id: doc._id,
 		post_id: postID,
-        body: body,
+		body: body,
+		file: '',
         timestamp: Date.now(),
         isAnonymous: anon
     });
@@ -38,7 +39,10 @@ async function addReply(username, postID, body, anon, res) {
 					});
 		    		Reply.find({ _id: item._id }).remove().exec();
 		    	} else {
-		    		res.json({"status": "success"});
+		    		res.json({
+						"status": "success",
+						"_id": item._id
+					});
 		    	}
 		    }
 		);
@@ -61,7 +65,8 @@ router.post('/', (req,res) => {
             "details": "You are not authorized to make that request."
         });
         return;
-    }
+	}
+	// TODO add file here
 	username = t.username;
 	postID = req.body['postID'];
 	body = req.body['body'];
@@ -70,6 +75,33 @@ router.post('/', (req,res) => {
     	anon = true;
 
     addReply(username, postID, body, anon, res);
+});
+
+router.post('/addPicture', (req, res) => {
+	token = req.body['token'];
+    t = Tokens.checkToken(token);
+    if (!t) {
+    	res.json({
+            "status": "error",
+            "details": "You are not authorized to make that request."
+        });
+        return;
+	}
+	
+	let filename = req.body['filename'];
+	let replyID = req.body['_id'];
+	Reply.addPicture(replyID, filename, (err, reply) => {
+		if (err) {
+			console.log(err);
+			res.json({
+				"status": "error",
+				"details": "Failed to add a picture to the reply"
+			});
+		}
+		else {
+			res.json({ "status": "success" });
+		}
+	});
 });
 
 module.exports = router;

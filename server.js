@@ -22,6 +22,7 @@ const registerAPI = require('./routes/api/register');
 const uploadAPI = require('./routes/api/upload');
 const postAPI = require('./routes/api/post');
 const replyAPI = require('./routes/api/reply');
+const flagAPI = require('./routes/api/flag');
 app.use('/api/users', usersAPI);
 app.use('/api/feed', feedAPI);
 app.use('/api/messages', messagesAPI);
@@ -30,6 +31,7 @@ app.use('/api/register', registerAPI);
 app.use('/api/upload', uploadAPI);
 app.use('/api/post', postAPI);
 app.use('/api/reply', replyAPI);
+app.use('/api/flag', flagAPI);
 
 // database
 const db = require('./model/database');

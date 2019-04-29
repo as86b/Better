@@ -23,6 +23,7 @@ const uploadAPI = require('./routes/api/upload');
 const postAPI = require('./routes/api/post');
 const replyAPI = require('./routes/api/reply');
 const flagAPI = require('./routes/api/flag');
+const supportAPI = require('./routes/api/support');
 app.use('/api/users', usersAPI);
 app.use('/api/feed', feedAPI);
 app.use('/api/messages', messagesAPI);
@@ -32,6 +33,7 @@ app.use('/api/upload', uploadAPI);
 app.use('/api/post', postAPI);
 app.use('/api/reply', replyAPI);
 app.use('/api/flag', flagAPI);
+app.use('/api/support', supportAPI);
 
 // database
 const db = require('./model/database');

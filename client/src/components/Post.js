@@ -16,6 +16,11 @@ class Post extends Component {
         super(props);
     }
 
+    handleSupportClick(e) {
+        /*change support button color when clicked */
+    
+    }
+
     render() {
         let link = (<span></span>);
         let image = (<span></span>);
@@ -56,7 +61,7 @@ class Post extends Component {
                             </div>
                             <div className="col s3 m2 post-support-icon">
                                 {/*support button*/}
-                                <i className="material-icons">sentiment_very_satisfied</i>
+                                <i className="material-icons support-btn" onClick={this.handleSupportClick}>favorite</i>
                             </div>
                         </div>
                         <div className="row">

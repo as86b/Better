@@ -110,9 +110,9 @@ class ProfileView extends Component {
                     <div className="card center profileBioCard"> 
                         <div className="cardTop">
                             {/* TODO change icons based on if you're viewing your account or another */}
-                            <a href="#" className="bio-button btn-floating waves-effect waves-light right" ><i className="material-icons">group</i></a>
+                            <a href="#" className="bio-button btn-floating waves-effect waves-light right" title="Followers"><i className="material-icons">group</i></a>
                             {this.state.owner ? 
-                                <a className="bio-button btn-floating waves-effect waves-light right" onClick={this.togglePopup.bind(this)}><i className="material-icons">edit</i></a>
+                                <a className="bio-button btn-floating waves-effect waves-light right" onClick={this.togglePopup.bind(this)} title="Edit Bio"><i className="material-icons">edit</i></a>
                                 : null
                             }
                             {this.state.showPopup ? 
@@ -132,7 +132,7 @@ class ProfileView extends Component {
                     </div>
                 </div>
                 <div className="fixed-action-btn">
-                    <Link to="/createpost" className="btn-floating btn-large create-post-btn">
+                    <Link to="/createpost" className="btn-floating btn-large create-post-btn" title="Create Post"> 
                         <i className="large material-icons">mode_edit</i>
                     </Link>
                 </div>

@@ -136,6 +136,11 @@ nav ul a {
     margin-top: 5px;
     height: 18vh;
 }
+/*  TODO use this when clicking support button
+.support-btn {
+    color: #46c6a5;
+}
+*/
 
 .post-full {
     border-radius: 1rem;

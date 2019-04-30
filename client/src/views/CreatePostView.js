@@ -42,7 +42,7 @@ class CreatePostView extends Component {
             errorText: '',
             redirect: false,
             username: loadUser(),
-            token: loadToken(),
+            token: loadToken()
         };
 
         console.log(this.state.user);

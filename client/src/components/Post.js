@@ -17,8 +17,14 @@ class Post extends Component {
     }
 
     handleSupportClick(e) {
-        /*change support button color when clicked */
-    
+        /*
+            send the support and
+            change support button color when clicked
+            if the user made a valid action 
+        */
+        // how to change color: 
+        e.target.style.color = '#46c6a5';
+
     }
 
     render() {
@@ -59,7 +65,7 @@ class Post extends Component {
                                 { image }
                                 { link }
                             </div>
-                            <div className="col s3 m2 post-support-icon">
+                            <div className="col s3 m2 post-support-icon noselect">
                                 {/*support button*/}
                                 <i className="material-icons support-btn" onClick={this.handleSupportClick}>favorite</i>
                             </div>

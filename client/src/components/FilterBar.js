@@ -21,7 +21,16 @@ class FilterBar extends React.Component  {
         this.state = {
             path: '/',
             scope: 'global',
-            buttons: { global: true, followers: false, private: false }
+            buttons: { 
+                global: true, 
+                followers: false, 
+                private: false, 
+                verified: false,
+                posts: false,
+                replies: false,
+                personal: false,
+                supported: false 
+            }
         }
         
         this.handleScopeClick = this.handleScopeClick.bind(this);
@@ -52,9 +61,15 @@ class FilterBar extends React.Component  {
             case 'dashboard':
                 bar = (
                     <div className="filterBarButtons col s12 m10 push-m1">
-                        <button className="waves-effect waves-light btn betterButton">Global</button>
-                        <button className="waves-effect waves-light btn betterButton">Followers</button>
-                        <button className="waves-effect waves-light btn betterButton">Verified</button>
+                            <button id="global" 
+                                    className={this.state.buttons.global === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
+                                    onClick={() => this.handleScopeClick('global')}>Global</button>
+                            <button id="followers" 
+                                    className={this.state.buttons.followers === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
+                                    onClick={() => this.handleScopeClick('followers')}>Followers</button>
+                            <button id="verified" 
+                                    className={this.state.buttons.verified === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
+                                    onClick={() => this.handleScopeClick('verified')}>Verified</button>
                     </div>
                 );
             break;
@@ -82,18 +97,30 @@ class FilterBar extends React.Component  {
                 if (this.props.personal) {
                     bar = (
                         <div className="filterBarButtons col s12 m10 push-m1">
-                            <button className="waves-effect waves-light btn betterButton">Posts</button>
-                            <button className="waves-effect waves-light btn betterButton">Replies</button>
-                            <button className="waves-effect waves-light btn betterButton">Personal</button>
-                            <button className="waves-effect waves-light btn betterButton">Supported</button>
+                            <button id="posts" 
+                                    className={this.state.buttons.posts === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
+                                    onClick={() => this.handleScopeClick('posts')}>Posts</button>
+                            <button id="replies" 
+                                    className={this.state.buttons.replies === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
+                                    onClick={() => this.handleScopeClick('replies')}>Replies</button>
+                            <button id="personal" 
+                                    className={this.state.buttons.personal === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
+                                    onClick={() => this.handleScopeClick('personal')}>Personal</button>
+                            <button id="supported" 
+                                    className={this.state.buttons.supported === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
+                                    onClick={() => this.handleScopeClick('supported')}>Supported</button>
                         </div>
                     );
                 }
                 else {
                     bar =(
                         <div className="filterBarButtons col s12 m10 push-m2">
-                            <button className="waves-effect waves-light btn betterButton">Posts</button>
-                            <button className="waves-effect waves-light btn betterButton">Replies</button>
+                            <button id="posts" 
+                                    className={this.state.buttons.posts === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
+                                    onClick={() => this.handleScopeClick('posts')}>Posts</button>
+                            <button id="replies" 
+                                    className={this.state.buttons.replies === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
+                                    onClick={() => this.handleScopeClick('replies')}>Replies</button>
                         </div>
                     );
                 }
@@ -109,6 +136,15 @@ class FilterBar extends React.Component  {
     componentDidMount() {
         let newPath = this.props.location.pathname;
         this.setState({ path: newPath });
+        let path = newPath.slice(1, newPath.length);
+        if (path.indexOf('/') > 0)
+            path = path.slice(0, path.indexOf('/'));
+        if (path === "profile") {
+            let buttons = this.state.buttons;
+            buttons['global'] = false;
+            buttons['posts'] = true;
+            this.setState({ scope: 'posts', buttons: buttons });
+        }
     }
 
     render() {

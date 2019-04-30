@@ -36,11 +36,28 @@ module.exports.getPostsForFeed = (scope, page, callback) => {
         page: page, 
         limit: 20
     };
-    Post.paginate(
-        { scope: scope }, 
-        options, 
-        callback
-    ); 
+    switch(scope) {
+        case 'global':
+            Post.paginate(
+                { scope: scope }, 
+                options, 
+                callback
+            ); 
+            break;
+
+        case 'followers':
+            // TODO
+            break;
+        
+        case 'verified':
+            Post.paginate(
+                { username: 'Better' }, 
+                options, 
+                callback
+            ); 
+            break;
+    }
+
 }
 
 module.exports.getPostsForPublicUser = (username, page, callback) => {
@@ -51,7 +68,8 @@ module.exports.getPostsForPublicUser = (username, page, callback) => {
     };
     let query = { 
         username: username,
-        isAnonymous: false
+        isAnonymous: false,
+        scope: 'global'
     };
     Post.paginate(
         query,

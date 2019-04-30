@@ -49,8 +49,11 @@ class DashboardView extends Component {
         });
     }
 
-    handleScopeChange() {
-        // change the scope 
+    handleScopeChange(scope) {
+        if (scope !== this.state.scope) {
+            this.setState({ scope: scope, feed: [] });
+            this.retrieveFeed(scope, 1);
+        }
     }
 
     render() {

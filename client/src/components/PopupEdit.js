@@ -116,6 +116,10 @@ class PopupEdit extends React.Component {
                       }
                   });
                 }
+                else {
+                  this.props.closePopup();
+                  window.location.reload();
+                }
               }
               // this.props.closePopup();
               // window.location.reload();

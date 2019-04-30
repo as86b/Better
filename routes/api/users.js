@@ -16,6 +16,27 @@ db.once('open', () => {
     gfs.collection('uploads');
 });
 
+// gets the users ID based on username
+// NOTE require authentication?
+router.get('/getID/:username', (req, res) => {
+    User.findOne({ username: req.params['username']} ).exec()
+    .then((user) => {
+        console.log('user found');
+        console.log(user);
+        res.json({
+            "status": "success",
+            "_id": user._id
+        });
+    })
+    .catch((err) => {
+        console.log(err); 
+        res.json({
+            "status": "error",
+            "details": "Failed to retrieve user info"
+        });
+    });
+});
+
 // creates a follower relationship between the two users
 router.post('/addFollower', (req, res) => {
     // verify token

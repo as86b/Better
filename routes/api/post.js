@@ -28,8 +28,6 @@ async function addPost(username, title, body, scope, anon, res) {
         isAnonymous: anon
     })
     post.save().then(item => {
-        console.log('post saved');
-        console.log(item);
 		res.json({
             "status": "success",
             "_id": item._id
@@ -49,8 +47,7 @@ async function retrievePost(postID, res) {
     Post.findOne({ _id: postID })
         .populate({
             path: 'replies',
-            populate: { path: 'user_id', select: 'username' },
-            select: ['body', 'file', 'isAnonymous', 'timestamp']
+            populate: { path: 'user_id', select: 'username' }
         })
         .populate('user_id', 'username')
         .exec().then( item => {
@@ -76,12 +73,16 @@ async function retrievePost(postID, res) {
                     u = item.replies[i].user_id.username;
                 }
 
+                console.log(item.replies[i]);
+
                 replies.push({
                     "_id": item.replies[i]._id,
                     "username": u,
                     "body": item.replies[i].body,
                     "file": item.replies[i].file,
-                    "timestamp": item.replies[i].timestamp
+                    "timestamp": item.replies[i].timestamp,
+                    "supports": item.replies[i].supports,
+                    "flags": item.replies[i].flags
                 });
             }
 

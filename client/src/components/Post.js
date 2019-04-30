@@ -6,7 +6,8 @@
 
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
-import { endpoint } from '../App';
+import { endpoint, loadToken } from '../App';
+import axios from 'axios';
 
 // TODO probably use withRouter to distinguish between views 
 import { withRouter, Link } from 'react-router-dom';
@@ -14,6 +15,8 @@ import { withRouter, Link } from 'react-router-dom';
 class Post extends Component {
     constructor(props) {
         super(props);
+
+        this.handleSupportClick = this.handleSupportClick.bind(this);
     }
 
     handleSupportClick(e) {
@@ -22,9 +25,17 @@ class Post extends Component {
             change support button color when clicked
             if the user made a valid action 
         */
-        // how to change color: 
-        e.target.style.color = '#46c6a5';
-
+        let icon = e.target;
+        let query = { token: loadToken(), postID: this.props.post._id };
+        if (this.props.reply) 
+            query.reply = true;
+        axios.post(`${endpoint}/api/support/`, query) 
+        .then((res) => {
+            if (res.data.status === "success") {
+                // change color locally. this will still be reflected on a refresh because of parents
+                icon.style.color = '#46c6a5';
+            }
+        });
     }
 
     render() {
@@ -67,7 +78,7 @@ class Post extends Component {
                             </div>
                             <div className="col s3 m2 post-support-icon noselect">
                                 {/*support button*/}
-                                <i className="material-icons support-btn" onClick={this.handleSupportClick}>favorite</i>
+                                <i className={this.props.supported ? "material-icons support-btn-supported" : "material-icons support-btn"} onClick={this.handleSupportClick}>favorite</i>
                             </div>
                         </div>
                         <div className="row">

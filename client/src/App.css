@@ -148,7 +148,11 @@ nav ul a {
 }
 
 .support-btn {
-    
+    color: white; 
+}
+
+.support-btn-supported {
+    color: #46c6a5;
 }
 
 

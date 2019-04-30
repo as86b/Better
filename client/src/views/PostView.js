@@ -11,7 +11,7 @@ import PopupEdit from '../components/PopupEdit';
 
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { endpoint } from '../App';
+import { endpoint, loadUser } from '../App';
 
 
 class PostView extends Component {
@@ -22,7 +22,9 @@ class PostView extends Component {
             post: null,
             replies: [],
             queried: false,
-            showPopup: false
+            showPopup: false,
+            username: loadUser(),
+            user_id: null
         }
 
         this.retrievePost();
@@ -51,11 +53,36 @@ class PostView extends Component {
             return(<Redirect to="/404"></Redirect>);
         let post, replies = []; 
         if (this.state.queried) {
-            post = (<Post post={this.state.post} contained={true}></Post>);
+            if (this.state.username && !this.state.user_id) {
+                axios.get(`${endpoint}/api/users/getID/${this.state.username}`)
+                .then((res) => {
+                    if (res.data.status === "success") {
+                        this.setState({ user_id: res.data._id });
+                    }
+                });
+            }
+            var supported = false; 
+            if (this.state.user_id) {
+                for (var j = 0; j < this.state.post.supports.length; j++) {
+                    if (this.state.post.supports[j] === this.state.user_id)
+                        supported = true; 
+                }
+            }
+            post = (<Post post={this.state.post} contained={true} supported={supported}></Post>);
             // TODO add pagination on replies to a post...
+            console.log(this.state.replies);
             for (var i = 0; i < this.state.replies.length; i++) {
+                supported = false; 
+                if (this.state.user_id) {
+                    for (var j = 0; j < this.state.replies[i].supports.length; j++) {
+                        if (this.state.replies[i].supports[j] === this.state.user_id) {
+                            supported = true; 
+                            break;
+                        }
+                    }
+                }
                 replies.push(
-                    <Post key={i} post={this.state.replies[i]} contained={true}></Post>
+                    <Post key={i} post={this.state.replies[i]} contained={true} supported={supported} reply={true}></Post>
                 );
             }
             if (replies.length <= 0) {

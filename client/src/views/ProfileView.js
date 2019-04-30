@@ -7,7 +7,7 @@
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Link, Redirect, withRouter } from 'react-router-dom';
-import { endpoint, loadToken } from '../App';
+import { endpoint, loadToken, loadUser } from '../App';
 
 import Post from '../components/Post';
 import PopupEdit from '../components/PopupEdit';
@@ -24,7 +24,9 @@ class ProfileView extends Component {
             redirect: false,
             user: null,
             page: 1,
-            posts: []
+            posts: [],
+            username: loadUser(),
+            user_id: null
         }   
 
         this.retrieveProfile();
@@ -82,8 +84,6 @@ class ProfileView extends Component {
     }
 
     render() {
-        console.log('owner: ' + this.state.owner);
-        console.log('user: ' + JSON.stringify(this.state.user));
         if ( this.state.user && this.state.user.username !== this.props.match.params.username) {
             this.retrieveProfile();
         }
@@ -91,9 +91,27 @@ class ProfileView extends Component {
             return(<Redirect to="/404"></Redirect>);
         let posts = [];
         if (this.state.posts.length > 0) {
+            if (this.state.username && !this.state.user_id) {
+                axios.get(`${endpoint}/api/users/getID/${this.state.username}`)
+                .then((res) => {
+                    if (res.data.status === "success") {
+                        this.setState({ user_id: res.data._id });
+                    }
+                });
+            }
+            var supported = false; 
             for (var i = 0; i < this.state.posts.length; i++) {
+                supported = false; 
+                if (this.state.user_id) {
+                    for (var j = 0; j < this.state.posts[i].supports.length; j++) {
+                        if (this.state.posts[i].supports[j] === this.state.user_id) {
+                            supported = true; 
+                            break;
+                        }
+                    }
+                }
                 posts.push(
-                    <Post key={(i+1)*this.state.page} post={this.state.posts[i]}></Post>
+                    <Post key={(i+1)*this.state.page} post={this.state.posts[i]} supported={supported}></Post>
                 );
             }
         }

@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import axios from 'axios'; 
 import { Link } from 'react-router-dom';
-import { endpoint } from '../App'; 
+import { endpoint, loadUser } from '../App'; 
 
 import Post from '../components/Post';
 
@@ -19,7 +19,9 @@ class DashboardView extends Component {
         this.state = {
             page: 1,
             scope: 'global',
-            feed: []
+            feed: [],
+            username: loadUser(),
+            user_id: null
         };
 
         this.retrieveFeed(this.state.scope, this.state.page);
@@ -48,11 +50,35 @@ class DashboardView extends Component {
     }
 
     render() {
+        if (this.state.username && !this.state.user_id) {
+            axios.get(`${endpoint}/api/users/getID/${this.state.username}`)
+            .then((res) => {
+                if (res.data.status === "success") {
+                    this.setState({ user_id: res.data._id });
+                }
+            });
+        }
         let posts = [];
+        var supported = false; 
         if (this.state.feed.length > 0) {
              for (var i = 0; i < this.state.feed.length; i++) {
+                supported = false; 
+                // check if the user has liked this post 
+                if (this.state.user_id) {
+                    console.log(this.state.user_id);
+                    for (var j = 0; j < this.state.feed[i].supports.length; j++) {
+                        console.log(this.state.feed[i].supports[j]);
+                        if (this.state.feed[i].supports[j] === this.state.user_id) {
+                            supported = true; 
+                            break;
+                        }
+                    }
+                }
+                else {
+                    console.log('no id');
+                }
                 posts.push(
-                    <Post key={(i+1)*this.state.page} post={this.state.feed[i]}></Post>
+                    <Post key={(i+1)*this.state.page} post={this.state.feed[i]} supported={supported}></Post>
                 );
              }
         }

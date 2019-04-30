@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { endpoint, loadUser } from '../App'; 
 
 import Post from '../components/Post';
+import FilterBar from '../components/FilterBar';
 
 class DashboardView extends Component {
     constructor(props) {
@@ -28,6 +29,7 @@ class DashboardView extends Component {
 
         this.retrieveFeed = this.retrieveFeed.bind(this);
         this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this);
+        this.handleScopeChange = this.handleScopeChange.bind(this);
     }
 
     handleLoadMoreClick() {
@@ -37,16 +39,18 @@ class DashboardView extends Component {
     }
 
     retrieveFeed(scope, page) {
-        console.log('query: ' + page);
         axios.get(`${endpoint}/api/feed/${scope}-${page}`)
         .then((res) => {
-            console.log(res);
             if (res.data.status === "success") {
                 let feed = this.state.feed;
                 Array.prototype.push.apply(feed, res.data.feed.docs);
                 this.setState({ feed: feed }); 
             }
         });
+    }
+
+    handleScopeChange() {
+        // change the scope 
     }
 
     render() {
@@ -65,17 +69,12 @@ class DashboardView extends Component {
                 supported = false; 
                 // check if the user has liked this post 
                 if (this.state.user_id) {
-                    console.log(this.state.user_id);
                     for (var j = 0; j < this.state.feed[i].supports.length; j++) {
-                        console.log(this.state.feed[i].supports[j]);
                         if (this.state.feed[i].supports[j] === this.state.user_id) {
                             supported = true; 
                             break;
                         }
                     }
-                }
-                else {
-                    console.log('no id');
                 }
                 posts.push(
                     <Post key={(i+1)*this.state.page} post={this.state.feed[i]} supported={supported}></Post>
@@ -88,6 +87,15 @@ class DashboardView extends Component {
         return(
             <div className="row">
                 <div className="col s12 m8 push-m2">
+                    <div className="row">
+                        <div className="col s12 push-m2">
+                            <FilterBar handleScopeChange={this.handleScopeChange}></FilterBar>
+                        </div>
+                        <div className="col s12 m6 push-m3">
+                            <input name="tagSearch" type="text"></input>
+                            <label htmlFor="tagSearch">Search for tags</label>
+                        </div>
+                    </div>
                     { posts }
                     <div className="center">
                         <button className="btn" onClick={this.handleLoadMoreClick}>More posts</button>

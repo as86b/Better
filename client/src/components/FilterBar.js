@@ -32,7 +32,6 @@ class FilterBar extends React.Component  {
     // onclick={} to go where it needs to
 
     handleScopeClick(e) {
-        console.log(e);
         this.setState({ scope: e });
         let buttons = this.state.buttons; 
         for (var button in this.state.buttons) {
@@ -45,24 +44,26 @@ class FilterBar extends React.Component  {
     pageFilterBarLoader() {
         
         let bar;
-
-        switch(this.state.path) {
+        let path = this.state.path.slice(1, this.state.path.length);
+        if (path.indexOf('/') > 0)
+            path = path.slice(0, path.indexOf('/'));
+        switch(path) {
             
-            // case '/feed':
-            //     bar = (
-            //         <div className="filterBarButtons col s12 m10 push-m2">
-            //             <button className="waves-effect waves-light btn betterButton">Global</button>
-            //             <button className="waves-effect waves-light btn betterButton">Followers</button>
-            //             <button className="waves-effect waves-light btn betterButton">Verified</button>
-            //         </div>
-            //     );
-            // break;
+            case 'dashboard':
+                bar = (
+                    <div className="filterBarButtons col s12 m10 push-m1">
+                        <button className="waves-effect waves-light btn betterButton">Global</button>
+                        <button className="waves-effect waves-light btn betterButton">Followers</button>
+                        <button className="waves-effect waves-light btn betterButton">Verified</button>
+                    </div>
+                );
+            break;
 
             
-            case '/createpost':
+            case 'createpost':
                 bar = (
                     <div className="">
-                        <div className="filterBarButtons col s12 m10 push-m2">
+                        <div className="filterBarButtons col s12 m10 push-m1">
                             <button id="global" 
                                     className={this.state.buttons.global === true ? 'waves-effect waves-light btn betterButtonSelected' : 'waves-effect waves-light btn betterButton'}
                                     onClick={() => this.handleScopeClick('global')}>Global</button>
@@ -77,25 +78,26 @@ class FilterBar extends React.Component  {
                 );
             break;
 
-            case '/profile':
-                bar = (
-                    <div className="filterBarButtons col s12 m10 push-m2">
-                        <button className="waves-effect waves-light btn betterButton">Posts</button>
-                        <button className="waves-effect waves-light btn betterButton">Replies</button>
-                        <button className="waves-effect waves-light btn betterButton">Person</button>
-                        <button className="waves-effect waves-light btn betterButton">Supported</button>
-                    </div>
-                );
+            case 'profile':
+                if (this.props.personal) {
+                    bar = (
+                        <div className="filterBarButtons col s12 m10 push-m1">
+                            <button className="waves-effect waves-light btn betterButton">Posts</button>
+                            <button className="waves-effect waves-light btn betterButton">Replies</button>
+                            <button className="waves-effect waves-light btn betterButton">Personal</button>
+                            <button className="waves-effect waves-light btn betterButton">Supported</button>
+                        </div>
+                    );
+                }
+                else {
+                    bar =(
+                        <div className="filterBarButtons col s12 m10 push-m2">
+                            <button className="waves-effect waves-light btn betterButton">Posts</button>
+                            <button className="waves-effect waves-light btn betterButton">Replies</button>
+                        </div>
+                    );
+                }
             break;
-
-            // case '/someone else's profile':
-                // bar =(
-                    // <div className="filterBarButtons col s12 m10 push-m2">
-                    //     <button className="waves-effect waves-light btn betterButton">Posts</button>
-                    //     <button className="waves-effect waves-light btn betterButton">Replies</button>
-                    // </div>
-                // );
-                // break;
 
             default:
                 break;

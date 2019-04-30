@@ -45,11 +45,6 @@ class CreatePostView extends Component {
             token: loadToken()
         };
 
-        console.log(this.state.user);
-        if (!this.state.token || !this.state.user) {
-            this.setState({ redirect: true });
-        }
-        
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this); 
         this.handleScopeChange = this.handleScopeChange.bind(this); 

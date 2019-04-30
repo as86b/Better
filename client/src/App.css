@@ -375,6 +375,7 @@ nav ul a {
 
 .betterButtonSelected {
     background-color: #5185C7;
+    width: 20%;
 }
 
 .betterButtonSelected:hover {
@@ -384,6 +385,7 @@ nav ul a {
 .betterButton {
     background-color: #46C6A5;
     color: white; 
+    width: 20%;
 }
 
 .betterButton:hover {

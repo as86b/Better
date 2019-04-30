@@ -6,13 +6,13 @@
 
 import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
+import axios from 'axios';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 import { endpoint, loadToken, loadUser } from '../App';
 
 import Post from '../components/Post';
 import PopupEdit from '../components/PopupEdit';
-import axios from 'axios';
-const profilePicture = require('../assets/img/blank-profile-picture.png');
+import FilterBar from '../components/FilterBar';
 
 class ProfileView extends Component {
         
@@ -32,12 +32,12 @@ class ProfileView extends Component {
         this.retrieveProfile();
         this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this);
         this.retrievePosts = this.retrievePosts.bind(this);
+        this.handleScopeChange = this.handleScopeChange.bind(this);
     };
 
     retrieveProfile() {
         axios.get(`${endpoint}/api/users/getProfile/${this.props.match.params.username}`)
         .then((res) => {
-            console.log(res);
             if (res.data.status == "error") {
                 this.setState({ redirect: true });
             }
@@ -45,7 +45,6 @@ class ProfileView extends Component {
                 this.setState({ user: res.data });
                 // check if the logged in user is this profile 
                 let query = { token: loadToken(), username: this.state.user.username };
-                console.log('sending query: ' + query); 
                 axios.post(`${endpoint}/api/users/checkProfile`, query)
                 .then((res) => {
                     if (res.data.status === "success") {
@@ -62,7 +61,6 @@ class ProfileView extends Component {
         // TODO get anonymous posts for user's viewing their own profile  
         axios.get(`${endpoint}/api/users/getProfilePosts/${this.state.user.username}-${page}`)
         .then((res) => {
-            console.log(res);
             if (res.data.status === "success" && res.data.posts.docs.length > 0) {
                 let posts = this.state.posts;
                 Array.prototype.push.apply(posts, res.data.posts.docs);
@@ -75,6 +73,10 @@ class ProfileView extends Component {
         var page = this.state.page + 1;
         this.setState({ page: page });
         this.retrievePosts(page);
+    }
+
+    handleScopeChange() {
+        // handle scope change
     }
 
     togglePopup() {
@@ -142,6 +144,11 @@ class ProfileView extends Component {
 
                         <div className="card-content" id="bioContent">
                             <p>{this.state.user ? this.state.user.bio : 'User bio'}</p>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className={this.state.owner ? "col s12 push-m1" : "col s12 push-m2"}>
+                            <FilterBar handleScopeChange={this.handleScopeChange} personal={this.state.owner}></FilterBar>
                         </div>
                     </div>
                     { posts }

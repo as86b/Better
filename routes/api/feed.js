@@ -12,7 +12,7 @@ router.get('/:scope-:page', (req,res) => {
             res.json({
                 "status": "error",
                 "details": "Failed to retrieve the feed"
-            })
+            });
         }
         else {
             for (var i = 0; i < feed.docs.length; i++) {

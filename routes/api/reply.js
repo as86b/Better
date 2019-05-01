@@ -21,6 +21,7 @@ async function addReply(username, postID, body, anon, res) {
 	
 	var reply = new Reply({
 		user_id: doc._id,
+		username: username,
 		post_id: postID,
 		body: body,
 		file: '',
@@ -28,7 +29,6 @@ async function addReply(username, postID, body, anon, res) {
         isAnonymous: anon
     });
     reply.save().then(item => {
-		console.log(item);
 		Post.updateOne(
 			{ _id: postID },
 			{ $push: { replies: item._id } },

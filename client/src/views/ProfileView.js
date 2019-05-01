@@ -25,6 +25,7 @@ class ProfileView extends Component {
             user: null,
             page: 1,
             posts: [],
+            scope: 'posts',
             username: loadUser(),
             user_id: null
         }   
@@ -50,33 +51,99 @@ class ProfileView extends Component {
                     if (res.data.status === "success") {
                         this.setState({ owner: true });
                     }
-                    this.retrievePosts(this.state.page);
+                    this.retrievePosts(this.state.scope, this.state.page);
                 });
             }
         });
     }
 
-    retrievePosts(page) {
+    retrievePosts(scope, page) {
         // get posts for the user's profile (only public ones)
         // TODO get anonymous posts for user's viewing their own profile  
-        axios.get(`${endpoint}/api/users/getProfilePosts/${this.state.user.username}-${page}`)
-        .then((res) => {
-            if (res.data.status === "success" && res.data.posts.docs.length > 0) {
-                let posts = this.state.posts;
-                Array.prototype.push.apply(posts, res.data.posts.docs);
-                this.setState({ posts: posts });
-            }
-        });
+        let query;
+        switch(scope) {
+            case 'posts':
+                if (this.state.owner) {
+                    // load all posts including anonymous ones 
+                    query = { token: loadToken(), username: this.state.user.username, page: page, scope: 'global' };
+                    axios.post(`${endpoint}/api/users/getProfilePosts/`, query)
+                    .then((res) => {
+                        if (res.data.status === "success" && res.data.posts.docs.length > 0) {
+                            let posts = this.state.posts;
+                            Array.prototype.push.apply(posts, res.data.posts.docs);
+                            this.setState({ posts: posts });
+                        }
+                    });
+                }
+                else {
+                    // load all global posts that arent anonymous
+                    axios.get(`${endpoint}/api/users/getProfilePosts/${this.state.user.username}-${page}`)
+                    .then((res) => {
+                        if (res.data.status === "success" && res.data.posts.docs.length > 0) {
+                            let posts = this.state.posts;
+                            Array.prototype.push.apply(posts, res.data.posts.docs);
+                            this.setState({ posts: posts });
+                        }
+                    });
+                }
+                break;
+            
+            case 'replies':
+                axios.get(`${endpoint}/api/users/getProfileReplies/${this.state.user.username}-${page}`)
+                .then((res) => {
+                    if (res.data.status === "success" && res.data.posts.docs.length > 0) {
+                        let posts = this.state.posts;
+                        let replies = res.data.posts.docs;
+                        // need to change _id to post_id to correctly link to the parent post
+                        // FIXME when a user supports a reply in the profile feed it actually supports the given post 
+                        for (var i = 0; i < replies.length; i++) {
+                            replies[i]._id = replies[i].post_id;
+                        }
+                        Array.prototype.push.apply(posts, res.data.posts.docs);
+                        this.setState({ posts: posts });
+                    }
+                });
+                break;
+            
+            case 'personal':
+                query = { token: loadToken(), username: this.state.user.username, page: page, scope: 'private' };
+                axios.post(`${endpoint}/api/users/getProfilePosts/`, query)
+                .then((res) => {
+                    if (res.data.status === "success" && res.data.posts.docs.length > 0) {
+                        let posts = this.state.posts;
+                        Array.prototype.push.apply(posts, res.data.posts.docs);
+                        this.setState({ posts: posts });
+                    }
+                });
+                break;
+
+            case 'supported':
+                query = { token: loadToken(), username: this.state.user.username, page: page, user_id: this.state.user_id };
+                axios.post(`${endpoint}/api/users/getSupportedPosts/`, query)
+                .then((res) => {
+                    if (res.data.status === "success" && res.data.posts.docs.length > 0) {
+                        let posts = this.state.posts;
+                        Array.prototype.push.apply(posts, res.data.posts.docs);
+                        this.setState({ posts: posts });
+                    }
+                });
+                break;
+        }
+
     }
 
     handleLoadMoreClick() {
         var page = this.state.page + 1;
         this.setState({ page: page });
-        this.retrievePosts(page);
+        this.retrievePosts(this.state.scope, page);
     }
 
-    handleScopeChange() {
+    handleScopeChange(scope) {
         // handle scope change
+        if (scope !== this.state.scope) {
+            this.setState({ scope: scope, posts: [], page: 1 });
+            this.retrievePosts(scope, 1);
+        }
     }
 
     togglePopup() {
@@ -148,7 +215,9 @@ class ProfileView extends Component {
                     </div>
                     <div className="row">
                         <div className={this.state.owner ? "col s12 push-m1" : "col s12 push-m2"}>
-                            <FilterBar handleScopeChange={this.handleScopeChange} personal={this.state.owner}></FilterBar>
+                            {!this.state.showPopup ?
+                                <FilterBar handleScopeChange={this.handleScopeChange} personal={this.state.owner}></FilterBar>
+                                : null }
                         </div>
                     </div>
                     { posts }

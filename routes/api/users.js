@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../../model/User');
 const Post = require('../../model/Post');
+const Reply = require('../../model/Reply');
 const Tokens = require('../../tokens.js');
 const mongoose = require('mongoose');
 const Grid = require('gridfs-stream');
@@ -21,8 +22,6 @@ db.once('open', () => {
 router.get('/getID/:username', (req, res) => {
     User.findOne({ username: req.params['username']} ).exec()
     .then((user) => {
-        console.log('user found');
-        console.log(user);
         res.json({
             "status": "success",
             "_id": user._id
@@ -152,6 +151,46 @@ router.get('/getProfile/:username', (req, res) => {
     });
 });
 
+router.post('/getProfilePosts', (req, res) => {
+    var token = req.body['token'];
+    var t = Tokens.checkToken(token);
+    
+    if (!t) {
+        console.log("Can't update profile picture");
+    	res.json({
+            "status": "error",
+            "details": "You are not authorized to make that request."
+        });
+        return;
+    }
+
+    var u = req.body['username'];
+    if (u !== t.username) {
+        res.json({
+            "status": "error",
+            "details": "You are not authorized to make that request."
+        });
+        return;
+    }
+
+
+    Post.getPostsForOwner(t.username, req.body['scope'], req.body['page'], (err, posts) => {
+        if (err) {
+            console.log(err);
+            res.json({
+                "status": "error",
+                "details": "Failed to retrieve posts for user"
+            });
+        }
+        else {
+            res.json({
+                "status": "success",
+                "posts": posts
+            });
+        }
+    });
+});
+
 router.get('/getProfilePosts/:username-:page', (req, res) => {
     Post.getPostsForPublicUser(req.params['username'], req.params['page'], (err, posts) => {
         if (err) {
@@ -166,6 +205,80 @@ router.get('/getProfilePosts/:username-:page', (req, res) => {
                 "status": "success",
                 "posts": posts
             });
+        }
+    });
+});
+
+router.get('/getProfileReplies/:username-:page', (req, res) => {
+    Reply.getPostsForPublicUser(req.params['username'], req.params['page'], (err, posts) => {
+        if (err) {
+            console.log(err);
+            res.json({
+                "status": "error",
+                "details": "Failed to retrieve posts for user"
+            });
+        }
+        else {
+            res.json({
+                "status": "success",
+                "posts": posts
+            });
+        }
+    });
+});
+
+router.post('/getSupportedPosts', (req, res) => {
+    var token = req.body['token'];
+    var t = Tokens.checkToken(token);
+    
+    if (!t) {
+        console.log("Can't update profile picture");
+    	res.json({
+            "status": "error",
+            "details": "You are not authorized to make that request."
+        });
+        return;
+    }
+
+    var u = req.body['username'];
+    if (u !== t.username) {
+        res.json({
+            "status": "error",
+            "details": "You are not authorized to make that request."
+        });
+        return;
+    }
+
+    // combine posts and replies
+    // TODO add support for replies
+    Post.getSupported(req.body['user_id'], req.body['page'], (err, posts) => {
+        if (err) {
+            console.log(err);
+            res.json({ 
+                "status": "error",
+                "details": "Failed to find supported posts"
+            });
+        }
+        else {
+            res.json({
+                "status": "success",
+                "posts": posts
+            });
+            // Reply.getSupported(req.body['user_id'], req.body['page'], (err, replies) => {
+            //     if (err) {
+            //         console.log(err);
+            //         res.json({ 
+            //             "status": "error",
+            //             "details": "Failed to find supported posts"
+            //         });
+            //     }
+            //     else {
+            //         Array.prototype.push.apply(data, replies);
+            //         console.log(data);
+            //         // data.sort((a, b) => { return (a.timestamp - b.timestamp) });
+
+            //     }
+            // });
         }
     });
 });

@@ -175,7 +175,7 @@ class CreatePostView extends Component {
                         <div className="col s12 m4 push-m2 file-field fileUpload">
                             <div className="row">
                                 <div className="col s2">
-                                    <div className="btn-floating waves-effect white-text z-depth-2 betterButton">
+                                    <div className="btn-floating waves-effect white-text z-depth-2">
                                         <i className="small material-icons">insert_photo</i>
                                         <input type="file" id="file-input" onChange={this.handleFileUpload} />
                                     </div>
@@ -204,7 +204,7 @@ class CreatePostView extends Component {
                                 <div className="input-field col s6">
                                     Tags: <input type="text" data-length="10" placeholder="Press enter to add..."></input>
                                 </div>
-                                <div className="btn-floating betterButton">
+                                <div className="btn-floating">
                                         <i className="material-icons">add</i>
                                 </div>
                             </div> */}

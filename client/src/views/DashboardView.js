@@ -51,7 +51,7 @@ class DashboardView extends Component {
 
     handleScopeChange(scope) {
         if (scope !== this.state.scope) {
-            this.setState({ scope: scope, feed: [] });
+            this.setState({ scope: scope, feed: [], page: 1 });
             this.retrieveFeed(scope, 1);
         }
     }

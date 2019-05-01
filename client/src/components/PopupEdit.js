@@ -47,8 +47,6 @@ class PopupEdit extends React.Component {
       console.log(path);
       switch(path) {
         case 'profile': 
-          console.log('profile update');
-          // FIXME only change relevant fields 
           if (this.state.text.length > 0) {
             query = { token: token, bio: this.state.text };
             axios.post(`${endpoint}/api/users/changeBio`, query)
@@ -60,7 +58,6 @@ class PopupEdit extends React.Component {
             });
           }
           if (this.state.file) {
-            console.log('find the file');
             let fd = new FormData();
             fd.append('file', this.state.file, this.state.file.name);
             axios.post(`${endpoint}/api/upload`, fd)
@@ -121,8 +118,6 @@ class PopupEdit extends React.Component {
                   window.location.reload();
                 }
               }
-              // this.props.closePopup();
-              // window.location.reload();
             });
           }
           else {
@@ -180,7 +175,7 @@ class PopupEdit extends React.Component {
               </div>
               <div className="row file-field">
                   <div className="col m1 push-m3 s2 push-s1">
-                      <div className="btn-floating waves-effect white-text z-depth-2 betterButton">
+                      <div className="btn-floating waves-effect white-text z-depth-2">
                           <i className="small material-icons">insert_photo</i>
                           <input type="file" id="file-input" onChange={this.handleFileUpload} />
                       </div>

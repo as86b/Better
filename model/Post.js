@@ -60,6 +60,35 @@ module.exports.getPostsForFeed = (scope, page, callback) => {
 
 }
 
+module.exports.getPostsForOwner = (username, scope, page, callback) => {
+    let options = {
+        sort: { timestamp: -1 },
+        page: page,
+        limit: 20
+    };
+    Post.paginate(
+        { username: username, scope: scope },
+        options,
+        callback
+    ); 
+}
+
+module.exports.getSupported = (user_id, page, callback) => {
+    let options = {
+        sort: { timestamp: -1 },
+        page: page,
+        limit: 20
+    };
+    let query = {
+        supports: user_id
+    }
+    Post.paginate(
+        query,
+        options,
+        callback
+    ); 
+}
+
 module.exports.getPostsForPublicUser = (username, page, callback) => {
     let options = {
         sort: { timestamp: -1 },

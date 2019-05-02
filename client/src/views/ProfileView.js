@@ -193,6 +193,10 @@ class ProfileView extends Component {
                     <div className="center" id="profile-picture">
                         <img className="circle z-depth-2 profile-picture-big" src={this.state.user ? `${endpoint}/api/users/getProfilePicture/${this.state.user.username}` : ''} alt="Profile" />
                     </div>
+                    <div>
+                        <FilterBar></FilterBar>
+                    </div>
+                    
 
                     <div className="card center profileBioCard"> 
                         <div className="cardTop">

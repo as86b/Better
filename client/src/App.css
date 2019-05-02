@@ -144,7 +144,7 @@ nav ul a {
     background-color: #5185C7;
     color: white;
     margin-top: 5px;
-    height: 18vh;
+    height: 19vh;
 }
 
 .support-btn {
@@ -179,7 +179,7 @@ nav ul a {
 .hide-content {
     overflow: hidden;
     line-height: 1.5em;
-    height: 4.5em;
+    height: 3em;
 }
 
 .showContent {
@@ -208,6 +208,25 @@ nav ul a {
 .post-support-icon:hover {
     color: lightgray; 
     cursor: pointer;
+}
+.post-flag-btn {
+    color: white;
+    margin: 0px 0px 75px 15px;
+}
+
+.post-tag{
+    margin: 1px;
+    background-color: #46c6a5;
+    border-radius: 15%;
+    height: auto;
+}
+
+.flag-tags-div {
+    margin: 0px;
+}
+
+.content-row {
+    margin-bottom: 5px;
 }
 
 /* 

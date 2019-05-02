@@ -66,7 +66,7 @@ class Post extends Component {
                     </div>
                     <div className="col s9 m10">
                         {/*post content*/}
-                        <div className="row">
+                        <div className="row content-row">
                             <div className="col s9 m10 post-content">
                                 {/*post text*/}
                                 <h5>{this.props.post.title}</h5>
@@ -81,7 +81,13 @@ class Post extends Component {
                                 <i className={this.props.supported ? "material-icons support-btn-supported" : "material-icons support-btn"} onClick={this.handleSupportClick}>favorite</i>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row flag-tags-div">
+                            <div className=" col s1 m2 post-tag">
+                                <p></p>#tags
+                            </div>
+                            <div className="col s1 offset-s9 ">
+                                <i className="material-icons small post-flag-btn" onClick={this.handleFlagClick}>flag</i>
+                            </div>
                             {/*TODO tags*/}
                         </div>
                     </div>

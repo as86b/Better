@@ -82,13 +82,14 @@ class Post extends Component {
                             </div>
                         </div>
                         <div className="row flag-tags-div">
+                        {/*TODO tags*/}
                             <div className=" col s1 m2 post-tag">
-                                <p></p>#tags
+                                <p className="center">#tags</p>
                             </div>
-                            <div className="col s1 offset-s9 ">
+                            <div className="col s1 right">
                                 <i className="material-icons small post-flag-btn" onClick={this.handleFlagClick}>flag</i>
                             </div>
-                            {/*TODO tags*/}
+                            
                         </div>
                     </div>
                 </div>

@@ -211,14 +211,19 @@ nav ul a {
 }
 .post-flag-btn {
     color: white;
-    margin: 0px 0px 75px 15px;
+    margin: 0px;
 }
 
 .post-tag{
     margin: 1px;
     background-color: #46c6a5;
-    border-radius: 15%;
-    height: auto;
+    border-radius: 10px;
+    height: 3vh;
+}
+
+.post-tag p {
+    line-height: 1em;
+    vertical-align: center;
 }
 
 .flag-tags-div {

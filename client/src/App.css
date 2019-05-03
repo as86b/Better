@@ -151,6 +151,10 @@ nav ul a {
     color: white; 
 }
 
+.support-btn:hover {
+    color: lightgray;
+}
+
 .support-btn-supported {
     color: #46c6a5;
 }

@@ -67,20 +67,29 @@ class DashboardView extends Component {
         }
         let posts = [];
         var supported = false; 
+        var flagged = false; 
         if (this.state.feed.length > 0) {
              for (var i = 0; i < this.state.feed.length; i++) {
                 supported = false; 
+                flagged = false; 
+                console.log(this.state.feed[i]);
                 // check if the user has liked this post 
                 if (this.state.user_id) {
                     for (var j = 0; j < this.state.feed[i].supports.length; j++) {
                         if (this.state.feed[i].supports[j] === this.state.user_id) {
                             supported = true; 
-                            break;
                         }
+                        console.log(this.state.feed[i].flags[j] + ' == ' + this.state.user_id);
+                        if (this.state.feed[i].flags[j] === this.state.user_id) {
+                            console.log('set flagged true');
+                            flagged = true; 
+                        }
+                        if (flagged && supported) break; 
                     }
                 }
+                console.log('flagged is ' + flagged);
                 posts.push(
-                    <Post key={(i+1)*this.state.page} post={this.state.feed[i]} supported={supported}></Post>
+                    <Post key={(i+1)*this.state.page} post={this.state.feed[i]} supported={supported} flagged={flagged}></Post>
                 );
              }
         }

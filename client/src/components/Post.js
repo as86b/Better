@@ -17,14 +17,10 @@ class Post extends Component {
         super(props);
 
         this.handleSupportClick = this.handleSupportClick.bind(this);
+        this.handleFlagClick = this.handleFlagClick.bind(this);
     }
 
     handleSupportClick(e) {
-        /*
-            send the support and
-            change support button color when clicked
-            if the user made a valid action 
-        */
         let icon = e.target;
         let query = { token: loadToken(), postID: this.props.post._id };
         if (this.props.reply) 
@@ -34,6 +30,20 @@ class Post extends Component {
             if (res.data.status === "success") {
                 // change color locally. this will still be reflected on a refresh because of parents
                 icon.style.color = '#46c6a5';
+            }
+        });
+    }
+
+    handleFlagClick(e) {
+        let icon = e.target;
+        let query = { token: loadToken(), postID: this.props.post._id };
+        if (this.props.reply) 
+            query.reply = true;
+        axios.post(`${endpoint}/api/flag/`, query) 
+        .then((res) => {
+            if (res.data.status === "success") {
+                // change color locally. this will still be reflected on a refresh because of parents
+                icon.style.color = '#FF833A';
             }
         });
     }
@@ -81,16 +91,16 @@ class Post extends Component {
                                 <i className={this.props.supported ? "material-icons support-btn-supported" : "material-icons support-btn"} onClick={this.handleSupportClick}>favorite</i>
                             </div>
                         </div>
-                        <div className="row flag-tags-div">
+                        {/* <div className="row flag-tags-div"> */}
                         {/*TODO tags*/}
-                            <div className=" col s1 m2 post-tag">
+                            {/* <div className=" col s1 m2 post-tag">
                                 <p className="center">#tags</p>
-                            </div>
+                            </div> */}
                             <div className="col s1 right">
-                                <i className="material-icons small post-flag-btn" onClick={this.handleFlagClick}>flag</i>
+                                <i className={this.props.flagged ? "material-icons small post-flag-btn-flagged" : "material-icons small post-flag-btn"} onClick={this.handleFlagClick}>flag</i>
                             </div>
                             
-                        </div>
+                        {/* </div> */}
                     </div>
                 </div>
             </div>

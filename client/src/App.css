@@ -156,6 +156,8 @@ nav ul a {
 }
 
 
+
+
 .post-full {
     border-radius: 1rem;
     background-color: #5185C7;
@@ -205,12 +207,18 @@ nav ul a {
     color: white;
 }
 
-.post-support-icon:hover {
+.post-support-icon:hover, .post-flag-btn:hover {
     color: lightgray; 
     cursor: pointer;
 }
+
 .post-flag-btn {
     color: white;
+    margin: 0px;
+}
+
+.post-flag-btn-flagged {
+    color: #FF833A;
     margin: 0px;
 }
 

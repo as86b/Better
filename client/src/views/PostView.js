@@ -62,28 +62,37 @@ class PostView extends Component {
                 });
             }
             var supported = false; 
+            var flagged = false; 
             if (this.state.user_id) {
                 for (var j = 0; j < this.state.post.supports.length; j++) {
                     if (this.state.post.supports[j] === this.state.user_id)
                         supported = true; 
+                    if (this.state.post.flags[j] === this.state.user_id)
+                        flagged = true; 
                 }
             }
-            post = (<Post post={this.state.post} contained={true} supported={supported}></Post>);
+            post = (<Post post={this.state.post} contained={true} supported={supported} flagged={flagged}></Post>);
             // TODO add pagination on replies to a post...
-            console.log(this.state.replies);
-            for (var i = 0; i < this.state.replies.length; i++) {
-                supported = false; 
-                if (this.state.user_id) {
-                    for (var j = 0; j < this.state.replies[i].supports.length; j++) {
-                        if (this.state.replies[i].supports[j] === this.state.user_id) {
-                            supported = true; 
-                            break;
+            if (this.state.replies.length > 0) {
+                 for (var i = 0; i < this.state.replies.length; i++) {
+                    supported = false; 
+                    flagged = false; 
+                    // check if the user has liked this post 
+                    if (this.state.user_id) {
+                        for (var j = 0; j < this.state.replies[i].supports.length; j++) {
+                            if (this.state.replies[i].supports[j] === this.state.user_id) {
+                                supported = true; 
+                            }
+                            if (this.state.replies[i].flags[j] === this.state.user_id) {
+                                flagged = true; 
+                            }
+                            if (flagged && supported) break; 
                         }
                     }
-                }
-                replies.push(
-                    <Post key={i} post={this.state.replies[i]} contained={true} supported={supported} reply={true}></Post>
-                );
+                    replies.push(
+                        <Post key={(i+1)*this.state.page} post={this.state.replies[i]} reply={true} supported={supported} flagged={flagged}></Post>
+                    );
+                 }
             }
             if (replies.length <= 0) {
                 replies = null; 

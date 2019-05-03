@@ -172,19 +172,27 @@ class ProfileView extends Component {
                 });
             }
             var supported = false; 
-            for (var i = 0; i < this.state.posts.length; i++) {
-                supported = false; 
-                if (this.state.user_id) {
-                    for (var j = 0; j < this.state.posts[i].supports.length; j++) {
-                        if (this.state.posts[i].supports[j] === this.state.user_id) {
-                            supported = true; 
-                            break;
+            var flagged = false; 
+            if (this.state.posts.length > 0) {
+                 for (var i = 0; i < this.state.posts.length; i++) {
+                    supported = false; 
+                    flagged = false; 
+                    // check if the user has liked this post 
+                    if (this.state.user_id) {
+                        for (var j = 0; j < this.state.posts[i].supports.length; j++) {
+                            if (this.state.posts[i].supports[j] === this.state.user_id) {
+                                supported = true; 
+                            }
+                            if (this.state.posts[i].flags[j] === this.state.user_id) {
+                                flagged = true; 
+                            }
+                            if (flagged && supported) break; 
                         }
                     }
-                }
-                posts.push(
-                    <Post key={(i+1)*this.state.page} post={this.state.posts[i]} supported={supported}></Post>
-                );
+                    posts.push(
+                        <Post key={(i+1)*this.state.page} post={this.state.posts[i]} supported={supported} flagged={flagged}></Post>
+                    );
+                 }
             }
         }
         else {

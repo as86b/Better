@@ -58,7 +58,7 @@ class Header extends React.Component {
         else {
             headPart = (
                 <ul className="right">
-                    <li>
+                    {/* <li>
                         <a href="#">
                             <i className="material-icons">search</i>
                         </a>
@@ -67,14 +67,14 @@ class Header extends React.Component {
                         <Link to="/">
                             <i className="material-icons hide-on-med-and-down">mail</i>
                         </Link>
-                    </li>
+                    </li>*/}
                     {/*There are different versions of notifications icon maybe to use?*/}
                     {/*Or try to use some CSS to just overlay a little red dot*/}
-                    <li>
+                    {/* <li>
                         <Link to="/">
                             <i className="material-icons hide-on-med-and-down">notifications</i>
                         </Link>
-                    </li>
+                    </li> */}
                     <li>
                         <Link to={`/profile/${username}`}>
                             <img className="headerProfilePic z-depth-2" src={`${endpoint}/api/users/getProfilePicture/${username}`} alt="Profile"></img>

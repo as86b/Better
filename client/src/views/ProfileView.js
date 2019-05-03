@@ -51,6 +51,9 @@ class ProfileView extends Component {
                     if (res.data.status === "success") {
                         this.setState({ owner: true });
                     }
+                    else {
+                        this.setState({ owner: false });
+                    }
                     this.retrievePosts(this.state.scope, this.state.page);
                 });
             }
@@ -193,11 +196,7 @@ class ProfileView extends Component {
                     <div className="center" id="profile-picture">
                         <img className="circle z-depth-2 profile-picture-big" src={this.state.user ? `${endpoint}/api/users/getProfilePicture/${this.state.user.username}` : ''} alt="Profile" />
                     </div>
-                    <div>
-                        <FilterBar></FilterBar>
-                    </div>
                     
-
                     <div className="card center profileBioCard"> 
                         <div className="cardTop">
                             {/* TODO change icons based on if you're viewing your account or another */}

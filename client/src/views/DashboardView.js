@@ -94,10 +94,10 @@ class DashboardView extends Component {
                         <div className="col s12 push-m2">
                             <FilterBar handleScopeChange={this.handleScopeChange}></FilterBar>
                         </div>
-                        <div className="col s12 m6 push-m3">
+                        {/* <div className="col s12 m6 push-m3">
                             <input name="tagSearch" type="text"></input>
                             <label htmlFor="tagSearch">Search for tags</label>
-                        </div>
+                        </div> */}
                     </div>
                     { posts }
                     <div className="center">

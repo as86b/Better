@@ -12,6 +12,13 @@ async function addPost(username, title, body, scope, anon, res) {
 
 	//get uid from username
     doc = await User.findOne({ username: username }).exec();
+    if (!doc) {
+        res.json({
+            "status": "error",
+            "details": "That user could not be found."
+        });
+        return;
+    }
 
 	var post = new Post({
         user_id: doc._id,

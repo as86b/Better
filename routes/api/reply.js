@@ -14,7 +14,7 @@ async function addReply(username, postID, body, anon, res) {
 	if (!doc) {
 		res.json({
 			"status": "error",
-			"details": "User does not exist."
+			"details": "That user could not be found."
 		});
 		return;
 	}

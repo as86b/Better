@@ -12,6 +12,13 @@ async function flagPost(postID, username, res) {
 
 	//get uid from username
     doc = await User.findOne({ username: username }).exec();
+    if (!doc) {
+        res.json({
+            "status": "error",
+            "details": "That user could not be found."
+        });
+        return;
+    }
 
     Post.findOne({ _id: postID })
         .exec().then( item => {
